@@ -1,0 +1,60 @@
+import { z } from 'zod';
+
+export const MatchPredictionSchema = z.object({
+  matchId: z.string().min(1),
+  homeScore: z.number().int().min(0),
+  awayScore: z.number().int().min(0),
+  advancingTeamId: z.string().nullable(),
+});
+
+export type MatchPrediction = z.infer<typeof MatchPredictionSchema>;
+
+export const PredictionCardSchema = z.object({
+  title: z.string().min(1).max(80),
+  creatorName: z.string().max(40).nullable(),
+  themeId: z.string().min(1),
+  championTeamId: z.string().nullable(),
+});
+
+export const DEFAULT_CARD: PredictionCard = {
+  title: 'My 2026 World Cup Path',
+  creatorName: null,
+  themeId: 'classic',
+  championTeamId: null,
+};
+
+export type PredictionCard = z.infer<typeof PredictionCardSchema>;
+
+export const SCHEMA_VERSION = 'prediction-session:v1' as const;
+
+export const PredictionSessionSchema = z.object({
+  id: z.string().min(1),
+  tournamentId: z.string().min(1),
+  predictions: z.array(MatchPredictionSchema),
+  card: PredictionCardSchema,
+  updatedAt: z.string().datetime(),
+  schemaVersion: z.literal(SCHEMA_VERSION),
+});
+
+export type PredictionSession = z.infer<typeof PredictionSessionSchema>;
+
+export const PredictionValidationResultSchema = z.object({
+  complete: z.boolean(),
+  valid: z.boolean(),
+  championTeamId: z.string().nullable(),
+  missingMatchIds: z.array(z.string()),
+  resetMatchIds: z.array(z.string()),
+  messages: z.array(z.string()),
+});
+
+export type PredictionValidationResult = z.infer<typeof PredictionValidationResultSchema>;
+
+export const ExportImageSchema = z.object({
+  status: z.enum(['ready']),
+  fileName: z.string().min(1),
+  width: z.number().int().positive(),
+  height: z.number().int().positive(),
+  dataUrl: z.string().nullable(),
+});
+
+export type ExportImage = z.infer<typeof ExportImageSchema>;

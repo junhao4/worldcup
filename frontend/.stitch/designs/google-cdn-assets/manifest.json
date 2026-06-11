@@ -1,0 +1,400 @@
+{
+  "generatedAt": "2026-06-10T01:27:05.045Z",
+  "note": "Google CDN and Stitch-hosted assets cached from latest four-screen Stitch design cluster. Localized HTML copies point at these files.",
+  "projectId": "14988967190173135424",
+  "screens": [
+    "group-stage-predictions-modern-light",
+    "2026-world-cup-knockout-bracket",
+    "prediction-export-studio-final-preview",
+    "prediction-card-personalization"
+  ],
+  "assets": [
+    {
+      "bucket": "scripts",
+      "contentType": "text/javascript",
+      "filename": "cdn.tailwindcss.com-36d3755fef18.js",
+      "localUrlFromHtml": "../google-cdn-assets/scripts/cdn.tailwindcss.com-36d3755fef18.js",
+      "size": 418973,
+      "sourceUrl": "https://cdn.tailwindcss.com?plugins=forms,container-queries",
+      "localPath": ".stitch/designs/google-cdn-assets/scripts/cdn.tailwindcss.com-36d3755fef18.js"
+    },
+    {
+      "bucket": "css",
+      "contentType": "text/css; charset=utf-8",
+      "filename": "css2-81df096301b4.css",
+      "localUrlFromHtml": "../google-cdn-assets/css/css2-81df096301b4.css",
+      "size": 1674,
+      "sourceUrl": "https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap",
+      "localPath": ".stitch/designs/google-cdn-assets/css/css2-81df096301b4.css"
+    },
+    {
+      "bucket": "css",
+      "contentType": "text/css; charset=utf-8",
+      "filename": "css2-de9b7b5eb580.css",
+      "localUrlFromHtml": "../google-cdn-assets/css/css2-de9b7b5eb580.css",
+      "size": 1737,
+      "sourceUrl": "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap",
+      "localPath": ".stitch/designs/google-cdn-assets/css/css2-de9b7b5eb580.css"
+    },
+    {
+      "bucket": "css",
+      "contentType": "text/css; charset=utf-8",
+      "filename": "css2-6362134de58b.css",
+      "localUrlFromHtml": "../google-cdn-assets/css/css2-6362134de58b.css",
+      "size": 1350,
+      "sourceUrl": "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap",
+      "localPath": ".stitch/designs/google-cdn-assets/css/css2-6362134de58b.css"
+    },
+    {
+      "bucket": "css",
+      "contentType": "text/css; charset=utf-8",
+      "filename": "css2-140f1ee132bf.css",
+      "localUrlFromHtml": "../google-cdn-assets/css/css2-140f1ee132bf.css",
+      "size": 3087,
+      "sourceUrl": "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap",
+      "localPath": ".stitch/designs/google-cdn-assets/css/css2-140f1ee132bf.css"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "UcCO3FwrK3iLTeHuS_nVMrMx-b4150aa4e189.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-b4150aa4e189.ttf",
+      "size": 327260,
+      "sourceUrl": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuBWYMZg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-b4150aa4e189.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "UcCO3FwrK3iLTeHuS_nVMrMx-4415e204620d.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-4415e204620d.ttf",
+      "size": 325604,
+      "sourceUrl": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuDyfMZg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-4415e204620d.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "UcCO3FwrK3iLTeHuS_nVMrMx-20d13496d089.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-20d13496d089.ttf",
+      "size": 327324,
+      "sourceUrl": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuDyYMZg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-20d13496d089.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "UcCO3FwrK3iLTeHuS_nVMrMx-1be3d765b0bd.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-1be3d765b0bd.ttf",
+      "size": 326468,
+      "sourceUrl": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYMZg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-1be3d765b0bd.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "UcCO3FwrK3iLTeHuS_nVMrMx-e9191f0db3ed.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-e9191f0db3ed.ttf",
+      "size": 326048,
+      "sourceUrl": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-e9191f0db3ed.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "UcCO3FwrK3iLTeHuS_nVMrMx-11e1d80f42f9.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-11e1d80f42f9.ttf",
+      "size": 325304,
+      "sourceUrl": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-11e1d80f42f9.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "UcCO3FwrK3iLTeHuS_nVMrMx-8642958de43e.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-8642958de43e.ttf",
+      "size": 325028,
+      "sourceUrl": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyeMZg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-8642958de43e.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "UcCO3FwrK3iLTeHuS_nVMrMx-bad5f68b18b9.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-bad5f68b18b9.ttf",
+      "size": 324820,
+      "sourceUrl": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-bad5f68b18b9.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "UcCO3FwrK3iLTeHuS_nVMrMx-e36895724ccb.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-e36895724ccb.ttf",
+      "size": 325748,
+      "sourceUrl": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfMZg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/UcCO3FwrK3iLTeHuS_nVMrMx-e36895724ccb.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "kJF1BvYX7BgnkSrUwT8OhrdQ-ce27b59ecd72.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-ce27b59ecd72.ttf",
+      "size": 989804,
+      "sourceUrl": "https://fonts.gstatic.com/s/materialsymbolsoutlined/v344/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDAvHOem.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-ce27b59ecd72.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "kJF1BvYX7BgnkSrUwT8OhrdQ-c9eb94290289.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-c9eb94290289.ttf",
+      "size": 962340,
+      "sourceUrl": "https://fonts.gstatic.com/s/materialsymbolsoutlined/v344/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDBIG-em.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-c9eb94290289.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "kJF1BvYX7BgnkSrUwT8OhrdQ-8c4c10ad2362.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-8c4c10ad2362.ttf",
+      "size": 963168,
+      "sourceUrl": "https://fonts.gstatic.com/s/materialsymbolsoutlined/v344/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDBxG-em.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-8c4c10ad2362.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "kJF1BvYX7BgnkSrUwT8OhrdQ-91411ca35d15.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-91411ca35d15.ttf",
+      "size": 962028,
+      "sourceUrl": "https://fonts.gstatic.com/s/materialsymbolsoutlined/v344/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCdHOem.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-91411ca35d15.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "kJF1BvYX7BgnkSrUwT8OhrdQ-4155901d8492.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-4155901d8492.ttf",
+      "size": 988256,
+      "sourceUrl": "https://fonts.gstatic.com/s/materialsymbolsoutlined/v344/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHeem.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-4155901d8492.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "kJF1BvYX7BgnkSrUwT8OhrdQ-7d462adf6dda.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-7d462adf6dda.ttf",
+      "size": 960912,
+      "sourceUrl": "https://fonts.gstatic.com/s/materialsymbolsoutlined/v344/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOem.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-7d462adf6dda.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "kJF1BvYX7BgnkSrUwT8OhrdQ-7b3cd834b089.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-7b3cd834b089.ttf",
+      "size": 990172,
+      "sourceUrl": "https://fonts.gstatic.com/s/materialsymbolsoutlined/v344/kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDDxHOem.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/kJF1BvYX7BgnkSrUwT8OhrdQ-7b3cd834b089.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "LDIbaomQNQcsA88c7O9yZ4KM-a4d28ff0e834.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/LDIbaomQNQcsA88c7O9yZ4KM-a4d28ff0e834.ttf",
+      "size": 63412,
+      "sourceUrl": "https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_d0nNSg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/LDIbaomQNQcsA88c7O9yZ4KM-a4d28ff0e834.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "LDIbaomQNQcsA88c7O9yZ4KM-d2acd40a3d2b.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/LDIbaomQNQcsA88c7O9yZ4KM-d2acd40a3d2b.ttf",
+      "size": 63372,
+      "sourceUrl": "https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_KUnNSg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/LDIbaomQNQcsA88c7O9yZ4KM-d2acd40a3d2b.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "LDIbaomQNQcsA88c7O9yZ4KM-e5e1b0b632fb.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/LDIbaomQNQcsA88c7O9yZ4KM-e5e1b0b632fb.ttf",
+      "size": 63336,
+      "sourceUrl": "https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_qU7NSg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/LDIbaomQNQcsA88c7O9yZ4KM-e5e1b0b632fb.ttf"
+    },
+    {
+      "bucket": "fonts",
+      "contentType": "font/ttf",
+      "filename": "LDIbaomQNQcsA88c7O9yZ4KM-049e3e9afb51.ttf",
+      "localUrlFromHtml": "../google-cdn-assets/fonts/LDIbaomQNQcsA88c7O9yZ4KM-049e3e9afb51.ttf",
+      "size": 63336,
+      "sourceUrl": "https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_TknNSg.ttf",
+      "localPath": ".stitch/designs/google-cdn-assets/fonts/LDIbaomQNQcsA88c7O9yZ4KM-049e3e9afb51.ttf"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuA-yzs38gL1iFvxP26K-18da1c009b92.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuA-yzs38gL1iFvxP26K-18da1c009b92.png",
+      "size": 259943,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuA-yzs38gL1iFvxP26Khb0ckwYjaJ9hKhkLk7qEngWcFO-qx5kWKvBmDIFHESW7QF6r44xUtbQLYwPeFgtW0YxRlJ1jGfUimZyB-coEIDodIj6RKIMmDpLer3PDop_lR3BFCSFaeoeoADuwkYHc3EanxZDSSNaEVbzcb-c6PUasRhE6WFinc9fdEwVKcXMGSuVlmGBzpgCvAakZQOP5dt7-c5sf1zsMaYMzJIpLJ0WC_-oQ77gpAj8SkNulodImVxXvGV2TdbA5mWlQ",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuA-yzs38gL1iFvxP26K-18da1c009b92.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuAdmM25gg2lM14Q0fp1-4a730cca4a02.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuAdmM25gg2lM14Q0fp1-4a730cca4a02.png",
+      "size": 339625,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuAdmM25gg2lM14Q0fp1T0uycf9m0H7ocSulQdVWvHcml7IHa5TbSs90Znkt4BpoOIZsYn793vTMZoc4Kw_4qJwuJZ-N0Vfpu6dPtyvEX0sWuNDlR9ouPsdEUaa-t2lcV5C6PltYTng5QfGBC2TV_KDZTXHYIdajEPS5JKJOWDM9s6XDVfOFeEM5SW4sAR6F9RcbSxHneGwvQk983eGWUW1Pq5hpgIaIFqeljNrRrBjKp3_k09_L1STXGNqKgeLGX1_gi4AwB96pewTr",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuAdmM25gg2lM14Q0fp1-4a730cca4a02.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuAh4CQ6cE-46VyLiSZY-b6dc2742175f.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuAh4CQ6cE-46VyLiSZY-b6dc2742175f.png",
+      "size": 443671,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuAh4CQ6cE-46VyLiSZYdx8W6-D4l32ujIL-SVa98LRwFLGPN3bjJUoDmke0OOYgJguNqQsobKLv4FmrZI_5FRctBz9dudaaUAzIE_N_JRzwfNsqmlUphWbBUedjuCtKr2rrEDpikMMse8L5maem1Dn9LmOkL00d1aUbG4_y32eRUXx73NxJC1X3CMo6XedEvenCyquEL4IdpBnT015hZ1IZD13onyG8C-aMr3-JvfVfQjM5eGCdHrIWaL5EcdhP2ftVP1Ee6SLanANR",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuAh4CQ6cE-46VyLiSZY-b6dc2742175f.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuASLhdGxRc7UwMisXLP-4cde69d74148.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuASLhdGxRc7UwMisXLP-4cde69d74148.png",
+      "size": 507229,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuASLhdGxRc7UwMisXLPMPq6gswsCl4h9SdR_681wkIN79ETEpWrHZ2P24H1C5GZ1dZLghZjUyqfLMdM18r8lyWzO-HkdRmbE57gw_DDdKZ2gIaRRaPuPELrtX87F_x2ZuI3sdX7pkgQDRXX-pKO1gOBnVWQOLBBy1M0Dhn7CInUXOQAr-Plxu511AfH0vY0ob98t-8f87dV-6D38S0pRJVBn4-P9cpElDtPCTWHZNRBWbPgdG_RymqOU3VfmLzmb6gaaIpjrOC4NKFq",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuASLhdGxRc7UwMisXLP-4cde69d74148.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuAzkBnR6B78gffj-mRO-f2fc0127e6cb.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuAzkBnR6B78gffj-mRO-f2fc0127e6cb.png",
+      "size": 270114,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuAzkBnR6B78gffj-mROWyigdywyINyy7RkAsopEGQvlJNpT4AroLCj-8OP9mV7we0CLse-Cc6T-oNv_TKD2tnu0USEDozlrXRb_7bcuIM-ywyY6WaumFQLmbh4J-62B-kVrcxWfqh8SmiqWlRcdGMdJ9C4Dtt0Nyftm4MVYWH5Vf6hKu0tQj87Za-JKod5c1JOfSLKkPlWeQGaACCWjenQmWqoQf4MMAB6TkzScNhebkgiuO-Q82eB-em-TbUck1D3kqr-4hihm162F",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuAzkBnR6B78gffj-mRO-f2fc0127e6cb.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuB9ckM8ypY0ZF55mVXZ-4f686bf7104b.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuB9ckM8ypY0ZF55mVXZ-4f686bf7104b.png",
+      "size": 305172,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuB9ckM8ypY0ZF55mVXZy5MIMmwg-1lAjvLEejmpEQkzE6RzpVLzvVTyNAsh4lpGePB6vJXcTCWopfLKNIM1Unlau1bBDfKwb07kTEF0BSgq6DbWReczIRsyb_JHhjsrIvscT69alQ3p69orlV_TtvW1WZdonMP44EIRe7PRLitwYSoTgPr7ZZcqSQAgqD4T0__sa0oR2AQXSyAE-VzfpQQo1ZUJ8AOSQYlloYeYhHfixy3Q1TaRChO_DaXsG24KtAL9M0KZtCEz4VXr",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuB9ckM8ypY0ZF55mVXZ-4f686bf7104b.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuBhFH5Y0y6HTDSWNCn0-4e22be4a2877.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuBhFH5Y0y6HTDSWNCn0-4e22be4a2877.png",
+      "size": 296582,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBhFH5Y0y6HTDSWNCn0ABGq6I1WMQh_WSKVPbmx5y_ERe2Ea_ME2q1x6xh9voUtGWqaoeFFr0VnwVsRO4zJbBwfQJsHtKy0MDE0OskSI6Itux5YZSqBkWi3MDqLCqEF3zDsJf50VDZTmIDGKE1whYmG4vLz2gKzSUuj_c9NtupwdAkNftFna0_KyUBRUsZ9b5VY95AH9_CluS7yK6O-tzprxVm5qOFTnYqzrFZqdTQC6qSNzP8gKehhWa2ULt6LKEa9NhENS5lclFtx",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuBhFH5Y0y6HTDSWNCn0-4e22be4a2877.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuBj5JoIVyYIOAfOaHuQ-70daa37540e6.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuBj5JoIVyYIOAfOaHuQ-70daa37540e6.png",
+      "size": 296705,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBj5JoIVyYIOAfOaHuQZmyRR5f3wG4KkXTnRF8wajDoJKO8J-GCCl5oo0iUVDBKX61Gu5PnKIe9NDxmNk53jYxytx6W46TYiCbHq81s8MSg9aJEmcshhx0Tfi0zFLbv-ED1qBsLiGKDYES9VTQbBBkH0OdYKABpFHfS1LkOb7Lv5ZesnfPoznAEaY6MDnQomjjBPWEKvZbR6rT8gzAfUC5PrKfkP6fU9n6DQ-BBcWdZoRBz4GHsx4Fc0eNmtPnuRd3lJzeltm5XxJP4",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuBj5JoIVyYIOAfOaHuQ-70daa37540e6.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuBSV2Y5ggvo56p7yrH4-0551c385d27e.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuBSV2Y5ggvo56p7yrH4-0551c385d27e.png",
+      "size": 279200,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBSV2Y5ggvo56p7yrH4jw3JmaM-JzDpwLTNkRltWXC217OlmSVVGDtLHsZ1Yxe9ySsJDYmh1PomHY0bkVzBrf4T3CaFfNXjtmu3nVHvkqiZJ-7t4-fdcIO7OUtvlhSZCCmnPy5GnXmT8tHrlRQr73B8vA3Q8bLweIetPzUMqqoyELByYoXWaxOahbqljeYuGC23cY1x0BStTSbbc1K6nszMHNTj-YAUONl1j10LHoDdIiHGbvrgJb29yNcXbURtZSk087VMijB7Zrh1",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuBSV2Y5ggvo56p7yrH4-0551c385d27e.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuBz33o3pDjEzV5rxUY2-f21ddcb0aacc.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuBz33o3pDjEzV5rxUY2-f21ddcb0aacc.png",
+      "size": 234078,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuBz33o3pDjEzV5rxUY2kaGw78Mwv_TMWX4qV6eflV7ZIMoz-hmq7vhsTyaVYSDw2UviFaJ44RnXGMQjJiIfK6xdPIRsAdODcBtIeQ5fusJpYwGwQFGrJoYdG8N41XNDKHRpr0LCvb33FwWU0ufYqMT57eoTmK1Annxdyb8v79AyrHUEZD_1WWtNkRP_7PUSNWQTaMJsMhjN0E-BgDuyLtbqY_RL69uII8plZPPYkw5wTtde8mXcwBszxZUWyGT-ObyeP6IZo4zJQBJ3",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuBz33o3pDjEzV5rxUY2-f21ddcb0aacc.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuC8sGIRIL7P1L487Hz0-6a392ee36dd7.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuC8sGIRIL7P1L487Hz0-6a392ee36dd7.png",
+      "size": 278496,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuC8sGIRIL7P1L487Hz0cQdAzx3U7ivqu9a7lkDgL4hFxMN9OKnkLsR_wFijZxim_zdXZsEc3GN0zoSBtPiQAjBd9Oq1s5C8IgYNMddcKvQPzzaCZ7SZ7Xf47BV9ES4bjM82r78cJCWm9oZvz853FLOIjJTFTfETUKxMjGCweDQt64fl5pqkv5RlaFtpxrFSu35rAp3vsXxfO-wuPJQzEAvBsbZIIYp9aYIH0-j-OWBrUZ5JNOvpdiqDrr0JX8K2uNlsct-xj7cDg4aa",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuC8sGIRIL7P1L487Hz0-6a392ee36dd7.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuCF5HB8f_hTGE5vx8j4-08ea629472df.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuCF5HB8f_hTGE5vx8j4-08ea629472df.png",
+      "size": 335569,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuCF5HB8f_hTGE5vx8j4PodsnW5PVGFqs6DO46uaCEmxrk6Mdo31gz5mjhmndblsj5GCXfpAD-EbfgpMVTHIXfz4FCaipgNKNEzFJKzp-3RMbOjoFtxz4loCSzeyk5f29K3wN1bNOaIH_3xsuH6Z-vcepx2HFFpCJAsJANKIzBdRBfyr95YY0AF3Z9su-SXotulfRp5TjvOdjevlulvdqCP0b3dEaf46eYfcjB0MbKp5aJOVLFXkKCvZC0y_Wqm_dcoWNQfqWH-sMk25",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuCF5HB8f_hTGE5vx8j4-08ea629472df.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuCIsJFToFm8QBcJUlU4-4f2aedaf596c.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuCIsJFToFm8QBcJUlU4-4f2aedaf596c.png",
+      "size": 434186,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuCIsJFToFm8QBcJUlU4OjUycJoglKDmWfe9HXY6FogQoYrL9MBzrZFsLi456VJnGiq65hl11b6-1QXaNxupK6esJXEXy5U9xg7SUdlQ2C06zIEC0So51n9XSXPQUTWIk0VypBte5sINe2rtU_oYjb2BkF0KTgupB3NYzyqJVU97swa06yVRLgmw2VjwkOgLirWI0RNqGTx-wbUdC1S6TIJh4ptQTFLyM5N8TyqKcYjehKoXjt2RpCmF-K_Vy8bSw3Lh4DnLoEZ1LuRf",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuCIsJFToFm8QBcJUlU4-4f2aedaf596c.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuCuEpZ6A4VphDSh9Dh7-9bfd29fb265d.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuCuEpZ6A4VphDSh9Dh7-9bfd29fb265d.png",
+      "size": 308088,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuCuEpZ6A4VphDSh9Dh7colbmqZgSI4UAuP3OJP3Uy23HpNdH4jEtS9WJ9D0oE7QYmj_RpP0Y4hRFWLQ4_BvN7GfmuEmw6tfzij10Zl-PyefFD4IxeVFXDq-6-K9-ri4IWf6rJiPP0JlINQglxLPRYPLEwq-y3ohkjelAE7wE0KBiBcaEqDjPaD73nxNRiopqC3Ub9_pXvBIOlZxDvd0CTwMaZ7efMPA6-19OrXEl6hjQmWMBh5k7fu6EwrptW5EXGNqoOIadrPYRVzt",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuCuEpZ6A4VphDSh9Dh7-9bfd29fb265d.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuD15UEJyiXV99DqBTS7-94e6efa57e52.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuD15UEJyiXV99DqBTS7-94e6efa57e52.png",
+      "size": 320983,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuD15UEJyiXV99DqBTS7e6ShCnLnd5H6PMI2K7l3fa8k2MeqJFY8sElzEfHMYjuvbzBZNjnN50gG62-5gu1hCp0i1GsbizFti7ZQJEMbQ1Ztm6Avzimm5XZjjPycGOUqY7ZP4Z_Ij4Eu0yEMYztNSPt6JMlQDQbNYR6jMw0tf1jBuSyB4Bpp3yG7JHWTBuncjjYwdQLRB-oWutgBcLDXoTxu5zpx9dDiwh9W4-szNKQ-3_bk3yimKvHCkwIoTp65BC6qYbhbQ4RBxZPA",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuD15UEJyiXV99DqBTS7-94e6efa57e52.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuDNlPvh3YXrzGBh5OEg-ab977a1dae37.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuDNlPvh3YXrzGBh5OEg-ab977a1dae37.png",
+      "size": 287052,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuDNlPvh3YXrzGBh5OEgZMsj0jO_kys150M8fcocA6VUTEX0HkA4UVpd0p8EpZvuhOx7rmCAFE_8MyxTLH3tCFtDotg3Q6KzTC9-_4O6NjrV9F-Cveu0KplasK8Tr1FULEyV8KYN-TopgjzQ1e9ktl8KdS46cH86AEp-Vmuz50Zn1WF73nRHMMKqbCxHMOD8RNr_ymqOHaVRbDOpJNLF23QzXFGt1hMH1pbxwyq6PriNE9-Re1yjShRpanNYnkASnG3wIWFExLTZ8FmZ",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuDNlPvh3YXrzGBh5OEg-ab977a1dae37.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuDX7PSfLd3Qc8516znQ-4218a9ee0f69.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuDX7PSfLd3Qc8516znQ-4218a9ee0f69.png",
+      "size": 258976,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuDX7PSfLd3Qc8516znQ2X3qFvZlYGHy4XTlCQuY211X_EA-UQyoYuauVtW4amWd58j5wuc1XjYD3ei2NpxzCeAv6xXYAlzBC93WHDqeJpf26k-VucIWv4nx1rUu12FYWEPXmCOYCc3qk7YvNw0CgpYKe0iPnRWu0VakQBExLLimxqDpjuc8ZC_TPBImukdkopaha0_8p47v99D-tXi2XMpEqhtDS4OOUAWcEp2UlNgkOUOZMSGKFnYG1cCWbaCLRTkbCsyMLmf8Vep9",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuDX7PSfLd3Qc8516znQ-4218a9ee0f69.png"
+    },
+    {
+      "bucket": "images",
+      "contentType": "image/png",
+      "filename": "AB6AXuDyY62oj4f2WyRKIX5U-37929d16334a.png",
+      "localUrlFromHtml": "../google-cdn-assets/images/AB6AXuDyY62oj4f2WyRKIX5U-37929d16334a.png",
+      "size": 291978,
+      "sourceUrl": "https://lh3.googleusercontent.com/aida-public/AB6AXuDyY62oj4f2WyRKIX5UVzjXmTLgoJeR_sIYHkk-di8l_ousTjuwn1eupFk9d1ck5f4H2qU73AWgKz81VBSis9CfgPFMjB6ZpTwiV8hdgu7DkhQTGGMsa5b3Bd2tdaAHr6a_NGnhU-DZMbBrAbeZf8DsBrJKiJl4OvLPylOVzFn_JewNy7qKZh6T3A-Tg11DBacP7ZeVBMtDxQRcCka1jexOJUYF6Y23-lnC85oBOgSJ6AHuxCyNWK4t8WH-jz-2yjqBXAUEh5wD6L0k",
+      "localPath": ".stitch/designs/google-cdn-assets/images/AB6AXuDyY62oj4f2WyRKIX5U-37929d16334a.png"
+    }
+  ]
+}

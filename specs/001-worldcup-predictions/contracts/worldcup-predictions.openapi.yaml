@@ -1,0 +1,280 @@
+openapi: "3.1.0"
+info:
+  title: World Cup Prediction Website
+  version: "0.1.0"
+  description: >
+    Contract-first boundary for tournament retrieval, prediction validation,
+    local-session sync, and export metadata. The initial implementation may stay
+    browser-local, but this schema defines the stable interface for future
+    backend parity.
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: Tournament
+  - name: Predictions
+  - name: Export
+paths:
+  /api/tournaments/2026-world-cup:
+    get:
+      tags: [Tournament]
+      summary: Get the 2026 tournament seed
+      operationId: getTournament
+      responses:
+        "200":
+          description: Tournament returned successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tournament"
+  /api/predictions/validate:
+    post:
+      tags: [Predictions]
+      summary: Validate a prediction and derive tournament state
+      operationId: validatePrediction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PredictionSession"
+      responses:
+        "200":
+          description: Prediction validated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PredictionValidationResult"
+  /api/predictions:
+    post:
+      tags: [Predictions]
+      summary: Create or save a prediction session
+      operationId: createPrediction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PredictionSession"
+      responses:
+        "201":
+          description: Prediction session stored
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PredictionSession"
+  /api/predictions/{predictionId}:
+    get:
+      tags: [Predictions]
+      summary: Load a prediction session
+      operationId: getPrediction
+      parameters:
+        - in: path
+          name: predictionId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Prediction session returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PredictionSession"
+    put:
+      tags: [Predictions]
+      summary: Update a prediction session
+      operationId: updatePrediction
+      parameters:
+        - in: path
+          name: predictionId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PredictionSession"
+      responses:
+        "200":
+          description: Prediction session updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PredictionSession"
+  /api/predictions/{predictionId}/export:
+    post:
+      tags: [Export]
+      summary: Generate export metadata for a completed prediction
+      operationId: exportPrediction
+      parameters:
+        - in: path
+          name: predictionId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Export data prepared
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExportImage"
+components:
+  schemas:
+    Team:
+      type: object
+      required: [id, name, fifaCode, confederation, flagAsset]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        fifaCode:
+          type: string
+        confederation:
+          type: string
+        flagAsset:
+          type: string
+    Group:
+      type: object
+      required: [id, name, teamIds]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        teamIds:
+          type: array
+          items:
+            type: string
+    Match:
+      type: object
+      required: [id, stage, roundOrder, homeTeamId, awayTeamId, knockout]
+      properties:
+        id:
+          type: string
+        stage:
+          type: string
+        roundOrder:
+          type: integer
+        groupId:
+          type: string
+          nullable: true
+        homeTeamId:
+          type: string
+        awayTeamId:
+          type: string
+        knockout:
+          type: boolean
+    Tournament:
+      type: object
+      required: [id, name, year, teams, groups, matches]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        year:
+          type: integer
+        teams:
+          type: array
+          items:
+            $ref: "#/components/schemas/Team"
+        groups:
+          type: array
+          items:
+            $ref: "#/components/schemas/Group"
+        matches:
+          type: array
+          items:
+            $ref: "#/components/schemas/Match"
+    MatchPrediction:
+      type: object
+      required: [matchId, homeScore, awayScore]
+      properties:
+        matchId:
+          type: string
+        homeScore:
+          type: integer
+          minimum: 0
+        awayScore:
+          type: integer
+          minimum: 0
+        advancingTeamId:
+          type: string
+          nullable: true
+    PredictionCard:
+      type: object
+      required: [title, themeId]
+      properties:
+        title:
+          type: string
+        creatorName:
+          type: string
+          nullable: true
+        themeId:
+          type: string
+        championTeamId:
+          type: string
+          nullable: true
+    PredictionSession:
+      type: object
+      required: [id, tournamentId, predictions, card, updatedAt, schemaVersion]
+      properties:
+        id:
+          type: string
+        tournamentId:
+          type: string
+        predictions:
+          type: array
+          items:
+            $ref: "#/components/schemas/MatchPrediction"
+        card:
+          $ref: "#/components/schemas/PredictionCard"
+        updatedAt:
+          type: string
+          format: date-time
+        schemaVersion:
+          type: string
+          enum: [prediction-session:v1]
+    PredictionValidationResult:
+      type: object
+      required: [complete, valid, missingMatchIds, resetMatchIds, messages]
+      properties:
+        complete:
+          type: boolean
+        valid:
+          type: boolean
+        championTeamId:
+          type: string
+          nullable: true
+        missingMatchIds:
+          type: array
+          items:
+            type: string
+        resetMatchIds:
+          type: array
+          items:
+            type: string
+        messages:
+          type: array
+          items:
+            type: string
+    ExportImage:
+      type: object
+      required: [status, fileName, width, height]
+      properties:
+        status:
+          type: string
+          enum: [ready]
+        fileName:
+          type: string
+        width:
+          type: integer
+        height:
+          type: integer
+        dataUrl:
+          type: string
+          nullable: true

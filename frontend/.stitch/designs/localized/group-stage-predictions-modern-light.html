@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Group Stage Predictions | World Cup Predictor</title>
+<script src="../google-cdn-assets/scripts/cdn.tailwindcss.com-36d3755fef18.js"></script>
+<link href="../google-cdn-assets/css/css2-6362134de58b.css" rel="stylesheet"/>
+<link href="../google-cdn-assets/css/css2-de9b7b5eb580.css" rel="stylesheet"/>
+<link href="../google-cdn-assets/css/css2-de9b7b5eb580.css" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#77012b",
+                    "secondary": "#755600",
+                    "on-error": "#ffefee",
+                    "surface-dim": "#8fe5c9",
+                    "outline": "#4c8170",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#390010",
+                    "tertiary-fixed": "#ff8fa3",
+                    "surface-variant": "#9decd2",
+                    "on-secondary-fixed-variant": "#684c00",
+                    "surface-bright": "#d8fff0",
+                    "inverse-surface": "#00110c",
+                    "surface": "#d8fff0",
+                    "on-background": "#00362a",
+                    "error": "#b31b25",
+                    "on-primary-container": "#005a3c",
+                    "primary-fixed": "#69f6b8",
+                    "secondary-fixed": "#ffca51",
+                    "inverse-primary": "#69f6b8",
+                    "on-error-container": "#570008",
+                    "secondary-dim": "#674b00",
+                    "error-dim": "#9f0519",
+                    "tertiary-container": "#ff8fa3",
+                    "inverse-on-surface": "#72a895",
+                    "primary-dim": "#005c3d",
+                    "surface-container": "#b2f6de",
+                    "primary-container": "#69f6b8",
+                    "on-secondary-container": "#5c4300",
+                    "primary-fixed-dim": "#58e7ab",
+                    "primary": "#006947",
+                    "tertiary": "#a72d4c",
+                    "on-secondary": "#fff1db",
+                    "on-primary-fixed-variant": "#006544",
+                    "surface-container-highest": "#9decd2",
+                    "surface-container-low": "#bffee7",
+                    "on-tertiary-container": "#670024",
+                    "tertiary-dim": "#962040",
+                    "on-tertiary": "#ffeff0",
+                    "outline-variant": "#81b8a5",
+                    "surface-container-high": "#a7f1d8",
+                    "on-primary-fixed": "#00452d",
+                    "on-surface": "#00362a",
+                    "secondary-fixed-dim": "#f6ba1e",
+                    "on-surface-variant": "#2f6555",
+                    "surface-tint": "#006947",
+                    "error-container": "#fb5151",
+                    "tertiary-fixed-dim": "#ff7792",
+                    "on-primary": "#c8ffe0",
+                    "secondary-container": "#ffca51",
+                    "on-secondary-fixed": "#443100",
+                    "background": "#d8fff0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "display": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .score-input:focus { outline: none; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); }
+        ::-webkit-inner-spin-button, ::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-surface shadow-sm sticky top-0 z-50">
+<div class="flex justify-between items-center px-8 py-4 w-full max-w-7xl mx-auto">
+<div class="text-xl font-headline font-black text-primary">World Cup Predictor</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-primary border-b-2 border-primary font-bold pb-1 transition-colors" href="#">Groups</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Knockouts</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Bracket</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Finals</a>
+</nav>
+<div class="flex gap-3">
+<button class="px-6 py-2 rounded-full border border-outline-variant font-bold text-on-surface hover:bg-surface-container-low transition-all active:scale-95">Export</button>
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-bold hover:opacity-90 transition-all active:scale-95 shadow-md">Save Predictions</button>
+</div>
+</div>
+</header>
+<main class="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto p-4 md:p-8">
+<!-- Sidebar Navigation (Desktop) -->
+<aside class="hidden lg:flex flex-col w-64 bg-surface-container-low rounded-3xl py-6 h-fit sticky top-24">
+<div class="px-6 mb-8">
+<h3 class="text-lg font-headline font-bold text-on-surface">Tournament Tracker</h3>
+<p class="text-sm text-on-surface-variant">65% Completed</p>
+<div class="mt-4 w-full bg-outline-variant h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%]"></div>
+</div>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 bg-primary-container text-on-primary-container rounded-full px-4 py-3 mx-2 font-medium" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                    Overview
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 mx-2 font-medium hover:bg-surface-container-highest rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+                    Match Schedule
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 mx-2 font-medium hover:bg-surface-container-highest rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">format_list_numbered</span>
+                    Standings
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 mx-2 font-medium hover:bg-surface-container-highest rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+                    Top Scorers
+                </a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 mx-2 font-medium hover:bg-surface-container-highest rounded-full transition-all" href="#">
+<span class="material-symbols-outlined">query_stats</span>
+                    My Progress
+                </a>
+</nav>
+<div class="mt-8 px-4">
+<button class="w-full py-3 bg-secondary text-on-secondary font-bold rounded-full shadow-lg hover:brightness-110 active:scale-95 transition-all">
+                    View Leaderboard
+                </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<div class="flex-1 space-y-8">
+<!-- Group Header & Progress -->
+<section class="bg-white p-8 rounded-3xl shadow-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Group A</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="text-4xl font-headline font-extrabold text-on-surface mb-2">Group Stage</h1>
+<p class="text-on-surface-variant font-medium">Predict scores to see the live table update automatically.</p>
+</div>
+<div class="text-right">
+<div class="text-sm font-bold text-primary mb-2">4/48 PREDICTED</div>
+<div class="w-48 bg-surface-container-high h-3 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[8%]"></div>
+</div>
+</div>
+</div>
+</section>
+<div class="grid lg:grid-cols-12 gap-8">
+<!-- Standing Table (Left Column) -->
+<section class="lg:col-span-7">
+<div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+<div class="p-6 border-b border-surface-container-highest">
+<h2 class="text-xl font-headline font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">leaderboard</span>
+                                Standings: Group A
+                            </h2>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low text-on-surface-variant text-xs font-bold uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4">Pos</th>
+<th class="px-6 py-4">Team</th>
+<th class="px-6 py-4 text-center">P</th>
+<th class="px-6 py-4 text-center">W</th>
+<th class="px-6 py-4 text-center">D</th>
+<th class="px-6 py-4 text-center">L</th>
+<th class="px-6 py-4 text-center">GD</th>
+<th class="px-6 py-4 text-center font-bold">Pts</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high">
+<tr class="h-16 hover:bg-surface-container-low transition-colors">
+<td class="px-6 font-bold text-primary">1</td>
+<td class="px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-5 rounded-sm bg-blue-600 flex overflow-hidden shadow-sm">
+<div class="w-1/3 bg-white"></div>
+<div class="w-1/3 bg-red-600"></div>
+</div>
+<span class="font-bold">USA</span>
+</div>
+</td>
+<td class="px-6 text-center text-on-surface-variant">1</td>
+<td class="px-6 text-center text-on-surface-variant">1</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">+1</td>
+<td class="px-6 text-center font-black">3</td>
+</tr>
+<tr class="h-16 hover:bg-surface-container-low transition-colors">
+<td class="px-6 font-bold text-on-surface-variant">2</td>
+<td class="px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-5 rounded-sm bg-red-600 flex overflow-hidden shadow-sm relative">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-full h-1 bg-white"></div>
+<div class="h-full w-1 bg-white absolute"></div>
+</div>
+</div>
+<span class="font-bold">ENG</span>
+</div>
+</td>
+<td class="px-6 text-center text-on-surface-variant">1</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">1</td>
+<td class="px-6 text-center text-on-surface-variant">-1</td>
+<td class="px-6 text-center font-black">0</td>
+</tr>
+<tr class="h-16 hover:bg-surface-container-low transition-colors">
+<td class="px-6 font-bold text-on-surface-variant">3</td>
+<td class="px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-5 rounded-sm bg-green-600 flex flex-col overflow-hidden shadow-sm">
+<div class="h-1/3 bg-green-600"></div>
+<div class="h-1/3 bg-white"></div>
+<div class="h-1/3 bg-red-600"></div>
+</div>
+<span class="font-bold">IRN</span>
+</div>
+</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center font-black">0</td>
+</tr>
+<tr class="h-16 hover:bg-surface-container-low transition-colors">
+<td class="px-6 font-bold text-on-surface-variant">4</td>
+<td class="px-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-5 rounded-sm bg-red-600 flex items-center justify-center overflow-hidden shadow-sm">
+<div class="w-4 h-4 rounded-full bg-white opacity-20"></div>
+</div>
+<span class="font-bold">WAL</span>
+</div>
+</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center text-on-surface-variant">0</td>
+<td class="px-6 text-center font-black">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 bg-surface-container-lowest flex justify-between items-center">
+<span class="text-sm text-on-surface-variant italic">Top 2 advance to Round of 16</span>
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<div class="w-3 h-3 rounded-full bg-outline-variant"></div>
+<div class="w-3 h-3 rounded-full bg-outline-variant"></div>
+</div>
+</div>
+</div>
+<!-- Decorative Banner -->
+<div class="mt-8 relative h-48 rounded-3xl overflow-hidden shadow-lg group">
+<img alt="Football stadium atmosphere" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A wide cinematic shot of a professional football stadium under a sunset sky. The lush green pitch is illuminated by powerful stadium lights, and the stands are filled with cheering fans waving vibrant colored scarves. The atmosphere is electric and celebratory, using a bright, high-contrast light-mode color palette dominated by vivid green and deep blue sky tones." src="../google-cdn-assets/images/AB6AXuAh4CQ6cE-46VyLiSZY-b6dc2742175f.png"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent flex items-center p-8">
+<div class="text-white max-w-xs">
+<h4 class="text-2xl font-headline font-bold mb-2">Predict &amp; Win</h4>
+<p class="text-sm opacity-90">Enter your predictions for every match and climb the global leaderboards!</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Match Prediction Cards (Right Column) -->
+<section class="lg:col-span-5 space-y-6">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-xl font-headline font-bold">Upcoming Matches</h2>
+<button class="text-sm font-bold text-primary hover:underline transition-all">Clear All</button>
+</div>
+<!-- Predicted Match Card -->
+<div class="bg-white p-6 rounded-3xl shadow-lg border-l-4 border-primary hover:shadow-2xl transition-shadow">
+<div class="flex items-center justify-between mb-6">
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Match 1 • Group A</span>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Predicted
+                            </span>
+</div>
+<div class="flex items-center justify-around gap-4">
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-16 h-10 rounded-lg shadow-sm border border-surface-container-high bg-blue-700 overflow-hidden relative">
+<div class="absolute inset-0 bg-red-600 clip-path-[polygon(0%_0%,33%_0%,33%_100%,0%_100%)]"></div>
+</div>
+<span class="font-bold font-headline">USA</span>
+</div>
+<div class="flex items-center gap-3">
+<input class="score-input w-14 h-16 bg-surface-container-low border-0 text-center text-3xl font-black rounded-2xl text-on-surface" placeholder="-" type="number" value="2"/>
+<span class="text-2xl font-black text-outline-variant">:</span>
+<input class="score-input w-14 h-16 bg-surface-container-low border-0 text-center text-3xl font-black rounded-2xl text-on-surface" placeholder="-" type="number" value="1"/>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-16 h-10 rounded-lg shadow-sm border border-surface-container-high bg-red-600 relative overflow-hidden">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-full h-1 bg-white"></div>
+<div class="h-full w-1 bg-white absolute"></div>
+</div>
+</div>
+<span class="font-bold font-headline">ENG</span>
+</div>
+</div>
+</div>
+<!-- Empty Match Card -->
+<div class="bg-white p-6 rounded-3xl shadow-md border-l-4 border-outline-variant hover:shadow-xl transition-shadow">
+<div class="flex items-center justify-between mb-6">
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Match 2 • Group A</span>
+<span class="text-xs font-bold text-outline-variant">Tomorrow, 16:00</span>
+</div>
+<div class="flex items-center justify-around gap-4">
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-16 h-10 rounded-lg shadow-sm border border-surface-container-high bg-green-600 flex flex-col overflow-hidden">
+<div class="h-1/3 bg-green-600"></div>
+<div class="h-1/3 bg-white"></div>
+<div class="h-1/3 bg-red-600"></div>
+</div>
+<span class="font-bold font-headline">IRN</span>
+</div>
+<div class="flex items-center gap-3">
+<input class="score-input w-14 h-16 bg-surface-container border-0 text-center text-3xl font-black rounded-2xl text-on-surface" placeholder="0" type="number"/>
+<span class="text-2xl font-black text-outline-variant">:</span>
+<input class="score-input w-14 h-16 bg-surface-container border-0 text-center text-3xl font-black rounded-2xl text-on-surface" placeholder="0" type="number"/>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-16 h-10 rounded-lg shadow-sm border border-surface-container-high bg-red-600 flex items-center justify-center">
+<div class="w-5 h-5 rounded-full bg-white opacity-20"></div>
+</div>
+<span class="font-bold font-headline">WAL</span>
+</div>
+</div>
+</div>
+<!-- Empty Match Card 2 -->
+<div class="bg-white p-6 rounded-3xl shadow-md border-l-4 border-outline-variant hover:shadow-xl transition-shadow">
+<div class="flex items-center justify-between mb-6">
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Match 3 • Group A</span>
+<span class="text-xs font-bold text-outline-variant">Nov 25, 20:00</span>
+</div>
+<div class="flex items-center justify-around gap-4">
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-16 h-10 rounded-lg shadow-sm border border-surface-container-high bg-red-600 relative overflow-hidden">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-full h-1 bg-white"></div>
+<div class="h-full w-1 bg-white absolute"></div>
+</div>
+</div>
+<span class="font-bold font-headline">ENG</span>
+</div>
+<div class="flex items-center gap-3">
+<input class="score-input w-14 h-16 bg-surface-container border-0 text-center text-3xl font-black rounded-2xl text-on-surface" placeholder="0" type="number"/>
+<span class="text-2xl font-black text-outline-variant">:</span>
+<input class="score-input w-14 h-16 bg-surface-container border-0 text-center text-3xl font-black rounded-2xl text-on-surface" placeholder="0" type="number"/>
+</div>
+<div class="flex flex-col items-center gap-2 flex-1">
+<div class="w-16 h-10 rounded-lg shadow-sm border border-surface-container-high bg-blue-700 overflow-hidden relative">
+<div class="absolute inset-0 bg-red-600 clip-path-[polygon(0%_0%,33%_0%,33%_100%,0%_100%)]"></div>
+</div>
+<span class="font-bold font-headline">USA</span>
+</div>
+</div>
+</div>
+<!-- Winner Prediction Hint -->
+<div class="bg-secondary-container p-6 rounded-3xl text-on-secondary-container relative overflow-hidden shadow-lg border border-secondary/20">
+<div class="relative z-10 flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<h3 class="text-xl font-headline font-extrabold uppercase">Tournament Winner</h3>
+</div>
+<p class="text-sm font-medium opacity-90">Current prediction: <span class="font-bold">None</span>. Finish the group stage to unlock the bracket!</p>
+<button class="bg-white/20 hover:bg-white/40 backdrop-blur-md px-6 py-2 rounded-full font-bold text-sm transition-all self-start">Set Winner Prediction</button>
+</div>
+<span class="material-symbols-outlined absolute -right-8 -bottom-8 text-9xl opacity-10 pointer-events-none">trophy</span>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<footer class="md:hidden fixed bottom-0 left-0 right-0 bg-surface shadow-2xl z-50 flex justify-around items-center px-4 py-3 pb-8">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="text-[10px] font-bold">Groups</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="text-[10px] font-bold">Bracket</span>
+</a>
+<div class="relative -top-6">
+<button class="bg-primary text-on-primary w-14 h-14 rounded-full shadow-xl flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-3xl">save</span>
+</button>
+</div>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="text-[10px] font-bold">Rankings</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">Profile</span>
+</a>
+</footer>
+<script>
+        // Micro-interaction for score inputs
+        document.querySelectorAll('.score-input').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value.length > 2) this.value = this.value.slice(0, 2);
+                
+                // Visual feedback for change
+                const card = this.closest('.bg-white');
+                card.classList.add('scale-[1.01]', 'shadow-2xl');
+                setTimeout(() => {
+                    card.classList.remove('scale-[1.01]', 'shadow-2xl');
+                }, 300);
+
+                // Mocking a live update feel
+                if(this.value !== "") {
+                    const badge = card.querySelector('.bg-primary\\/10') || null;
+                    if(!badge) {
+                        const statusContainer = card.querySelector('.justify-between');
+                        const newBadge = document.createElement('span');
+                        newBadge.className = "bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1";
+                        newBadge.innerHTML = '<span class="material-symbols-outlined text-sm" style="font-variation-settings: \'FILL\' 1;">check_circle</span> Predicted';
+                        statusContainer.appendChild(newBadge);
+                        card.classList.replace('border-outline-variant', 'border-primary');
+                    }
+                }
+            });
+
+            // Prevent scroll changing values
+            input.addEventListener('wheel', (e) => e.preventDefault(), { passive: false });
+        });
+
+        // Hover effects for table rows
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.querySelector('td:nth-child(2)').classList.add('translate-x-1');
+                row.querySelector('td:nth-child(2)').style.transition = 'transform 0.2s ease';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.querySelector('td:nth-child(2)').classList.remove('translate-x-1');
+            });
+        });
+    </script>
+</body></html>

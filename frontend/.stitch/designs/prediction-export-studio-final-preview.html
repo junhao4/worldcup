@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>World Cup Predictor - Export</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary": "#ffeff0",
+                    "on-secondary-container": "#5c4300",
+                    "primary-container": "#69f6b8",
+                    "primary-fixed": "#69f6b8",
+                    "tertiary-fixed-dim": "#ff7792",
+                    "tertiary-dim": "#962040",
+                    "background": "#f8fafc",
+                    "secondary-fixed-dim": "#f6ba1e",
+                    "inverse-surface": "#00110c",
+                    "tertiary-fixed": "#ff8fa3",
+                    "error-dim": "#9f0519",
+                    "outline": "#4c8170",
+                    "secondary-fixed": "#ffca51",
+                    "tertiary-container": "#ff8fa3",
+                    "on-secondary-fixed": "#443100",
+                    "surface-dim": "#8fe5c9",
+                    "on-surface": "#00362a",
+                    "primary-dim": "#005c3d",
+                    "on-secondary": "#fff1db",
+                    "surface-container-high": "#a7f1d8",
+                    "secondary-container": "#ffca51",
+                    "outline-variant": "#81b8a5",
+                    "surface": "#d8fff0",
+                    "on-tertiary-fixed-variant": "#77012b",
+                    "on-secondary-fixed-variant": "#684c00",
+                    "surface-container-low": "#bffee7",
+                    "secondary": "#755600",
+                    "error": "#b31b25",
+                    "on-surface-variant": "#2f6555",
+                    "inverse-primary": "#69f6b8",
+                    "inverse-on-surface": "#72a895",
+                    "surface-variant": "#9decd2",
+                    "on-primary": "#c8ffe0",
+                    "on-tertiary-container": "#670024",
+                    "on-error": "#ffefee",
+                    "on-tertiary-fixed": "#390010",
+                    "tertiary": "#a72d4c",
+                    "primary-fixed-dim": "#58e7ab",
+                    "on-primary-container": "#005a3c",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#10B981", /* Overriding with Pitch Green from Brand Guide */
+                    "trophy-gold": "#FBBF24",
+                    "heritage-red": "#8A1538"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "12px",
+                    "2xl": "16px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "display": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .prediction-card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05), 0 20px 40px -10px rgba(16, 185, 129, 0.1);
+        }
+        .bracket-line {
+            background-color: #10B981;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim shadow-sm sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold text-primary">World Cup Predictor</span>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-primary-container/10 transition-colors px-3 py-1 rounded-lg" href="#">Bracket</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-primary-container/10 transition-colors px-3 py-1 rounded-lg" href="#">Groups</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-primary-container/10 transition-colors px-3 py-1 rounded-lg" href="#">Standings</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:bg-primary-container/10 transition-colors px-3 py-1 rounded-lg" href="#">My Picks</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-5 py-2 text-primary font-bold hover:bg-primary-container/10 transition-colors rounded-full active:scale-95 transition-transform">Studio</button>
+<button class="px-5 py-2 bg-primary text-on-primary font-bold rounded-full shadow-sm hover:bg-primary-dim transition-colors active:scale-95 transition-transform">Export</button>
+</div>
+</div>
+</header>
+<main class="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto w-full p-6 lg:p-12 gap-12 items-start">
+<!-- Sidebar Customization -->
+<aside class="w-full md:w-80 flex flex-col gap-8 order-2 md:order-1">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm space-y-6 border border-surface-container">
+<h2 class="font-headline text-xl font-bold text-on-surface">Customization</h2>
+<!-- Theme Selector -->
+<div class="space-y-3">
+<label class="font-label text-sm font-semibold uppercase tracking-wider text-on-surface-variant">Card Theme</label>
+<div class="grid grid-cols-1 gap-3">
+<button class="flex items-center gap-3 p-3 rounded-xl border-2 border-primary bg-primary-container/10 text-primary font-semibold transition-all">
+<span class="w-6 h-6 rounded-full bg-white border border-outline-variant"></span>
+                            Modern Light
+                        </button>
+<button class="flex items-center gap-3 p-3 rounded-xl border-2 border-transparent bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-all">
+<span class="w-6 h-6 rounded-full bg-[#10B981] border border-outline-variant"></span>
+                            Pitch Green
+                        </button>
+</div>
+</div>
+<!-- Export Options -->
+<div class="space-y-3 pt-4 border-t border-surface-container">
+<label class="font-label text-sm font-semibold uppercase tracking-wider text-on-surface-variant">Image Format</label>
+<select class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary font-medium">
+<option>PNG (High Resolution)</option>
+<option>JPG (Social Media)</option>
+<option>PDF (Document)</option>
+</select>
+</div>
+</div>
+<div class="bg-on-primary-container text-on-primary p-6 rounded-2xl shadow-sm flex flex-col items-center text-center gap-2">
+<span class="material-symbols-outlined text-3xl">celebration</span>
+<p class="font-headline font-bold">Ready to share?</p>
+<p class="text-sm opacity-80">98.2% of users shared their Brazil winning predictions today!</p>
+</div>
+</aside>
+<!-- Prediction Card Hero -->
+<section class="flex-grow flex flex-col items-center gap-10 order-1 md:order-2 w-full">
+<!-- The Card Canvas -->
+<div class="w-full max-w-3xl aspect-[1.91/1] bg-white rounded-2xl prediction-card-shadow overflow-hidden relative border border-surface-container" id="prediction-card">
+<!-- Card Decorative Background -->
+<div class="absolute inset-0 pointer-events-none opacity-[0.03]" style="background-image: radial-gradient(#10B981 2px, transparent 2px); background-size: 24px 24px;"></div>
+<!-- Card Header -->
+<div class="p-8 pb-4 flex justify-between items-start relative z-10">
+<div class="flex items-center gap-3 group cursor-pointer">
+<h1 class="font-headline text-3xl font-extrabold text-on-surface tracking-tight">My Road to Glory</h1>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">edit_square</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label text-xs font-bold uppercase tracking-[0.2em] text-primary">World Cup 2026</span>
+<span class="font-label text-xs text-on-surface-variant">Prediction ID: #WCP-9921</span>
+</div>
+</div>
+<!-- Bracket Visualization (Simplified Aesthetic) -->
+<div class="px-8 h-48 flex items-center justify-between relative z-10 mt-4">
+<!-- Quarter Finals -->
+<div class="flex flex-col justify-around h-full gap-4">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full border border-surface-container">
+<img alt="Brazil" class="w-5 h-3.5 object-cover rounded-sm" data-alt="The national flag of Brazil, featuring a vibrant green field with a large yellow diamond in the center and a blue globe with white stars in the diamond. The lighting is crisp and modern, fitting the high-end sports app aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9ckM8ypY0ZF55mVXZy5MIMmwg-1lAjvLEejmpEQkzE6RzpVLzvVTyNAsh4lpGePB6vJXcTCWopfLKNIM1Unlau1bBDfKwb07kTEF0BSgq6DbWReczIRsyb_JHhjsrIvscT69alQ3p69orlV_TtvW1WZdonMP44EIRe7PRLitwYSoTgPr7ZZcqSQAgqD4T0__sa0oR2AQXSyAE-VzfpQQo1ZUJ8AOSQYlloYeYhHfixy3Q1TaRChO_DaXsG24KtAL9M0KZtCEz4VXr"/>
+<span class="text-xs font-bold font-display">BRA</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-low/50 px-3 py-1.5 rounded-full opacity-50">
+<img alt="France" class="w-5 h-3.5 object-cover rounded-sm" data-alt="The national flag of France, a tricolor of blue, white, and red vertical bands. Clean, minimalist studio lighting with a subtle shadow to emphasize the premium UI design language of the World Cup Predictor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX7PSfLd3Qc8516znQ2X3qFvZlYGHy4XTlCQuY211X_EA-UQyoYuauVtW4amWd58j5wuc1XjYD3ei2NpxzCeAv6xXYAlzBC93WHDqeJpf26k-VucIWv4nx1rUu12FYWEPXmCOYCc3qk7YvNw0CgpYKe0iPnRWu0VakQBExLLimxqDpjuc8ZC_TPBImukdkopaha0_8p47v99D-tXi2XMpEqhtDS4OOUAWcEp2UlNgkOUOZMSGKFnYG1cCWbaCLRTkbCsyMLmf8Vep9"/>
+<span class="text-xs font-bold font-display">FRA</span>
+</div>
+</div>
+</div>
+<!-- Bracket Connector 1 -->
+<div class="flex-grow flex items-center">
+<div class="h-[2px] w-full bracket-line"></div>
+</div>
+<!-- Semi Final -->
+<div class="flex flex-col justify-center">
+<div class="flex flex-col gap-2 scale-110">
+<div class="flex items-center gap-3 bg-surface-container-high px-4 py-2 rounded-full border border-primary shadow-sm">
+<img alt="Brazil" class="w-6 h-4 object-cover rounded-sm" data-alt="High-detail shot of the Brazilian flag. The texture of the fabric is subtly visible under soft, professional stadium-style lighting, reflecting the celebratory and high-stakes nature of a World Cup knockout match." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIsJFToFm8QBcJUlU4OjUycJoglKDmWfe9HXY6FogQoYrL9MBzrZFsLi456VJnGiq65hl11b6-1QXaNxupK6esJXEXy5U9xg7SUdlQ2C06zIEC0So51n9XSXPQUTWIk0VypBte5sINe2rtU_oYjb2BkF0KTgupB3NYzyqJVU97swa06yVRLgmw2VjwkOgLirWI0RNqGTx-wbUdC1S6TIJh4ptQTFLyM5N8TyqKcYjehKoXjt2RpCmF-K_Vy8bSw3Lh4DnLoEZ1LuRf"/>
+<span class="text-sm font-extrabold font-display">BRA</span>
+</div>
+</div>
+</div>
+<!-- Bracket Connector 2 -->
+<div class="flex-grow flex items-center">
+<div class="h-[2px] w-full bracket-line"></div>
+</div>
+<!-- Champion Section -->
+<div class="relative group">
+<div class="absolute -inset-4 bg-trophy-gold/20 rounded-full blur-xl group-hover:bg-trophy-gold/30 transition-all"></div>
+<div class="relative flex flex-col items-center gap-3">
+<div class="w-32 h-32 rounded-full bg-gradient-to-tr from-trophy-gold to-[#fef08a] flex flex-col items-center justify-center shadow-xl border-4 border-white">
+<span class="material-symbols-outlined text-4xl text-on-secondary-container mb-1" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<img alt="Brazil" class="w-10 h-7 object-cover rounded-sm shadow-md" data-alt="The Brazilian flag presented as a trophy element, glowing under golden light. The style is aspirational and premium, symbolizing victory and athletic excellence in a digital sports ecosystem." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdmM25gg2lM14Q0fp1T0uycf9m0H7ocSulQdVWvHcml7IHa5TbSs90Znkt4BpoOIZsYn793vTMZoc4Kw_4qJwuJZ-N0Vfpu6dPtyvEX0sWuNDlR9ouPsdEUaa-t2lcV5C6PltYTng5QfGBC2TV_KDZTXHYIdajEPS5JKJOWDM9s6XDVfOFeEM5SW4sAR6F9RcbSxHneGwvQk983eGWUW1Pq5hpgIaIFqeljNrRrBjKp3_k09_L1STXGNqKgeLGX1_gi4AwB96pewTr"/>
+</div>
+<div class="text-center">
+<p class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Champion</p>
+<p class="font-headline text-xl font-black text-on-surface tracking-tight">BRAZIL</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer Info -->
+<div class="absolute bottom-0 left-0 w-full p-8 bg-surface-container-low/50 backdrop-blur-sm flex justify-between items-center border-t border-surface-container">
+<div class="flex gap-6">
+<div>
+<p class="text-[10px] font-bold uppercase text-on-surface-variant/70">Top Scorer</p>
+<p class="text-xs font-bold">Vini Jr.</p>
+</div>
+<div>
+<p class="text-[10px] font-bold uppercase text-on-surface-variant/70">Dark Horse</p>
+<p class="text-xs font-bold">Japan</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold uppercase text-on-surface-variant/70">User</p>
+<p class="text-xs font-bold">SoccerFan_99</p>
+</div>
+</div>
+</div>
+<!-- Main Actions -->
+<div class="flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
+<button class="w-full sm:w-auto px-10 py-4 bg-primary text-on-primary font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all active:scale-95 flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">download</span>
+                    Download PNG
+                </button>
+<button class="w-full sm:w-auto px-10 py-4 bg-surface-container-high text-on-surface font-bold rounded-full border border-surface-container-highest hover:bg-surface-container-highest transition-all active:scale-95 flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">edit</span>
+                    Edit Prediction
+                </button>
+</div>
+<!-- Social Share Prompt -->
+<div class="flex items-center gap-4 py-4 opacity-70">
+<div class="h-px w-12 bg-on-surface-variant"></div>
+<span class="font-label text-xs uppercase tracking-widest font-semibold">Share Instantly</span>
+<div class="h-px w-12 bg-on-surface-variant"></div>
+</div>
+<div class="flex gap-4">
+<button class="w-12 h-12 rounded-full bg-white border border-surface-container shadow-sm flex items-center justify-center hover:bg-primary-container/20 transition-all active:scale-90">
+<span class="material-symbols-outlined text-primary">share</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-white border border-surface-container shadow-sm flex items-center justify-center hover:bg-primary-container/20 transition-all active:scale-90">
+<svg class="w-5 h-5 fill-on-surface" viewbox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+</button>
+<button class="w-12 h-12 rounded-full bg-white border border-surface-container shadow-sm flex items-center justify-center hover:bg-primary-container/20 transition-all active:scale-90">
+<svg class="w-6 h-6 fill-on-surface" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.013 3.584-.07 4.85c-.054 1.17-.249 1.805-.413 2.227-.217.562-.477.96-.896 1.382-.42.419-.819.679-1.381.896-.422.164-1.057.36-2.227.413-1.266.057-1.646.07-4.85.07s-3.584-.013-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.562-.217-.96-.477-1.382-.896-.419-.42-.679-.819-.896-1.381-.164-.422-.36-1.057-.413-2.227-.057-1.266-.07-1.646-.07-4.85s.013-3.584.07-4.85c.054-1.17.249-1.805.413-2.227.217-.562.477-.96.896-1.382.42-.419.819-.679 1.381-.896.422-.164 1.057-.36 2.227-.413 1.266-.057 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.384 1.078 2.126 1.384c.766.296 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.078-1.384 1.384-2.126c.296-.765.499-1.636.558-2.913.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126s-1.384-1.078-2.126-1.384c-.765-.297-1.636-.499-2.913-.558C15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"></path></svg>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden bg-surface dark:bg-surface-container-low fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 shadow-lg rounded-t-xl">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-5 py-1 hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label text-xs uppercase tracking-wider mt-1">Bracket</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-5 py-1 hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-label text-xs uppercase tracking-wider mt-1">Groups</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-5 py-1 hover:bg-surface-container-highest dark:hover:bg-surface-variant transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label text-xs uppercase tracking-wider mt-1">Standings</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-5 py-1 transition-all active:scale-90 duration-200">
+<span class="material-symbols-outlined">edit_square</span>
+<span class="font-label text-xs uppercase tracking-wider mt-1">My Picks</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions and Theme Toggle logic
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                // Subtle ripple effect or state change could be added here
+            });
+        });
+
+        // Simulating the theme selector
+        const themeButtons = document.querySelectorAll('aside .grid button');
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                themeButtons.forEach(b => b.classList.remove('border-primary', 'bg-primary-container/10', 'text-primary'));
+                themeButtons.forEach(b => b.classList.add('border-transparent', 'bg-surface-container-high', 'text-on-surface-variant'));
+                
+                button.classList.remove('border-transparent', 'bg-surface-container-high', 'text-on-surface-variant');
+                button.classList.add('border-primary', 'bg-primary-container/10', 'text-primary');
+
+                const card = document.getElementById('prediction-card');
+                if (button.innerText.includes('Pitch Green')) {
+                    card.classList.remove('bg-white');
+                    card.classList.add('bg-primary-dim', 'text-white');
+                    // In a real app, more complex class switching would happen here
+                } else {
+                    card.classList.add('bg-white');
+                    card.classList.remove('bg-primary-dim', 'text-white');
+                }
+            });
+        });
+    </script>
+</body></html>

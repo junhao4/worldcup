@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FIFA 2026 Predictor - Group Stage</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#091421",
+                      "surface-container-lowest": "#050f1c",
+                      "secondary-fixed": "#ffdf9f",
+                      "on-secondary-fixed": "#261a00",
+                      "surface-container-low": "#121c2a",
+                      "on-secondary-fixed-variant": "#5c4300",
+                      "on-error-container": "#ffdad6",
+                      "background": "#091421",
+                      "on-secondary": "#402d00",
+                      "on-error": "#690005",
+                      "secondary-fixed-dim": "#f9bd22",
+                      "surface-variant": "#2b3544",
+                      "inverse-on-surface": "#27313f",
+                      "on-tertiary-fixed-variant": "#930013",
+                      "tertiary": "#ffb3ad",
+                      "surface-tint": "#79db8d",
+                      "on-primary-container": "#d3ffd5",
+                      "primary-fixed": "#95f8a7",
+                      "surface-container-high": "#212b39",
+                      "error-container": "#93000a",
+                      "error": "#ffb4ab",
+                      "surface-container": "#16202e",
+                      "secondary-container": "#e3aa00",
+                      "primary": "#79db8d",
+                      "outline": "#889487",
+                      "tertiary-container": "#d22f32",
+                      "on-secondary-container": "#5a4100",
+                      "secondary": "#ffc640",
+                      "surface-bright": "#303a48",
+                      "on-primary-fixed": "#00210a",
+                      "tertiary-fixed-dim": "#ffb3ad",
+                      "inverse-surface": "#d9e3f6",
+                      "on-background": "#d9e3f6",
+                      "on-tertiary-container": "#fff1ef",
+                      "on-tertiary": "#68000a",
+                      "outline-variant": "#3f493f",
+                      "surface": "#091421",
+                      "primary-fixed-dim": "#79db8d",
+                      "on-surface": "#d9e3f6",
+                      "on-tertiary-fixed": "#410004",
+                      "surface-container-highest": "#2b3544",
+                      "primary-container": "#15803d",
+                      "on-primary": "#003916",
+                      "on-surface-variant": "#becabc",
+                      "tertiary-fixed": "#ffdad7",
+                      "inverse-primary": "#006d30",
+                      "on-primary-fixed-variant": "#005323"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sm": "8px",
+                      "lg": "24px",
+                      "xs": "4px",
+                      "md": "16px",
+                      "base": "4px",
+                      "container-max": "1440px",
+                      "xl": "48px",
+                      "bracket-gap": "32px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "JetBrains Mono"
+                      ],
+                      "score-display": [
+                              "Archivo Narrow"
+                      ],
+                      "headline-lg-mobile": [
+                              "Archivo Narrow"
+                      ],
+                      "headline-md": [
+                              "Archivo Narrow"
+                      ],
+                      "display-lg": [
+                              "Archivo Narrow"
+                      ],
+                      "headline-lg": [
+                              "Archivo Narrow"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "score-display": [
+                              "24px",
+                              {
+                                      "lineHeight": "1",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        /* Subtle Pitch Texture overlay */
+        .pitch-texture {
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 20px 20px, 15px 15px;
+        }
+        
+        /* Hide number input spinners */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        /* Advancement Border for Tables */
+        .advancement-border {
+            border-left: 3px solid #79db8d; /* primary */
+        }
+        .advancement-border-3rd {
+            border-left: 3px dashed #ffc640; /* secondary */
+        }
+        
+        /* Custom scrollbar for tables */
+        .custom-scroll::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #16202e; /* surface-container */
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #3f493f; /* outline-variant */
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col md:flex-row antialiased selection:bg-primary-container selection:text-on-primary-container pitch-texture">
+<!-- JSON Component: SideNavBar (Hidden on Mobile, Flex on Desktop) -->
+<nav class="bg-surface-container-low dark:bg-surface-container-low h-screen w-64 hidden lg:flex flex-col border-r border-outline-variant flex-shrink-0 z-40 fixed lg:sticky top-0">
+<div class="flex flex-col h-full py-md">
+<!-- Header -->
+<div class="px-md mb-lg">
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-secondary-fixed text-3xl" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+<h1 class="font-headline-md text-headline-md text-secondary-fixed">FIFA 2026</h1>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Road to MetLife Stadium</p>
+</div>
+<!-- Navigation Links -->
+<ul class="flex flex-col gap-sm flex-grow">
+<li>
+<!-- Active State -->
+<a class="bg-primary-container text-on-primary-container rounded-lg mx-2 flex items-center gap-sm px-sm py-2 scale-[0.98]" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" style="font-variation-settings: 'FILL' 0;">grid_view</span>
+<span class="font-label-md text-label-md">Group Stage</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 flex items-center gap-sm px-sm py-2 hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" style="font-variation-settings: 'FILL' 0;">format_list_numbered</span>
+<span class="font-label-md text-label-md">Round of 32</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 flex items-center gap-sm px-sm py-2 hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" style="font-variation-settings: 'FILL' 0;">filter_8</span>
+<span class="font-label-md text-label-md">Round of 16</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 flex items-center gap-sm px-sm py-2 hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" style="font-variation-settings: 'FILL' 0;">filter_4</span>
+<span class="font-label-md text-label-md">Quarter-Finals</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 flex items-center gap-sm px-sm py-2 hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" style="font-variation-settings: 'FILL' 0;">filter_2</span>
+<span class="font-label-md text-label-md">Semi-Finals</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-lg mx-2 flex items-center gap-sm px-sm py-2 hover:bg-surface-variant transition-all" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" style="font-variation-settings: 'FILL' 0;">emoji_events</span>
+<span class="font-label-md text-label-md">Final</span>
+</a>
+</li>
+</ul>
+<!-- Footer & CTA -->
+<div class="px-md mt-auto pt-lg border-t border-outline-variant">
+<button class="w-full bg-surface-variant text-on-surface hover:bg-surface-container-highest transition-colors font-label-md text-label-md py-2 rounded-lg mb-4 flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-sm">restart_alt</span>
+                    Reset All Picks
+                </button>
+<ul class="flex flex-col gap-xs">
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-lg flex items-center gap-sm px-sm py-2 transition-all" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant rounded-lg flex items-center gap-sm px-sm py-2 transition-all" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" style="font-variation-settings: 'FILL' 0;">contact_support</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-grow flex flex-col min-w-0 pb-20 lg:pb-0">
+<!-- JSON Component: TopAppBar -->
+<header class="bg-surface-container dark:bg-surface-container docked full-width top-0 border-b border-outline-variant dark:border-outline-variant shadow-sm flex justify-between items-center w-full px-md h-16 sticky top-0 z-50 backdrop-blur-md">
+<!-- Brand / Mobile Menu Toggle -->
+<div class="flex items-center gap-md">
+<button class="lg:hidden text-primary dark:text-primary-fixed hover:text-primary-container transition-colors scale-95 active:duration-100">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-lg text-headline-lg font-bold tracking-tighter text-primary dark:text-primary-fixed hidden md:block">2026 PREDICTOR</span>
+</div>
+<!-- Top Navigation Links (Hidden on Mobile) -->
+<nav class="hidden md:flex items-center gap-lg">
+<a class="text-on-surface-variant font-medium hover:text-primary-container transition-colors font-label-md text-label-md scale-95 active:duration-100" href="#">Bracket</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 hover:text-primary-container transition-colors font-label-md text-label-md scale-95 active:duration-100" href="#">Groups</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-container transition-colors font-label-md text-label-md scale-95 active:duration-100" href="#">Standings</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-container transition-colors font-label-md text-label-md scale-95 active:duration-100" href="#">My Picks</a>
+</nav>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-sm">
+<!-- Progress Bar / Status -->
+<div class="hidden sm:flex flex-col items-end mr-md">
+<span class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider mb-xs">Prediction Progress</span>
+<div class="flex items-center gap-2">
+<div class="w-32 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 30%"></div>
+</div>
+<span class="font-label-md text-xs text-primary">32/104</span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary-container transition-colors scale-95 active:duration-100 hidden sm:block p-1 rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary-container transition-colors scale-95 active:duration-100 hidden sm:block p-1 rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="hidden lg:block px-4 py-1.5 border border-outline-variant text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface-variant transition-colors scale-95 active:duration-100">Export</button>
+<button class="bg-primary-container text-on-primary-container px-4 py-1.5 rounded-lg font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-colors scale-95 active:duration-100 shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">save</span>
+<span class="hidden sm:inline">Save Progress</span>
+</button>
+<img alt="User Avatar" class="w-8 h-8 rounded-full border border-outline-variant ml-sm cursor-pointer hover:opacity-80 transition-opacity" data-alt="A detailed, modern user avatar placeholder image designed for a dark-mode sports predictor application. The avatar features a sleek, minimalist geometric composition in deep charcoal and bright white, communicating a technical and professional broadcast control room aesthetic. The image is clean, sharp, and perfectly circular, fitting seamlessly into a high-density data UI environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXmGjKhvUedTu48McPxv3NRvaM3uxpNkT7WnLi-vB6yoZh07crqt7-ug1P22sZEiL_ESH76mTyO6JjmNISnxrqZBxTVRNDebhubqt6oOesNtMnU6Pkn73pyeuYOVj5qIEw_MQpmHw-zdjajlSkyf9MjiPqTdHIYllisCUdZsUig5KA9hWxZhoCMwqTj1_GbBplgenHtYcahGOUGHEmh7fwTzfUn12gyDsO-0ZES89cW5HuT7mvH-sN1STwFWq6bkH_B02ncTBZ_uc1"/>
+</div>
+</header>
+<!-- Main Scrollable Canvas -->
+<main class="flex-grow p-md lg:p-lg overflow-y-auto">
+<!-- Context & Title Section -->
+<div class="max-w-[1440px] mx-auto mb-xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-lg">
+<div class="flex-1">
+<label class="sr-only" for="prediction-title">Prediction Title</label>
+<input class="bg-transparent border-none focus:ring-0 p-0 font-display-lg text-display-lg text-on-surface w-full hover:bg-surface-container-highest transition-colors rounded-sm cursor-pointer focus:bg-surface-container-highest focus:cursor-text" id="prediction-title" type="text" value="My 2026 Glory Run"/>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                            Group Stage Phase
+                        </p>
+</div>
+<!-- Best 3rds Tracker Panel (Desktop Inline) -->
+<div class="hidden xl:flex bg-surface-container-high rounded-lg border border-outline-variant p-md items-center gap-lg">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-secondary uppercase flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">military_tech</span>
+                                Best 3rds Tracker
+                            </span>
+<span class="font-body-md text-xs text-on-surface-variant">Top 8 advance</span>
+</div>
+<div class="flex gap-2">
+<!-- Mini chips for current top 3rds -->
+<div class="bg-surface-variant text-on-surface px-2 py-1 rounded font-label-md text-xs border border-secondary/30">1. URU (4)</div>
+<div class="bg-surface-variant text-on-surface px-2 py-1 rounded font-label-md text-xs border border-secondary/30">2. WAL (3)</div>
+<div class="bg-surface-variant text-on-surface px-2 py-1 rounded font-label-md text-xs border border-secondary/30">3. KOR (3)</div>
+<div class="text-on-surface-variant px-2 py-1 rounded font-label-md text-xs">...</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout for Groups -->
+<div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-lg">
+<!-- Group A Card -->
+<section class="bg-surface-container rounded-xl border border-outline-variant shadow-sm overflow-hidden flex flex-col">
+<div class="bg-surface-container-high p-sm px-md border-b border-outline-variant flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface">Group A</h2>
+<span class="font-label-md text-xs bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded">Matchday 1/3</span>
+</div>
+<div class="p-md flex-grow flex flex-col gap-md">
+<!-- Standings Table -->
+<div class="overflow-x-auto custom-scroll pb-2">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant text-on-surface-variant font-label-md text-[10px] uppercase">
+<th class="py-1 px-2 font-normal w-6">Pos</th>
+<th class="py-1 px-2 font-normal">Team</th>
+<th class="py-1 px-1 font-normal text-center w-6">MP</th>
+<th class="py-1 px-1 font-normal text-center w-6">GD</th>
+<th class="py-1 px-2 font-bold text-on-surface text-center w-8">Pts</th>
+</tr>
+</thead>
+<tbody class="font-label-md text-xs">
+<!-- Advancing Row -->
+<tr class="border-b border-outline-variant/30 advancement-border bg-surface-container-high/50">
+<td class="py-1.5 px-2 text-on-surface-variant">1</td>
+<td class="py-1.5 px-2 flex items-center gap-2">
+<div class="w-4 h-3 bg-blue-600 rounded-sm relative overflow-hidden flex-shrink-0" title="MEX"><div class="absolute inset-y-0 left-1/3 w-1/3 bg-white"></div><div class="absolute inset-y-0 right-0 w-1/3 bg-red-600"></div></div>
+<span class="font-bold text-on-surface">MEX</span>
+</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">1</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">+2</td>
+<td class="py-1.5 px-2 text-center font-bold text-primary">3</td>
+</tr>
+<!-- Advancing Row -->
+<tr class="border-b border-outline-variant/30 advancement-border bg-surface-container-high/50">
+<td class="py-1.5 px-2 text-on-surface-variant">2</td>
+<td class="py-1.5 px-2 flex items-center gap-2">
+<div class="w-4 h-3 bg-red-600 rounded-sm relative overflow-hidden flex-shrink-0" title="SUI"><div class="absolute inset-0 flex items-center justify-center"><div class="w-2 h-0.5 bg-white"></div><div class="absolute w-0.5 h-2 bg-white"></div></div></div>
+<span class="font-bold text-on-surface">SUI</span>
+</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">1</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">+1</td>
+<td class="py-1.5 px-2 text-center font-bold text-primary">3</td>
+</tr>
+<!-- Potential 3rd Row -->
+<tr class="border-b border-outline-variant/30 advancement-border-3rd">
+<td class="py-1.5 px-2 text-on-surface-variant">3</td>
+<td class="py-1.5 px-2 flex items-center gap-2">
+<div class="w-4 h-3 bg-green-700 rounded-sm relative overflow-hidden flex-shrink-0" title="NGA"><div class="absolute inset-y-0 left-1/3 w-1/3 bg-white"></div></div>
+<span class="text-on-surface">NGA</span>
+</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">1</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">-1</td>
+<td class="py-1.5 px-2 text-center font-bold text-on-surface">0</td>
+</tr>
+<tr>
+<td class="py-1.5 px-2 text-on-surface-variant">4</td>
+<td class="py-1.5 px-2 flex items-center gap-2 opacity-50">
+<div class="w-4 h-3 bg-red-500 rounded-sm relative overflow-hidden flex-shrink-0" title="OMA"><div class="absolute inset-y-0 left-0 w-1 bg-red-700"></div><div class="absolute top-0 right-0 w-3 h-1.5 bg-white"></div><div class="absolute bottom-0 right-0 w-3 h-1.5 bg-green-600"></div></div>
+<span class="text-on-surface">OMA</span>
+</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">1</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">-2</td>
+<td class="py-1.5 px-2 text-center font-bold text-on-surface opacity-50">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Match List Inputs -->
+<div class="flex flex-col gap-xs mt-auto">
+<!-- Match 1 (Predicted) -->
+<div class="bg-surface-container-highest p-2 rounded-lg border border-outline-variant/50 flex items-center justify-between group hover:border-outline-variant transition-colors">
+<div class="flex items-center gap-2 w-1/3">
+<span class="font-label-md text-sm font-bold text-on-surface">MEX</span>
+<div class="w-4 h-3 bg-blue-600 rounded-sm relative overflow-hidden hidden sm:block"><div class="absolute inset-y-0 left-1/3 w-1/3 bg-white"></div><div class="absolute inset-y-0 right-0 w-1/3 bg-red-600"></div></div>
+</div>
+<div class="flex items-center gap-1 w-1/3 justify-center">
+<input class="w-8 h-8 p-0 text-center bg-surface-container text-on-surface font-score-display text-score-display border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary" max="15" min="0" type="number" value="2"/>
+<span class="text-on-surface-variant text-xs">-</span>
+<input class="w-8 h-8 p-0 text-center bg-surface-container text-on-surface font-score-display text-score-display border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary" max="15" min="0" type="number" value="0"/>
+</div>
+<div class="flex items-center justify-end gap-2 w-1/3">
+<div class="w-4 h-3 bg-red-500 rounded-sm relative overflow-hidden hidden sm:block opacity-50"><div class="absolute inset-y-0 left-0 w-1 bg-red-700"></div><div class="absolute top-0 right-0 w-3 h-1.5 bg-white"></div><div class="absolute bottom-0 right-0 w-3 h-1.5 bg-green-600"></div></div>
+<span class="font-label-md text-sm text-on-surface-variant">OMA</span>
+</div>
+</div>
+<!-- Match 2 (Predicted) -->
+<div class="bg-surface-container-highest p-2 rounded-lg border border-outline-variant/50 flex items-center justify-between group hover:border-outline-variant transition-colors">
+<div class="flex items-center gap-2 w-1/3">
+<span class="font-label-md text-sm font-bold text-on-surface">SUI</span>
+<div class="w-4 h-3 bg-red-600 rounded-sm relative overflow-hidden hidden sm:block"><div class="absolute inset-0 flex items-center justify-center"><div class="w-2 h-0.5 bg-white"></div><div class="absolute w-0.5 h-2 bg-white"></div></div></div>
+</div>
+<div class="flex items-center gap-1 w-1/3 justify-center">
+<input class="w-8 h-8 p-0 text-center bg-surface-container text-on-surface font-score-display text-score-display border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary" max="15" min="0" type="number" value="1"/>
+<span class="text-on-surface-variant text-xs">-</span>
+<input class="w-8 h-8 p-0 text-center bg-surface-container text-on-surface font-score-display text-score-display border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary" max="15" min="0" type="number" value="0"/>
+</div>
+<div class="flex items-center justify-end gap-2 w-1/3">
+<div class="w-4 h-3 bg-green-700 rounded-sm relative overflow-hidden hidden sm:block opacity-50"><div class="absolute inset-y-0 left-1/3 w-1/3 bg-white"></div></div>
+<span class="font-label-md text-sm text-on-surface-variant">NGA</span>
+</div>
+</div>
+<!-- Match 3 (Unpredicted - Active) -->
+<div class="bg-surface-bright p-2 rounded-lg border border-primary/50 shadow-[0_0_10px_rgba(121,219,141,0.1)] flex items-center justify-between relative">
+<div class="absolute -left-1.5 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r"></div>
+<div class="flex items-center gap-2 w-1/3">
+<span class="font-label-md text-sm text-on-surface">MEX</span>
+<div class="w-4 h-3 bg-blue-600 rounded-sm relative overflow-hidden hidden sm:block"><div class="absolute inset-y-0 left-1/3 w-1/3 bg-white"></div><div class="absolute inset-y-0 right-0 w-1/3 bg-red-600"></div></div>
+</div>
+<div class="flex items-center gap-1 w-1/3 justify-center">
+<input class="w-8 h-8 p-0 text-center bg-surface-container-lowest text-on-surface font-score-display text-score-display border border-primary rounded focus:border-primary focus:ring-1 focus:ring-primary" max="15" min="0" placeholder="-" type="number"/>
+<span class="text-on-surface-variant text-xs">-</span>
+<input class="w-8 h-8 p-0 text-center bg-surface-container-lowest text-on-surface font-score-display text-score-display border border-primary rounded focus:border-primary focus:ring-1 focus:ring-primary" max="15" min="0" placeholder="-" type="number"/>
+</div>
+<div class="flex items-center justify-end gap-2 w-1/3">
+<div class="w-4 h-3 bg-red-600 rounded-sm relative overflow-hidden hidden sm:block"><div class="absolute inset-0 flex items-center justify-center"><div class="w-2 h-0.5 bg-white"></div><div class="absolute w-0.5 h-2 bg-white"></div></div></div>
+<span class="font-label-md text-sm text-on-surface">SUI</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Group B Card (Similar Structure) -->
+<section class="bg-surface-container rounded-xl border border-outline-variant shadow-sm overflow-hidden flex flex-col">
+<div class="bg-surface-container-high p-sm px-md border-b border-outline-variant flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface">Group B</h2>
+<span class="font-label-md text-xs bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded">Matchday 0/3</span>
+</div>
+<div class="p-md flex-grow flex flex-col gap-md opacity-80 hover:opacity-100 transition-opacity">
+<!-- Empty Standings Table -->
+<div class="overflow-x-auto custom-scroll pb-2">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant text-on-surface-variant font-label-md text-[10px] uppercase">
+<th class="py-1 px-2 font-normal w-6">Pos</th>
+<th class="py-1 px-2 font-normal">Team</th>
+<th class="py-1 px-1 font-normal text-center w-6">MP</th>
+<th class="py-1 px-1 font-normal text-center w-6">GD</th>
+<th class="py-1 px-2 font-bold text-on-surface text-center w-8">Pts</th>
+</tr>
+</thead>
+<tbody class="font-label-md text-xs">
+<tr class="border-b border-outline-variant/30">
+<td class="py-1.5 px-2 text-on-surface-variant">1</td>
+<td class="py-1.5 px-2 flex items-center gap-2">
+<span class="text-on-surface">ENG</span>
+</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">0</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">0</td>
+<td class="py-1.5 px-2 text-center font-bold text-on-surface">0</td>
+</tr>
+<tr class="border-b border-outline-variant/30">
+<td class="py-1.5 px-2 text-on-surface-variant">2</td>
+<td class="py-1.5 px-2 flex items-center gap-2">
+<span class="text-on-surface">USA</span>
+</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">0</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">0</td>
+<td class="py-1.5 px-2 text-center font-bold text-on-surface">0</td>
+</tr>
+<tr class="border-b border-outline-variant/30">
+<td class="py-1.5 px-2 text-on-surface-variant">3</td>
+<td class="py-1.5 px-2 flex items-center gap-2">
+<span class="text-on-surface">JPN</span>
+</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">0</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">0</td>
+<td class="py-1.5 px-2 text-center font-bold text-on-surface">0</td>
+</tr>
+<tr>
+<td class="py-1.5 px-2 text-on-surface-variant">4</td>
+<td class="py-1.5 px-2 flex items-center gap-2">
+<span class="text-on-surface">SEN</span>
+</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">0</td>
+<td class="py-1.5 px-1 text-center text-on-surface-variant">0</td>
+<td class="py-1.5 px-2 text-center font-bold text-on-surface">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Match List Inputs (Unpredicted) -->
+<div class="flex flex-col gap-xs mt-auto">
+<div class="bg-surface-container-highest p-2 rounded-lg border border-outline-variant/50 flex items-center justify-between group hover:border-outline-variant transition-colors">
+<div class="flex items-center gap-2 w-1/3">
+<span class="font-label-md text-sm text-on-surface">ENG</span>
+</div>
+<div class="flex items-center gap-1 w-1/3 justify-center">
+<input class="w-8 h-8 p-0 text-center bg-surface-container text-on-surface font-score-display text-score-display border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary" max="15" min="0" placeholder="-" type="number"/>
+<span class="text-on-surface-variant text-xs">-</span>
+<input class="w-8 h-8 p-0 text-center bg-surface-container text-on-surface font-score-display text-score-display border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary" max="15" min="0" placeholder="-" type="number"/>
+</div>
+<div class="flex items-center justify-end gap-2 w-1/3">
+<span class="font-label-md text-sm text-on-surface">USA</span>
+</div>
+</div>
+<div class="bg-surface-container-highest p-2 rounded-lg border border-outline-variant/50 flex items-center justify-between group hover:border-outline-variant transition-colors">
+<div class="flex items-center gap-2 w-1/3">
+<span class="font-label-md text-sm text-on-surface">JPN</span>
+</div>
+<div class="flex items-center gap-1 w-1/3 justify-center">
+<input class="w-8 h-8 p-0 text-center bg-surface-container text-on-surface font-score-display text-score-display border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary" max="15" min="0" placeholder="-" type="number"/>
+<span class="text-on-surface-variant text-xs">-</span>
+<input class="w-8 h-8 p-0 text-center bg-surface-container text-on-surface font-score-display text-score-display border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary" max="15" min="0" placeholder="-" type="number"/>
+</div>
+<div class="flex items-center justify-end gap-2 w-1/3">
+<span class="font-label-md text-sm text-on-surface">SEN</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- JSON Component: BottomNavBar (Mobile Only) -->
+<nav class="bg-surface-dim/80 dark:bg-surface-dim/80 docked full-width bottom-0 z-50 rounded-t-xl border-t border-outline-variant backdrop-blur-xl shadow-lg fixed bottom-0 w-full flex justify-around items-center px-4 py-2 lg:hidden">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full p-2 scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-label-md text-[10px]">Groups</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-secondary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_tree</span>
+<span class="font-label-md text-[10px]">Knockout</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-secondary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">military_tech</span>
+<span class="font-label-md text-[10px]">Best 3rds</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-secondary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">workspace_premium</span>
+<span class="font-label-md text-[10px]">Champion</span>
+</a>
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">save</span>
+<span class="font-label-md text-[10px]">Save</span>
+</button>
+</nav>
+</body></html>

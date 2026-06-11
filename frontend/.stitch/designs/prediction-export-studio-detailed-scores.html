@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CupStudio | Prediction Export Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#d1bcff",
+                    "on-secondary": "#3c0090",
+                    "outline-variant": "#3b494b",
+                    "surface-tint": "#00dbe9",
+                    "primary-fixed": "#7df4ff",
+                    "outline": "#849495",
+                    "secondary-container": "#7000ff",
+                    "surface-container-high": "#2a2a2b",
+                    "inverse-on-surface": "#313031",
+                    "on-error-container": "#ffdad6",
+                    "on-primary-container": "#006970",
+                    "error-container": "#93000a",
+                    "primary-fixed-dim": "#00dbe9",
+                    "error": "#ffb4ab",
+                    "background": "#131314",
+                    "tertiary-fixed-dim": "#ffb1c3",
+                    "tertiary-fixed": "#ffd9e0",
+                    "secondary-fixed": "#e9ddff",
+                    "on-secondary-fixed": "#23005b",
+                    "on-tertiary-fixed-variant": "#8f0041",
+                    "on-surface": "#e5e2e3",
+                    "on-secondary-container": "#ddcdff",
+                    "surface-bright": "#3a393a",
+                    "primary-container": "#00f0ff",
+                    "surface-container-low": "#1c1b1c",
+                    "inverse-primary": "#006970",
+                    "on-primary-fixed": "#002022",
+                    "on-error": "#690005",
+                    "on-surface-variant": "#b9cacb",
+                    "tertiary": "#fff3f4",
+                    "on-primary": "#00363a",
+                    "inverse-surface": "#e5e2e3",
+                    "primary": "#dbfcff",
+                    "surface-container-lowest": "#0e0e0f",
+                    "on-tertiary": "#66002c",
+                    "on-tertiary-fixed": "#3f0019",
+                    "surface-container-highest": "#353436",
+                    "surface-dim": "#131314",
+                    "on-tertiary-container": "#bb0058",
+                    "surface-variant": "#353436",
+                    "secondary": "#d1bcff",
+                    "surface-container": "#201f20",
+                    "surface": "#131314",
+                    "on-secondary-fixed-variant": "#5700c9",
+                    "on-primary-fixed-variant": "#004f54",
+                    "tertiary-container": "#ffccd6",
+                    "on-background": "#e5e2e3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "margin-desktop": "64px",
+                    "unit": "8px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "display-lg-mobile": ["Sora"],
+                    "label-md": ["Hanken Grotesk"],
+                    "headline-md": ["Sora"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "display-lg": ["Sora"],
+                    "body-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #131314;
+            color: #e5e2e3;
+            overflow-x: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .prediction-grid-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+        .prediction-grid-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateY(-2px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131314;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b494b;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-outline-variant/30">
+<div class="flex justify-between items-center px-6 md:px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<div class="font-display-lg-mobile text-display-lg-mobile font-bold text-primary tracking-tighter">CupStudio</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95" href="#">Home</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95" href="#">Bracket</a>
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1 transition-colors duration-200 active:scale-95" href="#">Studio</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95" href="#">Social</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">account_circle</button>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-bold active:scale-95 transition-transform">Export</button>
+</div>
+</div>
+</nav>
+<!-- Sidebar & Workspace Wrapper -->
+<div class="flex pt-20 h-screen">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col p-6 gap-6 fixed left-0 top-0 h-full pt-24 w-80 bg-surface-container-low border-r border-outline-variant/20 z-40 overflow-y-auto">
+<div class="mb-4">
+<h2 class="font-headline-md text-headline-md text-primary">Studio Tools</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Customize your card</p>
+</div>
+<nav class="flex flex-col gap-2">
+<button class="flex items-center gap-4 p-4 bg-secondary-container text-on-secondary-container rounded-xl font-bold transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Layout</span>
+</button>
+<button class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-bright rounded-xl transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Teams</span>
+</button>
+<button class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-bright rounded-xl transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">palette</span>
+<span class="font-label-md text-label-md">Colors</span>
+</button>
+<button class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-bright rounded-xl transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">font_download</span>
+<span class="font-label-md text-label-md">Typography</span>
+</button>
+<button class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-bright rounded-xl transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">share</span>
+<span class="font-label-md text-label-md">Sharing</span>
+</button>
+</nav>
+<div class="mt-8 space-y-6">
+<div class="space-y-4">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Card Settings</label>
+<div class="space-y-3">
+<div>
+<span class="text-xs text-on-surface-variant mb-1 block">Title</span>
+<input class="w-full bg-surface-container-high border-none rounded-xl text-on-surface px-4 py-2 focus:ring-2 focus:ring-primary" type="text" value="My World Cup Picks"/>
+</div>
+<div>
+<span class="text-xs text-on-surface-variant mb-1 block">Visual Theme</span>
+<select class="w-full bg-surface-container-high border-none rounded-xl text-on-surface px-4 py-2 focus:ring-2 focus:ring-primary">
+<option>Cyber Neon</option>
+<option>Glass Arctic</option>
+<option>Deep Midnight</option>
+</select>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Emphasis</label>
+<div class="flex bg-surface-container-high p-1 rounded-full">
+<button class="flex-1 py-2 px-4 rounded-full bg-primary-container text-on-primary-container text-xs font-bold transition-all">Winner</button>
+<button class="flex-1 py-2 px-4 rounded-full text-on-surface-variant text-xs font-medium hover:text-on-surface transition-all">Full Journey</button>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-6">
+<button class="w-full bg-primary text-on-primary font-bold py-4 rounded-xl shadow-lg shadow-primary/20 active:scale-95 transition-all">Generate Preview</button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-80 bg-background min-h-screen overflow-y-auto p-6 md:p-12">
+<div class="max-w-4xl mx-auto flex flex-col gap-8">
+<!-- Action Header -->
+<div class="flex justify-between items-center">
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">Preview Canvas</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Rendering high-resolution social graphic</p>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-6 py-3 rounded-full border border-primary/20 text-primary hover:bg-primary/10 transition-all active:scale-95">
+<span class="material-symbols-outlined">refresh</span>
+<span class="font-label-md text-label-md">Refresh Preview</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-on-primary font-bold shadow-xl shadow-primary/10 hover:shadow-primary/30 transition-all active:scale-95">
+<span class="material-symbols-outlined">download</span>
+<span class="font-label-md text-label-md">Download PNG</span>
+</button>
+</div>
+</div>
+<!-- THE EXPORT CARD (Large Premium Component) -->
+<div class="relative group">
+<!-- Decorative back glows -->
+<div class="absolute -top-12 -left-12 w-64 h-64 bg-primary/20 blur-[100px] rounded-full"></div>
+<div class="absolute -bottom-12 -right-12 w-64 h-64 bg-secondary-container/20 blur-[100px] rounded-full"></div>
+<div class="glass-card rounded-xl p-10 relative overflow-hidden flex flex-col gap-10">
+<!-- Card Header -->
+<div class="flex justify-between items-start">
+<div class="space-y-2">
+<span class="bg-primary/20 text-primary-container px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase">Official Prediction</span>
+<h3 class="font-display-lg text-display-lg text-primary leading-tight">CHAMPIONS<br/>JOURNEY 2024</h3>
+</div>
+<div class="text-right">
+<p class="text-on-surface-variant font-label-md">Created by</p>
+<p class="font-headline-md text-on-surface">@AlexDesigner</p>
+</div>
+</div>
+<!-- Prediction Grid - Group Stage Scores -->
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="h-px flex-1 bg-outline-variant/30"></div>
+<h4 class="font-label-md text-label-md text-primary uppercase tracking-widest">Group Stage Predictions</h4>
+<div class="h-px flex-1 bg-outline-variant/30"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Group A -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between text-xs font-bold text-on-surface-variant px-2">
+<span>GROUP A</span>
+<span class="text-primary-container">MATCHDAY 1-3</span>
+</div>
+<div class="space-y-1">
+<div class="prediction-grid-item p-3 rounded-xl flex justify-between items-center">
+<span class="text-sm font-semibold">USA <span class="text-on-surface-variant ml-1">v</span> ENG</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg font-bold text-primary">2 - 1</span>
+</div>
+<div class="prediction-grid-item p-3 rounded-xl flex justify-between items-center opacity-80">
+<span class="text-sm font-semibold">IRN <span class="text-on-surface-variant ml-1">v</span> WAL</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg font-bold text-on-surface">0 - 0</span>
+</div>
+</div>
+</div>
+<!-- Group B -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between text-xs font-bold text-on-surface-variant px-2">
+<span>GROUP B</span>
+<span class="text-primary-container">MATCHDAY 1-3</span>
+</div>
+<div class="space-y-1">
+<div class="prediction-grid-item p-3 rounded-xl flex justify-between items-center">
+<span class="text-sm font-semibold">ARG <span class="text-on-surface-variant ml-1">v</span> MEX</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg font-bold text-primary">3 - 0</span>
+</div>
+<div class="prediction-grid-item p-3 rounded-xl flex justify-between items-center opacity-80">
+<span class="text-sm font-semibold">POL <span class="text-on-surface-variant ml-1">v</span> KSA</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg font-bold text-on-surface">1 - 1</span>
+</div>
+</div>
+</div>
+<!-- Group C -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between text-xs font-bold text-on-surface-variant px-2">
+<span>GROUP C</span>
+<span class="text-primary-container">MATCHDAY 1-3</span>
+</div>
+<div class="space-y-1">
+<div class="prediction-grid-item p-3 rounded-xl flex justify-between items-center">
+<span class="text-sm font-semibold">FRA <span class="text-on-surface-variant ml-1">v</span> DEN</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg font-bold text-primary">2 - 0</span>
+</div>
+<div class="prediction-grid-item p-3 rounded-xl flex justify-between items-center opacity-80">
+<span class="text-sm font-semibold">AUS <span class="text-on-surface-variant ml-1">v</span> TUN</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg font-bold text-on-surface">1 - 2</span>
+</div>
+</div>
+</div>
+<!-- Group D -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between text-xs font-bold text-on-surface-variant px-2">
+<span>GROUP D</span>
+<span class="text-primary-container">MATCHDAY 1-3</span>
+</div>
+<div class="space-y-1">
+<div class="prediction-grid-item p-3 rounded-xl flex justify-between items-center">
+<span class="text-sm font-semibold">ESP <span class="text-on-surface-variant ml-1">v</span> GER</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg font-bold text-primary">2 - 2</span>
+</div>
+<div class="prediction-grid-item p-3 rounded-xl flex justify-between items-center opacity-80">
+<span class="text-sm font-semibold">JPN <span class="text-on-surface-variant ml-1">v</span> CRC</span>
+<span class="bg-surface-container-highest px-3 py-1 rounded-lg font-bold text-on-surface">1 - 0</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer / Social Handles -->
+<div class="flex justify-between items-end border-t border-outline-variant/30 pt-8">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/50">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt_QzlBphzFbusat8WcngkX81FZolH3lH-hO5AkF1LPa-KD51axgDJZOfYkNT1IAaq6xSHEu2Ew5cjm0mK54YNumefC2wNKewtEi07uwbpqFZJGS0SV3N1RHeecbu3EIcZfnI9I7GZ34VpYw5O0c_w_0Dq7hDAsP2-bDOcuD1DZ07sPxNQVN4rmwToyoT2w4Ly12s00jXyAbdtuNeIGxihvDbbYc87x5HVnDl-iXkgd2smVujIXlQDlpp-QqUWyVscFzJuFwn4UQYX"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">Alex Thompson</p>
+<p class="text-xs text-on-surface-variant">Global Rank: #420</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">qr_code_2</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Join CupStudio</span>
+</div>
+</div>
+</div>
+<!-- Gloss Overlay Effect -->
+<div class="absolute inset-0 pointer-events-none bg-gradient-to-tr from-white/5 to-transparent"></div>
+</div>
+</div>
+<!-- Additional Mobile Layout/Teams preview - Bottom -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface-container rounded-lg p-6 flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">info</span>
+<h5 class="font-bold">Social Ready</h5>
+</div>
+<p class="text-sm text-on-surface-variant">This layout is optimized for Instagram Stories and Twitter feeds. All predictions are rendered in a 9:16 compatible container for easy sharing.</p>
+</div>
+<div class="bg-surface-container rounded-lg p-6 flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">verified</span>
+<h5 class="font-bold">Score Authenticity</h5>
+</div>
+<p class="text-sm text-on-surface-variant">Scores are locked once exported to the PNG format. Your prediction timestamp is embedded in the card metadata for leaderboard verification.</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Micro-interaction Scripts -->
+<script>
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function() {
+                const ripple = document.createElement('div');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+</body></html>

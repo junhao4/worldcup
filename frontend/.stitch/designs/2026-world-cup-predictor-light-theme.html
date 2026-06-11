@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FIFA Predictions - 2026 World Cup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f8f9ff",
+                        "primary": "#006c49",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-primary-fixed": "#002113",
+                        "tertiary-fixed-dim": "#c0c1ff",
+                        "outline": "#6c7a71",
+                        "surface-dim": "#cbdbf5",
+                        "on-background": "#0b1c30",
+                        "primary-fixed-dim": "#4edea3",
+                        "on-tertiary-fixed-variant": "#2f2ebe",
+                        "on-primary-container": "#00422b",
+                        "on-surface": "#0b1c30",
+                        "outline-variant": "#bbcabf",
+                        "background": "#f8f9ff",
+                        "tertiary-fixed": "#e1e0ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed": "#6ffbbe",
+                        "secondary-fixed": "#dae2fd",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#e5eeff",
+                        "inverse-surface": "#213145",
+                        "secondary": "#565e74",
+                        "tertiary": "#494bd6",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-container": "#1d17b2",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "primary-container": "#10b981",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#005236",
+                        "on-surface-variant": "#3c4a42",
+                        "on-secondary-container": "#5c647a",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-variant": "#d3e4fe",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#006c49",
+                        "secondary-container": "#dae2fd",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#07006c",
+                        "inverse-primary": "#4edea3",
+                        "tertiary-container": "#9699ff",
+                        "surface": "#f8f9ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "label-lg": ["Archivo Narrow"],
+                        "display": ["Archivo Narrow"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Archivo Narrow"],
+                        "headline-lg-mobile": ["Archivo Narrow"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Archivo Narrow"],
+                        "label-sm": ["Archivo Narrow"]
+                    },
+                    "fontSize": {
+                        "label-lg": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #F8FAFC;
+        }
+        .custom-shadow {
+            box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.05);
+        }
+        .custom-border {
+            border: 1px solid #E2E8F0;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopNavBar -->
+<header class="w-full top-0 sticky z-50 bg-surface-bright border-b border-outline-variant shadow-sm">
+<div class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-8">
+<h1 class="font-display text-headline-md font-bold text-primary">FIFA Predictions</h1>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-lg text-label-lg" href="#">Bracket</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-lg text-label-lg" href="#">Groups</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-lg text-label-lg" href="#">Standings</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-lg text-label-lg" href="#">My Picks</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-4 py-2 text-on-surface font-medium font-label-lg text-label-lg cursor-pointer active:opacity-80">Save</button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded font-bold font-label-lg text-label-lg cursor-pointer active:opacity-80 shadow-md">Export</button>
+</div>
+</div>
+</header>
+<div class="flex max-w-container-max mx-auto">
+<!-- SideNavBar -->
+<aside class="h-[calc(100vh-80px)] w-64 sticky top-20 border-r border-outline-variant bg-surface-container-lowest hidden md:flex flex-col p-gutter overflow-y-auto">
+<div class="mb-8">
+<h2 class="font-headline-md text-headline-md text-on-surface">Tournament Stages</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Track your progress</p>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer bg-primary-container text-on-primary-container font-bold rounded-lg transition-all duration-150">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-label-lg text-label-lg">Group Stage</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all duration-150">
+<span class="material-symbols-outlined" data-icon="filter_2">filter_2</span>
+<span class="font-label-lg text-label-lg">Round of 16</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all duration-150">
+<span class="material-symbols-outlined" data-icon="filter_4">filter_4</span>
+<span class="font-label-lg text-label-lg">Quarter-Finals</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all duration-150">
+<span class="material-symbols-outlined" data-icon="filter_6">filter_6</span>
+<span class="font-label-lg text-label-lg">Semi-Finals</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-all duration-150">
+<span class="material-symbols-outlined" data-icon="emoji_events">emoji_events</span>
+<span class="font-label-lg text-label-lg">Final</span>
+</div>
+</nav>
+<div class="mt-8 p-4 bg-surface-container rounded-xl">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-2">Get Advanced Stats</p>
+<button class="w-full py-2 bg-primary text-white rounded font-bold font-label-lg text-label-lg hover:brightness-110 transition-all">Upgrade to Pro</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-margin-desktop bg-surface-bright min-h-screen">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h2 class="font-display text-display text-on-background mb-2">Group Stage Predictions</h2>
+<p class="text-on-surface-variant font-body-md text-body-md max-w-xl">Predict the outcome of all group matches. The top two from each group plus the four best third-place teams advance.</p>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="w-48 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-1/3 h-full bg-primary-container"></div>
+</div>
+<span class="font-label-lg text-label-lg text-primary">16/48 Matches Predicted</span>
+</div>
+</div>
+<!-- Bento Grid Content -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Best 3rds Tracker (Small Bento Card) -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<div class="bg-surface-container-lowest custom-border custom-shadow rounded-xl p-6">
+<div class="flex justify-between items-center mb-6 border-b border-surface-container-high pb-4">
+<h3 class="font-headline-md text-headline-md text-on-surface">Best 3rds Tracker</h3>
+<span class="material-symbols-outlined text-primary" data-icon="analytics">analytics</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-primary/5 border border-primary/10 rounded-lg">
+<div class="flex items-center gap-3">
+<span class="font-label-lg text-label-lg text-on-surface">1. USA</span>
+</div>
+<span class="font-bold text-primary">4 pts</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-primary/5 border border-primary/10 rounded-lg">
+<div class="flex items-center gap-3">
+<span class="font-label-lg text-label-lg text-on-surface">2. POL</span>
+</div>
+<span class="font-bold text-primary">4 pts</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-primary/5 border border-primary/10 rounded-lg">
+<div class="flex items-center gap-3">
+<span class="font-label-lg text-label-lg text-on-surface">3. SEN</span>
+</div>
+<span class="font-bold text-primary">3 pts</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-primary/5 border border-primary/10 rounded-lg">
+<div class="flex items-center gap-3">
+<span class="font-label-lg text-label-lg text-on-surface">4. JPN</span>
+</div>
+<span class="font-bold text-primary">3 pts</span>
+</div>
+<div class="flex items-center justify-between p-3 opacity-50 bg-surface-container-high rounded-lg">
+<div class="flex items-center gap-3">
+<span class="font-label-lg text-label-lg text-on-surface">5. SUI</span>
+</div>
+<span class="font-bold">1 pt</span>
+</div>
+</div>
+</div>
+<div class="bg-primary text-white rounded-xl p-6 relative overflow-hidden custom-shadow">
+<div class="relative z-10">
+<h4 class="font-headline-md text-headline-md mb-2">Live Probabilities</h4>
+<p class="text-white/80 font-body-md mb-4">Based on your current picks, Brazil has a 24% chance of winning.</p>
+<button class="px-4 py-2 bg-white text-primary rounded font-bold font-label-lg">View Detailed Odds</button>
+</div>
+<div class="absolute -right-10 -bottom-10 opacity-20 transform rotate-12">
+<span class="material-symbols-outlined text-[120px]" data-icon="sports_soccer">sports_soccer</span>
+</div>
+</div>
+</div>
+<!-- Group A Table (Large Bento Card) -->
+<div class="lg:col-span-8 bg-surface-container-lowest custom-border custom-shadow rounded-xl overflow-hidden flex flex-col">
+<div class="p-6 border-b border-surface-container-high flex justify-between items-center">
+<div>
+<span class="font-label-lg text-label-lg text-primary uppercase tracking-widest mb-1 block">Pool A</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface">Group A Standings</h3>
+</div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+</button>
+<button class="p-2 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</div>
+</div>
+<div class="flex-grow overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Pos</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Team</th>
+<th class="px-4 py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-center">P</th>
+<th class="px-4 py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-center">W</th>
+<th class="px-4 py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-center">D</th>
+<th class="px-4 py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-center">L</th>
+<th class="px-4 py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-center">GD</th>
+<th class="px-6 py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-center">Pts</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5">
+<span class="flex items-center justify-center w-8 h-8 bg-primary/10 text-primary font-bold rounded-full">1</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-8 rounded shadow-sm border border-outline-variant overflow-hidden">
+<img alt="Canada Flag" class="w-full h-full object-cover" data-alt="A detailed, vibrant shot of the Canadian national flag fluttering slightly. The red and white colors are crisp and bold under bright stadium lighting. The fabric texture is visible, suggesting a high-quality material used for official sports events. The background is a clean, neutral white to emphasize the flag's presence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDV5KQGGQaGh-xdN7idrPnNKIBq9dMX6uk53UfseHLhFRGdTTlmGZzfNE2AUmTm_Ins6V8hWaRZ0QyHekBBXX9od66weDMnllKFPwTA2HPkBlexNyUd2ghQSwj5NZi62pEjznQ2aS3FVSTimeudsk9CiMmU4LkkZaoQg2Zg33Z7X5SLZnVijhrV20Toz7ynPhYgYmDEfU8Ta_FoQmmnY20kxC_xSSWLLAZurfYLYpG1he7kAMJPVJdb6yPV-DrIcbb52rx2KvMws30q"/>
+</div>
+<span class="font-bold text-on-surface">Canada</span>
+</div>
+</td>
+<td class="px-4 py-5 text-center">3</td>
+<td class="px-4 py-5 text-center">2</td>
+<td class="px-4 py-5 text-center">1</td>
+<td class="px-4 py-5 text-center">0</td>
+<td class="px-4 py-5 text-center">+4</td>
+<td class="px-6 py-5 text-center font-bold text-primary">7</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-6 py-5">
+<span class="flex items-center justify-center w-8 h-8 bg-primary/10 text-primary font-bold rounded-full">2</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-8 rounded shadow-sm border border-outline-variant overflow-hidden">
+<img alt="Mexico Flag" class="w-full h-full object-cover" data-alt="A professional close-up of the Mexican national flag, showcasing the green, white, and red vertical stripes and the central coat of arms. The lighting is balanced and clean, typical of an official FIFA event backdrop. The colors are highly saturated and the image is sharp, focusing on the details of the eagle and serpent symbol. The mood is patriotic and proud." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTpbdXjysUFbbUFe-6vFfzha2Te1UDDbgT5T1njcXPDIWVcyDtPDqVfzRQzXh6OJkgltz1DeMpuoZqjL-fYdL-gk4vvWqCBb8eWKvRJsLDIJlNd7LSOhmtWhtFkEoRYab2cnOrFLmnICeUVV9BtG8GI7jU81ndASdARPVWmiyKOxTu-eup-HxGyIGml12FcJhGTgcwl03hEtcCfncA0-vcPSrISEVBIG3tyrzkTMOj9eXOhIUacjlXI5u3Qc7FCu7M_MOvFjgvEqAL"/>
+</div>
+<span class="font-bold text-on-surface">Mexico</span>
+</div>
+</td>
+<td class="px-4 py-5 text-center">3</td>
+<td class="px-4 py-5 text-center">1</td>
+<td class="px-4 py-5 text-center">2</td>
+<td class="px-4 py-5 text-center">0</td>
+<td class="px-4 py-5 text-center">+2</td>
+<td class="px-6 py-5 text-center font-bold text-primary">5</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors opacity-75">
+<td class="px-6 py-5">
+<span class="flex items-center justify-center w-8 h-8 bg-surface-container-highest text-on-surface-variant font-bold rounded-full">3</span>
+</td>
+<td class="px-6 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-8 rounded shadow-sm border border-outline-variant overflow-hidden">
+<img alt="USA Flag" class="w-full h-full object-cover" data-alt="The United States national flag presented in a sleek, modern architectural setting. The stars and stripes are rendered with high fidelity, catching soft directional light that creates subtle highlights on the ripples of the fabric. The overall scene is clean and corporate, utilizing a bright white light-mode palette that reflects the premium feel of a global sports dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0IEAOcd7bLh-nzMMT4pYHq9mOjtlmJQ-zc1Ww524dCc2ks3ZRwE44peAmtyce-E3OCYLtwA8DZeHGfgVMm9Ij4JHKSXIOgsQX8UUizWXi7lRjH6Cpw8gnpUUpHUdT7u_B1n5kNDQtTPvW9Q3ytDc7ks3UtDvRT6XwQBU5Ym3dhm51y84g0GjcDeQ7I3f1MKnWei_taZVgC1-RlFjcs_dSXwjDf2CfyTNVz4dkzI5xvuf-35LvcgNFLBfBUXpzZDG1WLxX4B6vQuRC"/>
+</div>
+<span class="font-medium text-on-surface">USA</span>
+</div>
+</td>
+<td class="px-4 py-5 text-center">3</td>
+<td class="px-4 py-5 text-center">1</td>
+<td class="px-4 py-5 text-center">1</td>
+<td class="px-4 py-5 text-center">1</td>
+<td class="px-4 py-5 text-center">0</td>
+<td class="px-6 py-5 text-center font-bold">4</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors opacity-60">
+<td class="px-6 py-5">
+<span class="flex items-center justify-center w-8 h-8 bg-surface-container-highest text-on-surface-variant font-bold rounded-full">4</span>
+</td>
+<td class="px-4 py-5 px-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-8 rounded shadow-sm border border-outline-variant overflow-hidden">
+<img alt="Ghana Flag" class="w-full h-full object-cover" data-alt="A crisp, high-resolution rendering of the Ghana national flag. The red, yellow, and green stripes are vivid, and the black star is perfectly centered and sharp. The lighting is bright and even, highlighting the clean lines and professional aesthetic of the design. The environment is minimalist, placing all emphasis on the symbolic importance of the flag in a global football context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZvPR0M3rvTzI7cqaVJIT_oKTcPiltPNGLYbYjlMmp1CaKoK23LG0bK4IhHcajXKFCbeCJ8UIPOFwckEcMn2OD6DGEPCPPD28VsXMTt84Tvanq-QYZUVTm1N7IfQ5kGdu1sWvN37etsUtZzb1A5LqkUMXjueeI2_Hes3ANOGo3MqrAc0AiOYONG0wSnTRjN6HFUbvlCI8OJkUG6OHbst83OoYFyEDXPYH_Avy1juc1M107gU3gTEUFEOROlJC93VquS4J0fLieSHKT"/>
+</div>
+<span class="font-medium text-on-surface">Ghana</span>
+</div>
+</td>
+<td class="px-4 py-5 text-center">3</td>
+<td class="px-4 py-5 text-center">0</td>
+<td class="px-4 py-5 text-center">0</td>
+<td class="px-4 py-5 text-center">3</td>
+<td class="px-4 py-5 text-center">-6</td>
+<td class="px-6 py-5 text-center font-bold">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-6 bg-surface-container-low flex justify-end">
+<button class="flex items-center gap-2 text-primary font-bold font-label-lg py-2 px-4 hover:bg-primary/5 rounded-lg transition-all">
+                            Review Match Results
+                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Group B Preview Card -->
+<div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+<div class="bg-surface-container-lowest custom-border custom-shadow rounded-xl p-6 group cursor-pointer hover:border-primary transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-lg text-label-lg text-primary">GROUP B</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="launch">launch</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="font-bold">FRA</span>
+<span class="text-primary font-bold">9 pts</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-bold">ENG</span>
+<span class="text-primary font-bold">6 pts</span>
+</div>
+<div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="w-full h-full bg-primary-container"></div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">4/6 Matches Predicted</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest custom-border custom-shadow rounded-xl p-6 group cursor-pointer hover:border-primary transition-all border-dashed border-2">
+<div class="flex flex-col items-center justify-center h-full text-on-surface-variant gap-2 py-4">
+<span class="material-symbols-outlined text-4xl" data-icon="add_circle">add_circle</span>
+<span class="font-bold font-label-lg">Predict Group C</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest custom-border custom-shadow rounded-xl p-6 group cursor-pointer hover:border-primary transition-all border-dashed border-2">
+<div class="flex flex-col items-center justify-center h-full text-on-surface-variant gap-2 py-4">
+<span class="material-symbols-outlined text-4xl" data-icon="add_circle">add_circle</span>
+<span class="font-bold font-label-lg">Predict Group D</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest custom-border custom-shadow rounded-xl p-6 group cursor-pointer hover:border-primary transition-all border-dashed border-2">
+<div class="flex flex-col items-center justify-center h-full text-on-surface-variant gap-2 py-4">
+<span class="material-symbols-outlined text-4xl" data-icon="add_circle">add_circle</span>
+<span class="font-bold font-label-lg">Predict Group E</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button (FAB) - Contextual for Main Dashboard -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-[60]">
+<span class="material-symbols-outlined text-3xl" data-icon="auto_awesome">auto_awesome</span>
+</button>
+<script>
+        // Simple micro-interactions for the cards
+        document.querySelectorAll('.custom-shadow').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+                card.style.transition = 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Search bar animation logic if needed
+        // Navigation active state handled via static classes as per instruction hierarchy
+    </script>
+</body></html>

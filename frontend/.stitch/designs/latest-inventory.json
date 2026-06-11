@@ -1,0 +1,42 @@
+{
+  "projectId": "14988967190173135424",
+  "note": "Newest design cluster selected by user; older downloaded Stitch experiments remain on disk but are excluded from component extraction.",
+  "screens": [
+    {
+      "id": "5cb0d6a74ae646518b6f94bf79710b01",
+      "title": "Group Stage Predictions - Modern Light",
+      "slug": "group-stage-predictions-modern-light",
+      "files": {
+        "html": "group-stage-predictions-modern-light.html",
+        "screenshot": "group-stage-predictions-modern-light.png"
+      }
+    },
+    {
+      "id": "0b46ed5744304035b483114678e1703a",
+      "title": "2026 World Cup - Knockout Bracket",
+      "slug": "2026-world-cup-knockout-bracket",
+      "files": {
+        "html": "2026-world-cup-knockout-bracket.html",
+        "screenshot": "2026-world-cup-knockout-bracket.png"
+      }
+    },
+    {
+      "id": "70ac152daa8643b39d694179ff2e9972",
+      "title": "Prediction Export Studio - Final Preview",
+      "slug": "prediction-export-studio-final-preview",
+      "files": {
+        "html": "prediction-export-studio-final-preview.html",
+        "screenshot": "prediction-export-studio-final-preview.png"
+      }
+    },
+    {
+      "id": "dedfcf73370f4ba1aa537361f5e46a23",
+      "title": "Prediction Card Personalization",
+      "slug": "prediction-card-personalization",
+      "files": {
+        "html": "prediction-card-personalization.html",
+        "screenshot": "prediction-card-personalization.png"
+      }
+    }
+  ]
+}

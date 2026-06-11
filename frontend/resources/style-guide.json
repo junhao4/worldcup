@@ -1,0 +1,38 @@
+{
+  "source": {
+    "stitchProjectId": "14988967190173135424",
+    "scope": "newest four-screen design cluster only",
+    "screens": [
+      "group-stage-predictions-modern-light",
+      "2026-world-cup-knockout-bracket",
+      "prediction-export-studio-final-preview",
+      "prediction-card-personalization"
+    ]
+  },
+  "tokens": {
+    "colorRoles": {
+      "page": "soft cool gray",
+      "card": "white",
+      "primary": "deep football green",
+      "primarySoft": "mint green",
+      "primaryBright": "neon mint",
+      "accent": "trophy gold",
+      "danger": "score correction red"
+    },
+    "radii": {
+      "large": "8px",
+      "panel": "24px",
+      "pill": "999px"
+    },
+    "typography": {
+      "body": "clean sans-serif",
+      "display": "compressed bold sans-serif"
+    },
+    "shadow": "soft lifted card shadow"
+  },
+  "commonComponents": {
+    "atoms": ["FlagBadge", "ScoreBox", "ThemeSwatch"],
+    "molecules": ["TopNav", "SidebarNav", "ProgressSummary", "MatchScoreCard", "BracketMatchCard", "InfoTile"],
+    "organisms": ["AppShell", "StandingsTable", "ExportPreviewCard", "SettingsPanel"]
+  }
+}

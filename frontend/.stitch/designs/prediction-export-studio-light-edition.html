@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Archivo Narrow', sans-serif;
+            background-color: #f7faf8;
+            overflow-x: hidden;
+        }
+        /* Custom Ambient Glow for Level 2 */
+        .ambient-glow {
+            box-shadow: 0px 12px 32px rgba(0,0,0,0.05);
+        }
+        /* Hide scrollbar for cleaner look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#3c4a3d",
+                        "outline": "#6c7b6c",
+                        "surface-container-low": "#f1f4f2",
+                        "on-secondary-fixed-variant": "#454749",
+                        "background": "#f7faf8",
+                        "surface-dim": "#d7dbd9",
+                        "surface-container-high": "#e6e9e7",
+                        "on-tertiary-fixed": "#360f00",
+                        "inverse-primary": "#29e373",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-surface": "#181c1b",
+                        "on-tertiary-container": "#783817",
+                        "surface-container-highest": "#e0e3e1",
+                        "on-secondary-fixed": "#1a1c1e",
+                        "on-background": "#181c1b",
+                        "on-secondary-container": "#636467",
+                        "secondary-container": "#e2e2e5",
+                        "tertiary-container": "#ffa47b",
+                        "tertiary": "#914b29",
+                        "outline-variant": "#bbcbb9",
+                        "primary-fixed": "#64ff92",
+                        "secondary": "#5d5e61",
+                        "on-primary-fixed-variant": "#005224",
+                        "on-primary-fixed": "#00210a",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#00d668",
+                        "primary-fixed-dim": "#29e373",
+                        "secondary-fixed": "#e2e2e5",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3130",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "surface-bright": "#f7faf8",
+                        "surface-tint": "#006d32",
+                        "surface-container": "#ebefed",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#c6c6c9",
+                        "primary": "#006d32",
+                        "surface-variant": "#e0e3e1",
+                        "on-tertiary-fixed-variant": "#743414",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#eef1ef",
+                        "surface": "#f7faf8",
+                        "on-primary-container": "#005626"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container_margin": "32px",
+                        "stack_md": "16px",
+                        "base_unit": "4px",
+                        "gutter": "24px",
+                        "stack_sm": "8px",
+                        "stack_lg": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Archivo Narrow"],
+                        "label-md": ["Archivo Narrow"],
+                        "body-md": ["Archivo Narrow"],
+                        "display-lg": ["Archivo Narrow"],
+                        "headline-lg-mobile": ["Archivo Narrow"],
+                        "headline-md": ["Archivo Narrow"],
+                        "headline-lg": ["Archivo Narrow"],
+                        "label-sm": ["Archivo Narrow"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface-container-lowest dark:bg-surface-dim flex justify-between items-center px-container_margin h-16 w-full fixed top-0 z-50 border-b border-outline-variant dark:border-outline flat no shadows">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed">
+            PredictStudio
+        </div>
+<nav class="hidden md:flex gap-stack_lg">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:scale-95 transition-transform" href="#">Home</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:scale-95 transition-transform" href="#">Bracket</a>
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1 cursor-pointer active:scale-95 transition-transform" href="#">Studio</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-secondary-fixed-variant hover:text-primary dark:hover:text-primary-fixed transition-colors cursor-pointer active:scale-95 transition-transform" href="#">Social</a>
+</nav>
+<div class="flex items-center gap-stack_md">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-surface-container-high rounded-full transition-all">notifications</span>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer p-2 hover:bg-surface-container-high rounded-full transition-all">settings</span>
+</div>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant cursor-pointer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhbLBXw0fAI9FTCU3inCiGho-blsAEafHENzufbOpLEkxtY10rSxQf7FElwIw_JuhKZJE54eqL-IT20gUgz-VpoU-cqIr3meFC_-T2jZvmgBZhxp9zwTv05FjJiYNtjj__3myA8hhBap6OdeAlZ-6EZlBoGALAmtWpMkXAqgU_Q1rlyrGWmKNn__1UaAPd8oqmbL__NW5DMHmVVZ6gJYDNBZf2ByQ426eSrLWYdarA2pZSxKUDfryjZrOqvGACTVR18wcG6u8JCZkc"/>
+</div>
+</header>
+<!-- Sidebar Tools -->
+<aside class="bg-surface-container-low dark:bg-surface-container flex flex-col p-stack_lg gap-stack_md fixed left-0 top-16 h-[calc(100vh-64px)] w-[280px] border-r border-outline-variant dark:border-outline flat no shadows z-40 hidden lg:flex">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">palette</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-primary leading-tight">Studio Tools</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Export Engine</p>
+</div>
+</div>
+<div class="flex flex-col gap-1 mt-4">
+<button class="flex items-center gap-3 p-3 bg-primary-container text-on-primary-container rounded-xl font-bold duration-200 ease-in-out">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md text-label-md">Layout</span>
+</button>
+<button class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high rounded-xl duration-200 ease-in-out">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-md text-label-md">Teams</span>
+</button>
+<button class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high rounded-xl duration-200 ease-in-out">
+<span class="material-symbols-outlined">palette</span>
+<span class="font-label-md text-label-md">Colors</span>
+</button>
+<button class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high rounded-xl duration-200 ease-in-out">
+<span class="material-symbols-outlined">title</span>
+<span class="font-label-md text-label-md">Typography</span>
+</button>
+<button class="flex items-center gap-3 p-3 text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high rounded-xl duration-200 ease-in-out">
+<span class="material-symbols-outlined">share</span>
+<span class="font-label-md text-label-md">Sharing</span>
+</button>
+</div>
+<div class="mt-auto">
+<button class="w-full bg-primary-container text-on-primary-container py-4 rounded-2xl font-bold hover:brightness-105 transition-all flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined">auto_awesome</span>
+                Export Prediction
+            </button>
+</div>
+</aside>
+<!-- Main Workspace -->
+<main class="ml-0 lg:ml-[280px] mr-0 xl:mr-[320px] pt-24 pb-12 px-gutter min-h-screen">
+<div class="max-w-4xl mx-auto">
+<!-- Preview Controls (Mobile Only) -->
+<div class="flex lg:hidden mb-stack_lg gap-stack_sm overflow-x-auto no-scrollbar">
+<button class="bg-primary-container px-4 py-2 rounded-full text-on-primary-container font-bold text-label-md whitespace-nowrap">Layout</button>
+<button class="bg-surface-container px-4 py-2 rounded-full text-on-surface-variant font-medium text-label-md whitespace-nowrap">Teams</button>
+<button class="bg-surface-container px-4 py-2 rounded-full text-on-surface-variant font-medium text-label-md whitespace-nowrap">Colors</button>
+</div>
+<!-- THE STUDIO CANVAS (PREVIEW CARD) -->
+<div class="bg-white rounded-[32px] border border-outline-variant ambient-glow overflow-hidden relative group">
+<!-- Card Header with Dynamic Pattern -->
+<div class="h-48 bg-gradient-to-br from-primary to-on-primary-container relative p-stack_lg flex flex-col justify-end">
+<div class="absolute top-0 right-0 p-8 opacity-20 transform translate-x-12 -translate-y-4">
+<span class="material-symbols-outlined !text-[120px]" style="font-variation-settings: 'FILL' 1;">trophy</span>
+</div>
+<div class="relative z-10">
+<span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-white font-bold text-label-sm uppercase tracking-widest mb-2 inline-block">Official Bracket</span>
+<h1 class="font-display-lg text-display-lg text-white uppercase italic">CHAMPIONS JOURNEY 2026</h1>
+</div>
+</div>
+<!-- Match Breakdown Section -->
+<div class="p-stack_lg grid grid-cols-1 md:grid-cols-2 gap-stack_lg">
+<div class="space-y-stack_md">
+<div class="flex items-center justify-between border-b border-outline-variant pb-stack_sm">
+<h3 class="font-headline-md text-primary">Match-by-Match</h3>
+<span class="font-label-sm text-on-surface-variant opacity-60">Phase: Final Rounds</span>
+</div>
+<!-- Match Rows -->
+<div class="space-y-stack_sm">
+<!-- USA v ENG -->
+<div class="flex items-center justify-between bg-surface-container-low p-stack_md rounded-[24px] border border-outline-variant/30">
+<div class="flex items-center gap-3">
+<img alt="USA Flag" class="rounded-sm shadow-sm" data-alt="A small, crisp representation of the United States flag, specifically formatted as a sports icon, with high-contrast colors and a subtle drop shadow. The aesthetic is clean and modern, consistent with a professional sports analytics application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHjmie85fVaHNvCb75KP-7ZVyVUOG6gg74SKsv4o6OzkpcenLZHK1WjbWMCwWNwzBHmAV5K7nYBcZTen7GZ0UdjKJbVbWHS2O9gKcDcm_6y8unJjCb08cw2awoFh6vdmC7uYsZ4lGjTnZG-eWpbl36NAPQ5znqxAn4JgegyD7DyknZSN-CV-sbDO6QgbSM6CtRRb20AtxqlmfS4IkI5jbuwU5QWAaU9gspVOcGzdQxyUESRZaTMU-XTCHhZ9_v9kvEbH8irsafT_Cn"/>
+<span class="font-bold text-on-surface">USA</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-primary text-2xl font-bold">2 - 1</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-bold text-on-surface">ENG</span>
+<img alt="England Flag" class="rounded-sm shadow-sm" data-alt="A small, professional icon of the England flag, featuring the classic red cross on a white background. The image is crisp and optimized for a light-themed digital interface, maintaining a consistent professional sports broadcast style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2yRuOWYqRpeOEtui5Ba-ENy0XjSn2PZeAw3GIIW8luWasLrOLx78fX_WwfEq_G8--y9zhFXkKcygbubVWzOSFvhm-A-SCjXnr55s1xdnCxgPkgAguo72T7Tv6swiy_deOMG2pb7h7iRb5yDRwEyosxUDgCEeluEmfCWkEJbOlJwE8S-o_m38nDrdlZpcNnvKTpYZz91RBnBCE-JAF6Wns2XVZfwa9VseQN9Gnzd7MmiucSt6jrV7RG2Koq4pFaqEk30QV-5vUEf8_"/>
+</div>
+</div>
+<!-- ARG v MEX -->
+<div class="flex items-center justify-between bg-surface-container-low p-stack_md rounded-[24px] border border-outline-variant/30">
+<div class="flex items-center gap-3">
+<img alt="Argentina Flag" class="rounded-sm shadow-sm" data-alt="A small, vivid representation of the Argentina national flag with its signature light blue and white stripes and central sun emblem. The flag icon is rendered with high clarity for a sports prediction user interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJNxJvAMIx2vT6P8_2AN4eLG1dxFc8IOD2-o8UdbdJYZzdVt_XSmLzu7TaNx-nAgJU22aclYTmsNvc6ROWBDRV8BBqdCycm3ud0yWf2m6aKIFcBvBOoxZz3mw1EiYw6siIgoEkSrbKs_7HnwZES4N77TMM2cDutBv9_VRV9hgJKQzyUs8T6hErZm-6akRekBYX5Syj-4OHF7qviHREojd2OI4ILjiEM70tcnBVwYrjisr6K1aQ2cGm3IXpbROC-QdoUvCFuafNGJ3G"/>
+<span class="font-bold text-on-surface">ARG</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-display-lg text-primary text-2xl font-bold">3 - 0</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-bold text-on-surface">MEX</span>
+<img alt="Mexico Flag" class="rounded-sm shadow-sm" data-alt="A crisp, professional icon of the Mexico national flag, displaying the green, white, and red vertical tricolor. The design is modern and clean, fitting perfectly into a high-end data visualization dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZLjS2tOG7D2PhsKgkpx4nbX9ZLBtTJjnAdSb22utMK6n_v9yp2PTEtmeLcvNbGUk3AF8ebal0TSFT2OkIBwRMpuXg3URdrPIlkROPFYN5pboaJospqlrkOKAdNNYh5tZhHSNMw_buONm0utDuWfmb4re_YVNj-p0i1S3S-EAW-VWrZx6rE5elGbLeZoOZxbPHWS4KeJclOKZc_D08Usk1I2nTJzws8R694JKP15lUvyI5wp9-iKGFfi2GdpC5BK0W88MTyMsa0Fob"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Predictions Sidebar (Inner) -->
+<div class="space-y-stack_md">
+<div class="flex items-center justify-between border-b border-outline-variant pb-stack_sm">
+<h3 class="font-headline-md text-primary">Key Picks</h3>
+<span class="material-symbols-outlined text-primary">verified</span>
+</div>
+<div class="grid grid-cols-1 gap-stack_md">
+<!-- Dark Horse -->
+<div class="bg-surface-container-highest p-stack_md rounded-[24px] flex items-center justify-between">
+<div class="flex items-center gap-stack_md">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center border border-outline-variant overflow-hidden">
+<img alt="Morocco" data-alt="A large, detailed flag icon for Morocco, set within a circular frame with a subtle white border. The lighting is soft and high-key, emphasizing the vibrant red and green colors in a professional studio setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAq90YX6T2JoK61N_jtNmE0nG8gq9t1Nanll1oj3KMQW6EYqSH2TDrI5eD2rcpBScTTkQV6o6jF-RFA5ktLp4V-Yn0uR3CZ8SEiYLlv0uzFpM-7cCsVc0jd5iuF-EAex7rL6Rk-4XabJlCoxrTWS9wUG5608UMKQ6yjMe1Uh8cuwncsFPP43RueHYPSBhK-48j0gOWJtdtTlog7u0DbHXVbkBu4fnKXeod9KkMWpTtYj3Q6t8OgHnu8GHjyYKsipcpiycn01VYaFI0"/>
+</div>
+<div>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-wider">Dark Horse</p>
+<p class="font-headline-sm font-bold text-on-surface">Morocco</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<!-- Golden Boot -->
+<div class="bg-tertiary-fixed p-stack_md rounded-[24px] flex items-center justify-between">
+<div class="flex items-center gap-stack_md">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center border border-outline-variant overflow-hidden">
+<img alt="Brazil" data-alt="A professional circular icon of the Brazilian flag, showcasing its vibrant yellow and green design. The icon is rendered with a clean, flat aesthetic suitable for a high-fidelity sports prediction app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwvyvHTxXaWgIbm3wuRjfPMjLzV0IA8SMis9mEmWRxxjDbuX0TU-efEskFFbVQkhQWIxZPAi7PCpYGWnhLyM4g8Ub8_ODovB4137DfN8vdpnIsxS9iv8eE4JQ29oyb9hQ6pAauxPHuT1qCKelO7ZrfQGVLNae3PABDj8TjPCUUA5_YLxA-nMu4_Aeaib-mG9JxvG2c9207nbE3pcqqTCox6pE-FCNgHZGBROHYrf-v7FgqMJbo3RDANsgj-72lecccQovdlZg6md7e"/>
+</div>
+<div>
+<p class="font-label-sm text-on-tertiary-fixed-variant uppercase tracking-wider">Golden Boot</p>
+<p class="font-headline-sm font-bold text-on-tertiary-fixed">V. Junior</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-tertiary-fixed" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+</div>
+</div>
+<!-- Trophy Prediction -->
+<div class="mt-4 bg-primary p-stack_lg rounded-[24px] text-white flex items-center justify-between overflow-hidden relative">
+<div class="relative z-10">
+<p class="font-label-sm opacity-80 uppercase tracking-widest">Final Winner</p>
+<p class="font-display-lg text-3xl">BRAZIL</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-30 transform rotate-12">
+<span class="material-symbols-outlined !text-7xl">military_tech</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / QR Placeholder -->
+<div class="bg-surface-container-low p-stack_md border-t border-outline-variant flex justify-between items-center px-stack_lg">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+<span class="font-label-sm text-on-surface-variant font-medium">PREDICTSTUDIO.AI / @USER_2026</span>
+</div>
+<div class="w-12 h-12 bg-white border border-outline-variant rounded-lg p-1">
+<img alt="Card QR Code" data-alt="A minimalist QR code graphic presented in a high-fidelity digital format. The code is crisp black on a white background, framed within a clean, rounded-corner container that matches the overall light-mode aesthetic of the application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB58jUW3oktAzIQOgQ5GVn_OnMT6VDLjL3pB4C-jndWdxJnYHkY3gr5cHlm7YyBhlcxLA439j0blRX3fZwg27OCRwbA07usGHcPpalSMpn-CTwWAlDY659WeI_1Cf7nli0oG-ceDRC85GJe2SMJrmDZ587V4y_wbuj5H1k61etYIKBx6Q8AP084z0EGqzq53rql-2h9cOic-Q4P8lF-KPg23Urz_GU_gszAmAxFgZq6OJvzb7Cm29VvuVusellCautk8iMB31Wmv-pd"/>
+</div>
+</div>
+</div>
+<!-- Action Buttons for Preview -->
+<div class="mt-stack_lg flex flex-wrap gap-stack_md justify-center">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:scale-105 transition-transform ambient-glow">
+<span class="material-symbols-outlined">download</span>
+                    Download High-Res
+                 </button>
+<button class="bg-white border border-outline-variant text-on-surface px-8 py-4 rounded-2xl font-bold flex items-center gap-2 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">share</span>
+                    Share to Social
+                 </button>
+</div>
+</div>
+</main>
+<!-- Studio Controls Sidebar (Right) -->
+<aside class="hidden xl:flex bg-white flex-col p-stack_lg gap-stack_lg fixed right-0 top-16 h-[calc(100vh-64px)] w-[320px] border-l border-outline-variant ambient-glow z-40">
+<div>
+<h3 class="font-headline-md text-on-surface mb-stack_md">Studio Controls</h3>
+<!-- Rounded Tabs -->
+<div class="bg-surface-container-low p-1 rounded-2xl flex mb-stack_lg">
+<button class="flex-1 py-2 bg-white rounded-xl shadow-sm font-bold text-label-md text-primary">Theme</button>
+<button class="flex-1 py-2 rounded-xl font-medium text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors">Data</button>
+<button class="flex-1 py-2 rounded-xl font-medium text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors">Focus</button>
+</div>
+<!-- Control Groups -->
+<div class="space-y-stack_lg">
+<!-- Visual Themes -->
+<section>
+<label class="font-label-sm text-on-surface-variant mb-2 block uppercase tracking-wider">Visual Themes</label>
+<div class="grid grid-cols-3 gap-2">
+<div class="aspect-square rounded-xl bg-primary border-4 border-primary-container cursor-pointer transition-all hover:scale-105"></div>
+<div class="aspect-square rounded-xl bg-secondary-container border-2 border-outline-variant cursor-pointer transition-all hover:scale-105"></div>
+<div class="aspect-square rounded-xl bg-tertiary-container border-2 border-outline-variant cursor-pointer transition-all hover:scale-105"></div>
+</div>
+</section>
+<!-- Export Settings -->
+<section class="space-y-stack_md">
+<label class="font-label-sm text-on-surface-variant block uppercase tracking-wider">Export Settings</label>
+<div class="space-y-stack_sm">
+<div class="flex items-center justify-between p-3 bg-surface-container-low rounded-xl">
+<span class="font-body-md">Show QR Code</span>
+<div class="w-10 h-5 bg-primary-container rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-surface-container-low rounded-xl">
+<span class="font-body-md">Large Team Flags</span>
+<div class="w-10 h-5 bg-primary-container rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Focus Mode -->
+<section>
+<button class="w-full py-4 border-2 border-dashed border-outline-variant rounded-2xl text-on-surface-variant font-bold hover:bg-surface-container-low transition-colors flex flex-col items-center gap-1">
+<span class="material-symbols-outlined">center_focus_strong</span>
+<span class="text-label-md">Enable Focus Mode</span>
+</button>
+</section>
+</div>
+</div>
+<div class="mt-auto space-y-stack_sm">
+<button class="w-full bg-on-surface text-white py-4 rounded-2xl font-bold hover:bg-black transition-all flex items-center justify-center gap-2 active:scale-95">
+<span class="material-symbols-outlined">download_for_offline</span>
+                Download Card
+            </button>
+<p class="text-center text-[10px] text-on-surface-variant opacity-50 px-gutter">Optimized for Instagram, X, and WhatsApp stories.</p>
+</div>
+</aside>
+<script>
+        // Micro-interactions and Tab Swapping Logic
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if(this.parentElement.classList.contains('bg-surface-container-low')) {
+                    this.parentElement.querySelectorAll('button').forEach(b => {
+                        b.classList.remove('bg-white', 'shadow-sm', 'text-primary', 'font-bold');
+                        b.classList.add('text-on-surface-variant', 'font-medium');
+                    });
+                    this.classList.add('bg-white', 'shadow-sm', 'text-primary', 'font-bold');
+                    this.classList.remove('text-on-surface-variant', 'font-medium');
+                }
+            });
+        });
+
+        // Simple parallax effect for the preview card on mouse move
+        const card = document.querySelector('.ambient-glow');
+        if(card) {
+            document.addEventListener('mousemove', (e) => {
+                const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+                const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            });
+            card.style.transition = 'transform 0.1s ease';
+        }
+    </script>
+</body></html>

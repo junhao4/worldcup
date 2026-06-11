@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>World Cup Predictor | Personalize Your Card</title>
+<script src="../google-cdn-assets/scripts/cdn.tailwindcss.com-36d3755fef18.js"></script>
+<link href="../google-cdn-assets/css/css2-140f1ee132bf.css" rel="stylesheet"/>
+<link href="../google-cdn-assets/css/css2-de9b7b5eb580.css" rel="stylesheet"/>
+<link href="../google-cdn-assets/css/css2-81df096301b4.css" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#00362a",
+                        "tertiary": "#a72d4c",
+                        "tertiary-container": "#ff8fa3",
+                        "secondary": "#755600",
+                        "surface-container-highest": "#9decd2",
+                        "on-secondary-container": "#5c4300",
+                        "surface-variant": "#9decd2",
+                        "tertiary-dim": "#962040",
+                        "inverse-primary": "#69f6b8",
+                        "secondary-fixed-dim": "#f6ba1e",
+                        "error-container": "#fb5151",
+                        "primary-fixed-dim": "#58e7ab",
+                        "secondary-fixed": "#ffca51",
+                        "primary-fixed": "#69f6b8",
+                        "surface-container": "#b2f6de",
+                        "on-secondary-fixed-variant": "#684c00",
+                        "tertiary-fixed-dim": "#ff7792",
+                        "on-primary": "#c8ffe0",
+                        "surface-container-low": "#bffee7",
+                        "primary": "#006947",
+                        "on-secondary-fixed": "#443100",
+                        "surface": "#d8fff0",
+                        "on-tertiary-fixed-variant": "#77012b",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#4c8170",
+                        "on-primary-fixed-variant": "#006544",
+                        "on-error": "#ffefee",
+                        "primary-container": "#69f6b8",
+                        "on-primary-fixed": "#00452d",
+                        "surface-tint": "#006947",
+                        "primary-dim": "#005c3d",
+                        "on-error-container": "#570008",
+                        "surface-bright": "#d8fff0",
+                        "error-dim": "#9f0519",
+                        "tertiary-fixed": "#ff8fa3",
+                        "on-tertiary-container": "#670024",
+                        "on-tertiary": "#ffeff0",
+                        "on-secondary": "#fff1db",
+                        "outline-variant": "#81b8a5",
+                        "on-primary-container": "#005a3c",
+                        "inverse-surface": "#00110c",
+                        "surface-container-high": "#a7f1d8",
+                        "background": "#d8fff0",
+                        "inverse-on-surface": "#72a895",
+                        "secondary-dim": "#674b00",
+                        "error": "#b31b25",
+                        "on-surface-variant": "#2f6555",
+                        "surface-dim": "#8fe5c9",
+                        "on-surface": "#00362a",
+                        "on-tertiary-fixed": "#390010",
+                        "secondary-container": "#ffca51"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .font-headline {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .card-shadow {
+            box-shadow: 0 10px 40px -10px rgba(0, 54, 42, 0.12);
+        }
+        .preview-glow {
+            filter: drop-shadow(0 0 20px rgba(0, 105, 71, 0.15));
+        }
+        .transition-soft {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Top Navigation Bar (Shared Component Strategy) -->
+<header class="bg-surface-container-lowest w-full top-0 sticky shadow-sm z-50 flex justify-between items-center px-8 h-16 max-w-full">
+<div class="text-2xl font-black text-primary tracking-tight font-headline">
+            World Cup Predictor
+        </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Bracket</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Groups</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Standings</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-medium" href="#">Predictor</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold transition-all active:scale-95 hover:bg-primary-dim">
+                Export Card
+            </button>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-2 rounded-full transition-colors">settings</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-2 rounded-full transition-colors">account_circle</span>
+</div>
+</header>
+<main class="flex flex-col md:flex-row h-[calc(100vh-64px)] overflow-hidden">
+<!-- Left Panel: Settings (40%) -->
+<aside class="w-full md:w-[40%] bg-surface-container-lowest border-r border-surface-container overflow-y-auto p-8 md:p-12 flex flex-col gap-10">
+<header>
+<h1 class="text-3xl font-extrabold text-on-background font-headline tracking-tight mb-2">Editor</h1>
+<p class="text-on-surface-variant">Customize your prediction card identity</p>
+</header>
+<div class="flex flex-col gap-8">
+<!-- Title Input -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider px-1">Prediction Card Title</label>
+<input class="w-full bg-surface-container-low border-none rounded-2xl p-4 text-on-background font-headline font-bold text-lg focus:ring-2 focus:ring-primary placeholder:text-outline-variant transition-soft" id="card-title-input" placeholder="Enter title..." type="text" value="My Road to Glory"/>
+</div>
+<!-- Username Input -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider px-1">Predictor Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-2xl p-4 text-on-background font-medium focus:ring-2 focus:ring-primary placeholder:text-outline-variant transition-soft" id="card-user-input" placeholder="Your username..." type="text" value="@SoccerMaster2026"/>
+</div>
+<!-- Theme/Color Picker -->
+<div class="flex flex-col gap-3">
+<label class="text-sm font-semibold text-on-surface-variant uppercase tracking-wider px-1">Card Theme</label>
+<div class="flex items-center gap-4">
+<button class="w-12 h-12 rounded-full bg-[#10B981] border-4 border-white shadow-md hover:scale-110 transition-transform cursor-pointer ring-2 ring-transparent active:ring-primary" onclick="changeTheme('green')"></button>
+<button class="w-12 h-12 rounded-full bg-[#FBBF24] border-4 border-white shadow-md hover:scale-110 transition-transform cursor-pointer ring-2 ring-transparent active:ring-primary" onclick="changeTheme('gold')"></button>
+<button class="w-12 h-12 rounded-full bg-[#1E293B] border-4 border-white shadow-md hover:scale-110 transition-transform cursor-pointer ring-2 ring-transparent active:ring-primary" onclick="changeTheme('midnight')"></button>
+<button class="w-12 h-12 rounded-full bg-[#69f6b8] border-4 border-white shadow-md hover:scale-110 transition-transform cursor-pointer ring-2 ring-transparent active:ring-primary" onclick="changeTheme('neon')"></button>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-4 mt-auto">
+<button class="bg-primary text-on-primary w-full py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl hover:translate-y-[-2px] transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">save</span>
+                    Save & Preview
+                </button>
+<button class="border-2 border-outline-variant text-on-surface-variant w-full py-4 rounded-full font-bold text-lg hover:bg-surface-container-low transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">arrow_back</span>
+                    Back to Bracket
+                </button>
+</div>
+<div class="mt-8 p-6 bg-primary-container rounded-2xl flex items-center gap-4">
+<span class="material-symbols-outlined text-on-primary-container text-3xl">auto_awesome</span>
+<div>
+<h4 class="font-bold text-on-primary-container">Go Premium</h4>
+<p class="text-sm text-on-primary-container opacity-80">Unlock holographic effects and custom team badges.</p>
+</div>
+</div>
+</aside>
+<!-- Right Panel: Live Preview (60%) -->
+<section class="flex-1 bg-surface-container-low p-8 md:p-16 flex items-center justify-center relative">
+<!-- Background Decorative Element -->
+<div class="absolute inset-0 opacity-10 overflow-hidden pointer-events-none">
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-primary rounded-full blur-[100px]"></div>
+<div class="absolute -bottom-24 -left-24 w-96 h-96 bg-secondary rounded-full blur-[100px]"></div>
+</div>
+<!-- Live Prediction Card -->
+<div class="bg-white w-full max-w-2xl rounded-[32px] overflow-hidden card-shadow flex flex-col relative z-10 transition-soft" id="live-card">
+<!-- Card Header -->
+<div class="bg-primary p-8 text-on-primary flex justify-between items-start transition-soft" id="card-header-bg">
+<div class="flex flex-col gap-1">
+<span class="text-xs font-bold uppercase tracking-widest opacity-80">Final Prediction</span>
+<h2 class="text-3xl font-black font-headline leading-none" id="card-display-title">My Road to Glory</h2>
+<span class="text-sm font-medium opacity-90 mt-2" id="card-display-user">@SoccerMaster2026</span>
+</div>
+<div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md">
+<span class="material-symbols-outlined text-3xl">sports_soccer</span>
+</div>
+</div>
+<!-- Card Content -->
+<div class="p-8 flex flex-col gap-8">
+<!-- Champion -->
+<div class="flex items-center gap-6 p-6 rounded-3xl bg-secondary-container/30 border border-secondary/10">
+<div class="w-20 h-20 rounded-2xl bg-white shadow-sm flex items-center justify-center overflow-hidden">
+<img alt="Brazil Flag" class="w-14 h-10 object-cover rounded-md" data-alt="A clean, vibrant digital graphic of the Brazilian national flag, featuring its iconic green field, yellow rhombus, and blue globe. The style is modern and high-contrast, fitting for a premium sports prediction app. The lighting is bright and even, highlighting the bold colors against a pristine white background." src="../google-cdn-assets/images/AB6AXuBz33o3pDjEzV5rxUY2-f21ddcb0aacc.png"/>
+</div>
+<div class="flex flex-col">
+<span class="text-secondary font-bold text-xs uppercase tracking-widest">Tournament Winner</span>
+<span class="text-3xl font-black font-headline text-on-background">BRAZIL</span>
+</div>
+<div class="ml-auto">
+<span class="material-symbols-outlined text-secondary text-5xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<!-- Dark Horse -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container shadow-sm flex flex-col gap-4">
+<span class="text-on-surface-variant font-bold text-[10px] uppercase tracking-widest">Dark Horse</span>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center overflow-hidden">
+<img alt="Morocco Flag" class="w-8 h-6 object-cover rounded-sm" data-alt="The Moroccan national flag depicted as a sleek digital icon. The deep red field and green pentagram are rendered with high fidelity and saturated colors. This asset is designed for a modern user interface, emphasizing clean lines and a professional aesthetic. The lighting is soft but vibrant, ensuring clarity at small sizes." src="../google-cdn-assets/images/AB6AXuBSV2Y5ggvo56p7yrH4-0551c385d27e.png"/>
+</div>
+<span class="font-bold text-on-background">MOROCCO</span>
+</div>
+</div>
+<!-- Top Scorer -->
+<div class="bg-surface-container-lowest p-6 rounded-3xl border border-surface-container shadow-sm flex flex-col gap-4">
+<span class="text-on-surface-variant font-bold text-[10px] uppercase tracking-widest">Top Scorer</span>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center overflow-hidden">
+<img alt="Player Avatar" class="w-full h-full object-cover" data-alt="A stylized digital avatar of a world-class professional soccer player, designed in a modern, friendly vector style. The character features a confident expression and professional athletic gear. The color palette is vibrant, using rich blues and whites to suggest an international sporting context. The background is a simple, soft gradient that makes the character pop in a UI preview." src="../google-cdn-assets/images/AB6AXuCF5HB8f_hTGE5vx8j4-08ea629472df.png"/>
+</div>
+<span class="font-bold text-on-background line-clamp-1">K. MBAPPÉ</span>
+</div>
+</div>
+</div>
+<!-- Prediction Stats Placeholder -->
+<div class="flex justify-between items-center px-4 py-3 bg-surface-container-low rounded-2xl text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-xs font-medium">Updated 2m ago</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="text-xs font-bold text-primary">94%</span>
+<span class="text-[10px] uppercase tracking-tighter opacity-70">Certainty</span>
+</div>
+</div>
+</div>
+<!-- Card Footer Branding -->
+<div class="mt-auto px-8 py-6 flex justify-between items-center border-t border-surface-container">
+<div class="text-primary font-black font-headline text-lg tracking-tight">World Cup 2026</div>
+<div class="flex gap-2">
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+</div>
+</div>
+</div>
+<!-- Float Controls (Preview) -->
+<div class="absolute bottom-10 flex gap-4">
+<button class="bg-white/90 backdrop-blur-md p-4 rounded-full shadow-lg hover:bg-white transition-soft">
+<span class="material-symbols-outlined text-on-surface">zoom_in</span>
+</button>
+<button class="bg-white/90 backdrop-blur-md p-4 rounded-full shadow-lg hover:bg-white transition-soft">
+<span class="material-symbols-outlined text-on-surface">share</span>
+</button>
+<button class="bg-white/90 backdrop-blur-md p-4 rounded-full shadow-lg hover:bg-white transition-soft">
+<span class="material-symbols-outlined text-on-surface">download</span>
+</button>
+</div>
+</section>
+</main>
+<script>
+        // Synchronize Inputs with Preview
+        const titleInput = document.getElementById('card-title-input');
+        const userInput = document.getElementById('card-user-input');
+        const displayTitle = document.getElementById('card-display-title');
+        const displayUser = document.getElementById('card-display-user');
+
+        titleInput.addEventListener('input', (e) => {
+            displayTitle.textContent = e.target.value || 'Untitled Prediction';
+        });
+
+        userInput.addEventListener('input', (e) => {
+            displayUser.textContent = e.target.value || '@username';
+        });
+
+        // Theme Switcher Logic
+        const cardHeader = document.getElementById('card-header-bg');
+        const liveCard = document.getElementById('live-card');
+
+        function changeTheme(theme) {
+            // Remove existing theme classes
+            cardHeader.classList.remove('bg-primary', 'bg-[#FBBF24]', 'bg-[#1E293B]', 'bg-[#69f6b8]');
+            cardHeader.classList.remove('text-on-primary', 'text-slate-900', 'text-white', 'text-primary');
+
+            switch(theme) {
+                case 'green':
+                    cardHeader.classList.add('bg-primary', 'text-on-primary');
+                    break;
+                case 'gold':
+                    cardHeader.classList.add('bg-[#FBBF24]', 'text-slate-900');
+                    break;
+                case 'midnight':
+                    cardHeader.classList.add('bg-[#1E293B]', 'text-white');
+                    break;
+                case 'neon':
+                    cardHeader.classList.add('bg-[#69f6b8]', 'text-primary');
+                    break;
+            }
+            
+            // Subtle Scale Effect on Theme Change
+            liveCard.classList.add('scale-[1.02]');
+            setTimeout(() => {
+                liveCard.classList.remove('scale-[1.02]');
+            }, 200);
+        }
+    </script>
+</body></html>

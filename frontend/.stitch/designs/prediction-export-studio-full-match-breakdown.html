@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Prediction Export Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700;800&amp;family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#dce2f7",
+                        "on-secondary": "#402d00",
+                        "on-tertiary-fixed-variant": "#8a1538",
+                        "on-secondary-fixed-variant": "#5c4300",
+                        "surface-container-lowest": "#070e1d",
+                        "primary-fixed-dim": "#4edea3",
+                        "on-secondary-container": "#5a4100",
+                        "surface-dim": "#0c1322",
+                        "surface-tint": "#4edea3",
+                        "primary": "#4edea3",
+                        "on-primary-container": "#00422b",
+                        "surface-container-high": "#232a3a",
+                        "outline-variant": "#3c4a42",
+                        "on-primary-fixed": "#002113",
+                        "surface-container": "#191f2f",
+                        "on-primary": "#003824",
+                        "secondary": "#ffc640",
+                        "surface-bright": "#323949",
+                        "surface-container-highest": "#2e3545",
+                        "error": "#ffb4ab",
+                        "on-tertiary-container": "#77012b",
+                        "inverse-surface": "#dce2f7",
+                        "tertiary": "#ffb2bd",
+                        "on-tertiary-fixed": "#400013",
+                        "tertiary-container": "#ff7792",
+                        "secondary-fixed": "#ffdf9f",
+                        "surface": "#0c1322",
+                        "on-tertiary": "#670024",
+                        "tertiary-fixed-dim": "#ffb2bd",
+                        "background": "#0c1322",
+                        "surface-variant": "#2e3545",
+                        "inverse-on-surface": "#293040",
+                        "on-error": "#690005",
+                        "outline": "#86948a",
+                        "tertiary-fixed": "#ffd9dd",
+                        "surface-container-low": "#141b2b",
+                        "secondary-fixed-dim": "#f9bd22",
+                        "secondary-container": "#e3aa00",
+                        "on-background": "#dce2f7",
+                        "primary-container": "#10b981",
+                        "error-container": "#93000a",
+                        "inverse-primary": "#006c49",
+                        "on-secondary-fixed": "#261a00",
+                        "on-surface-variant": "#bbcabf",
+                        "primary-fixed": "#6ffbbe",
+                        "on-primary-fixed-variant": "#005236"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "2xl": "2rem",
+                        "3xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "margin-desktop": "64px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "display-hero": ["Archivo Narrow"],
+                        "label-bold": ["Inter"],
+                        "headline-md": ["Archivo Narrow"],
+                        "body-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Archivo Narrow"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Archivo Narrow"]
+                    },
+                    "fontSize": {
+                        "display-hero": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                        "label-bold": ["14px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .broadcast-gradient {
+            background: radial-gradient(circle at top right, #3c0015 0%, #0c1322 100%);
+        }
+        .gold-glow {
+            box-shadow: 0 0 50px rgba(78, 222, 163, 0.15);
+        }
+        .prediction-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .prediction-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<button class="text-primary hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">arrow_back</span>
+</button>
+<h1 class="font-display-hero text-headline-md tracking-tighter text-primary">STUDIO</h1>
+</div>
+<div class="hidden md:flex gap-8">
+<a class="text-on-surface-variant font-label-bold hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-on-surface-variant font-label-bold hover:text-primary transition-colors" href="#">Bracket</a>
+<a class="text-primary font-label-bold border-b-2 border-primary pb-1" href="#">Studio</a>
+<a class="text-on-surface-variant font-label-bold hover:text-primary transition-colors" href="#">Social</a>
+</div>
+<button class="text-primary font-label-bold md:hidden">Back</button>
+</header>
+<!-- Main Content -->
+<main class="flex-grow p-margin-mobile md:p-margin-desktop">
+<div class="max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Export Card Preview (Left Column - 65%) -->
+<div class="lg:col-span-8 flex flex-col items-center">
+<div class="w-full broadcast-gradient rounded-3xl p-10 relative overflow-hidden flex flex-col border border-primary/20 gold-glow min-h-[800px]">
+<!-- Card Header Info -->
+<div class="flex justify-between items-start mb-12 z-10">
+<div class="space-y-2">
+<span class="bg-primary/20 text-primary px-4 py-1.5 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase">Official Prediction</span>
+<h2 class="font-display-hero text-headline-lg text-on-surface leading-[0.9] uppercase">Champions<br/><span class="text-primary">Journey 2026</span></h2>
+</div>
+<div class="text-right">
+<p class="text-on-surface-variant font-label-sm uppercase tracking-widest mb-1">Created By</p>
+<p class="font-headline-md text-on-surface">@ALEXDESIGNER</p>
+</div>
+</div>
+<!-- Predictions Content -->
+<div class="flex-grow z-10 flex flex-col gap-10">
+<!-- Champion Highlight (Refined from main vs journey) -->
+<div class="flex flex-col items-center">
+<div class="relative">
+<span class="material-symbols-outlined text-[100px] text-secondary mb-4 drop-shadow-[0_0_20px_rgba(255,198,64,0.4)]" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<div class="absolute -top-4 -right-4 w-12 h-12 bg-primary rounded-full flex items-center justify-center border-4 border-background">
+<span class="material-symbols-outlined text-on-primary text-xl">check</span>
+</div>
+</div>
+<div class="glass-card rounded-3xl px-10 py-5 flex items-center gap-6 border-primary/30">
+<div class="w-14 h-14 rounded-2xl overflow-hidden border-2 border-secondary bg-surface-container flex items-center justify-center">
+<!-- Placeholder flag -->
+<span class="text-2xl">🇧🇷</span>
+</div>
+<span class="font-display-hero text-[56px] text-on-surface tracking-widest uppercase">BRAZIL</span>
+</div>
+</div>
+<!-- Match-by-Match Predictions Grid -->
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="h-px flex-grow bg-outline-variant/20"></div>
+<span class="font-label-sm text-primary uppercase tracking-[0.3em]">Group Stage Predictions</span>
+<div class="h-px flex-grow bg-outline-variant/20"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Group Rows - Match 1 -->
+<div class="prediction-item p-4 rounded-2xl flex justify-between items-center group">
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-on-surface-variant">GRP A</span>
+<span class="font-label-bold text-on-surface">USA <span class="text-on-surface-variant font-normal px-1">v</span> ENG</span>
+</div>
+<span class="bg-surface-container-highest px-4 py-1.5 rounded-xl font-display-hero text-2xl text-primary">2 - 1</span>
+</div>
+<!-- Group Rows - Match 2 -->
+<div class="prediction-item p-4 rounded-2xl flex justify-between items-center">
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-on-surface-variant">GRP B</span>
+<span class="font-label-bold text-on-surface">ARG <span class="text-on-surface-variant font-normal px-1">v</span> MEX</span>
+</div>
+<span class="bg-surface-container-highest px-4 py-1.5 rounded-xl font-display-hero text-2xl text-primary">3 - 0</span>
+</div>
+<!-- Group Rows - Match 3 -->
+<div class="prediction-item p-4 rounded-2xl flex justify-between items-center">
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-on-surface-variant">GRP C</span>
+<span class="font-label-bold text-on-surface">FRA <span class="text-on-surface-variant font-normal px-1">v</span> DEN</span>
+</div>
+<span class="bg-surface-container-highest px-4 py-1.5 rounded-xl font-display-hero text-2xl text-primary">2 - 0</span>
+</div>
+<!-- Group Rows - Match 4 -->
+<div class="prediction-item p-4 rounded-2xl flex justify-between items-center">
+<div class="flex items-center gap-4">
+<span class="font-label-sm text-on-surface-variant">GRP D</span>
+<span class="font-label-bold text-on-surface">ESP <span class="text-on-surface-variant font-normal px-1">v</span> GER</span>
+</div>
+<span class="bg-surface-container-highest px-4 py-1.5 rounded-xl font-display-hero text-2xl text-primary">2 - 2</span>
+</div>
+</div>
+</div>
+<!-- Highlights -->
+<div class="grid grid-cols-2 gap-6 mt-4">
+<div class="glass-card rounded-2xl p-5 border-l-4 border-tertiary">
+<span class="font-label-sm text-on-surface-variant uppercase tracking-widest block mb-2">Dark Horse</span>
+<span class="font-headline-md text-on-surface uppercase">MOROCCO</span>
+</div>
+<div class="glass-card rounded-2xl p-5 border-l-4 border-secondary">
+<span class="font-label-sm text-on-surface-variant uppercase tracking-widest block mb-2">Golden Boot</span>
+<span class="font-headline-md text-on-surface uppercase">V. JUNIOR</span>
+</div>
+</div>
+</div>
+<!-- Card Footer -->
+<div class="mt-12 pt-8 border-t border-outline-variant/20 flex justify-between items-end z-10">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full border-2 border-primary/40 overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCt_QzlBphzFbusat8WcngkX81FZolH3lH-hO5AkF1LPa-KD51axgDJZOfYkNT1IAaq6xSHEu2Ew5cjm0mK54YNumefC2wNKewtEi07uwbpqFZJGS0SV3N1RHeecbu3EIcZfnI9I7GZ34VpYw5O0c_w_0Dq7hDAsP2-bDOcuD1DZ07sPxNQVN4rmwToyoT2w4Ly12s00jXyAbdtuNeIGxihvDbbYc87x5HVnDl-iXkgd2smVujIXlQDlpp-QqUWyVscFzJuFwn4UQYX"/>
+</div>
+<div>
+<p class="font-label-bold text-on-surface">Alex Thompson</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Global Rank: #420</p>
+</div>
+</div>
+<div class="flex items-center gap-3 opacity-60">
+<span class="material-symbols-outlined text-sm">qr_code_2</span>
+<span class="font-label-sm uppercase tracking-widest text-[10px]">Join CupStudio</span>
+</div>
+</div>
+<!-- Background Accents -->
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/10 blur-[120px] rounded-full"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-primary/5 blur-[150px] rounded-full"></div>
+</div>
+</div>
+<!-- Customization Sidebar (Right Column - 35%) -->
+<div class="lg:col-span-4 flex flex-col gap-6 sticky top-24">
+<!-- Card Settings -->
+<section class="glass-card p-8 rounded-3xl">
+<h3 class="font-headline-md text-on-surface mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">settings_suggest</span>
+                        Studio Controls
+                    </h3>
+<div class="space-y-6">
+<div>
+<label class="block font-label-sm text-on-surface-variant uppercase tracking-widest mb-3">Custom Title</label>
+<input class="w-full bg-surface-container border-none rounded-2xl p-4 font-body-md text-on-surface focus:ring-2 focus:ring-primary outline-none transition-all" type="text" value="Champions Journey 2026"/>
+</div>
+<div>
+<label class="block font-label-sm text-on-surface-variant uppercase tracking-widest mb-3">Visual Theme</label>
+<div class="grid grid-cols-2 gap-3">
+<button class="p-4 rounded-2xl bg-surface-container border-2 border-primary text-primary font-label-bold flex flex-col items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary"></div>
+                                    Neon Pitch
+                                </button>
+<button class="p-4 rounded-2xl bg-surface-container-high border-2 border-transparent text-on-surface-variant font-label-bold flex flex-col items-center gap-2 hover:border-outline-variant transition-all">
+<div class="w-6 h-6 rounded-full bg-secondary"></div>
+                                    Trophy Gold
+                                </button>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-on-surface-variant uppercase tracking-widest mb-3">Focus Mode</label>
+<div class="flex bg-surface-container-high rounded-full p-1.5">
+<button class="flex-1 py-3 px-4 rounded-full text-on-surface-variant font-label-bold hover:text-on-surface transition-all">Winner</button>
+<button class="flex-1 py-3 px-4 rounded-full bg-primary text-on-primary font-label-bold shadow-lg">Journey</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Export Actions -->
+<section class="glass-card p-8 rounded-3xl space-y-4">
+<div class="flex items-center gap-4 p-4 bg-primary/10 border border-primary/20 rounded-2xl">
+<span class="material-symbols-outlined text-primary">auto_awesome</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-on-surface-variant">Ready to Export</span>
+<span class="font-label-bold text-primary">High-Res PNG</span>
+</div>
+</div>
+<button class="w-full py-5 bg-primary text-on-primary font-label-bold text-lg rounded-2xl hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-3 uppercase tracking-widest shadow-xl shadow-primary/20">
+<span class="material-symbols-outlined">download</span>
+                        Download Card
+                    </button>
+<button class="w-full py-4 bg-transparent border-2 border-outline-variant text-on-surface-variant font-label-bold rounded-2xl hover:border-primary hover:text-primary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">refresh</span>
+                        Refresh Preview
+                    </button>
+</section>
+<!-- Tips -->
+<div class="p-6 rounded-3xl bg-secondary-container/10 border border-secondary/20 flex gap-4">
+<span class="material-symbols-outlined text-secondary">lightbulb</span>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                        Tip: Journey mode displays your full match history across all group stages. Best for Instagram Stories!
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-4 md:hidden bg-surface/90 backdrop-blur-2xl border-t border-outline-variant/30 z-50">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-label-sm">Bracket</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary text-on-primary rounded-2xl px-6 py-2 shadow-lg shadow-primary/20" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-label-sm">Studio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm">Social</span>
+</a>
+</nav>
+<div class="h-20 md:hidden"></div> <!-- Spacer for mobile nav -->
+</body></html>

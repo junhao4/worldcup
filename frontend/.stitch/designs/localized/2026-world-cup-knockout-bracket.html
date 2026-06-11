@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>World Cup 2026 Predictor - Knockout Bracket</title>
+<!-- Fonts -->
+
+<link href="../google-cdn-assets/css/css2-6362134de58b.css" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="../google-cdn-assets/css/css2-de9b7b5eb580.css" rel="stylesheet"/>
+<link href="../google-cdn-assets/css/css2-de9b7b5eb580.css" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="../google-cdn-assets/scripts/cdn.tailwindcss.com-36d3755fef18.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#bffee7",
+                    "surface-variant": "#9decd2",
+                    "on-tertiary-fixed": "#390010",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#4c8170",
+                    "on-primary-fixed": "#00452d",
+                    "surface-container": "#b2f6de",
+                    "inverse-primary": "#69f6b8",
+                    "primary-dim": "#005c3d",
+                    "error-dim": "#9f0519",
+                    "tertiary": "#a72d4c",
+                    "surface-tint": "#006947",
+                    "primary-container": "#69f6b8",
+                    "on-secondary": "#fff1db",
+                    "tertiary-dim": "#962040",
+                    "on-surface": "#00362a",
+                    "inverse-on-surface": "#72a895",
+                    "on-primary-fixed-variant": "#006544",
+                    "error": "#b31b25",
+                    "surface-container-highest": "#9decd2",
+                    "surface-bright": "#d8fff0",
+                    "tertiary-container": "#ff8fa3",
+                    "on-error": "#ffefee",
+                    "secondary-container": "#ffca51",
+                    "primary-fixed-dim": "#58e7ab",
+                    "secondary": "#755600",
+                    "secondary-fixed": "#ffca51",
+                    "secondary-dim": "#674b00",
+                    "on-tertiary": "#ffeff0",
+                    "on-error-container": "#570008",
+                    "on-primary-container": "#005a3c",
+                    "background": "#d8fff0",
+                    "surface-container-high": "#a7f1d8",
+                    "primary": "#006947",
+                    "primary-fixed": "#69f6b8",
+                    "on-tertiary-container": "#670024",
+                    "on-tertiary-fixed-variant": "#77012b",
+                    "on-surface-variant": "#2f6555",
+                    "inverse-surface": "#00110c",
+                    "on-secondary-fixed": "#443100",
+                    "error-container": "#fb5151",
+                    "on-background": "#00362a",
+                    "on-primary": "#c8ffe0",
+                    "tertiary-fixed-dim": "#ff7792",
+                    "tertiary-fixed": "#ff8fa3",
+                    "secondary-fixed-dim": "#f6ba1e",
+                    "outline-variant": "#81b8a5",
+                    "on-secondary-container": "#5c4300",
+                    "surface": "#d8fff0",
+                    "surface-dim": "#8fe5c9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "display": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bracket-container::-webkit-scrollbar { height: 8px; }
+        .bracket-container::-webkit-scrollbar-track { background: transparent; }
+        .bracket-container::-webkit-scrollbar-thumb { background: #b2f6de; border-radius: 10px; }
+        .connector-path {
+            stroke: #10B981;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 1.5s ease forwards;
+        }
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+        .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-surface/80 backdrop-blur-md shadow-sm">
+<div class="text-xl font-headline font-black text-primary">World Cup Predictor</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant pb-2 hover:text-primary transition-colors font-semibold" href="#">Groups</a>
+<a class="text-primary border-b-4 border-primary pb-2 font-semibold" href="#">Knockouts</a>
+<a class="text-on-surface-variant pb-2 hover:text-primary transition-colors font-semibold" href="#">Bracket</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-bold shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">save</span>
+                Save Progress
+            </button>
+<span class="material-symbols-outlined text-3xl text-primary cursor-pointer">account_circle</span>
+</div>
+</header>
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full z-40 py-6 bg-surface-container-low w-64 rounded-r-xl shadow-xl mt-20">
+<div class="px-6 mb-8">
+<div class="text-lg font-headline font-bold text-on-surface">Predictor Pro</div>
+<div class="text-xs text-on-surface-variant opacity-70">Tournament Progress: 65%</div>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="text-on-surface-variant mx-2 px-4 py-3 hover:bg-surface-variant rounded-full transition-all flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">home</span> Home
+            </a>
+<a class="bg-primary-container text-on-primary-container rounded-full mx-2 px-4 py-3 font-bold flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">emoji_events</span> Predictions
+            </a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 hover:bg-surface-variant rounded-full transition-all flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">leaderboard</span> Leaderboard
+            </a>
+<a class="text-on-surface-variant mx-2 px-4 py-3 hover:bg-surface-variant rounded-full transition-all flex items-center gap-3" href="#">
+<span class="material-symbols-outlined">settings</span> Settings
+            </a>
+</nav>
+<div class="px-6 mt-auto flex flex-col gap-2">
+<button class="bg-secondary-container text-on-secondary-container w-full py-3 rounded-full font-bold mb-4 shadow-sm hover:scale-95 transition-transform">
+                Export Bracket
+            </button>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 text-sm" href="#">
+<span class="material-symbols-outlined">help</span> Help
+            </a>
+<a class="text-on-surface-variant px-4 py-2 flex items-center gap-3 text-sm" href="#">
+<span class="material-symbols-outlined">logout</span> Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="lg:ml-64 pt-24 pb-12 px-8 min-h-screen">
+<!-- Header Info -->
+<div class="max-w-7xl mx-auto mb-10 flex justify-between items-end">
+<div>
+<h1 class="text-4xl font-headline font-extrabold text-on-surface mb-2 tracking-tight">The Knockout Phase</h1>
+<p class="text-on-surface-variant max-w-xl font-medium">Predict the results of the 2026 World Cup finals. Every goal counts on the road to the trophy.</p>
+</div>
+<div class="flex gap-4">
+<div class="bg-white p-4 rounded-2xl card-shadow flex items-center gap-4">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+<div>
+<div class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Accuracy</div>
+<div class="text-xl font-headline font-bold text-primary">84%</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Horizontal Scrollable Bracket Area -->
+<div class="bracket-container overflow-x-auto pb-10 cursor-grab active:cursor-grabbing">
+<div class="flex gap-12 min-w-max px-4 items-center">
+<!-- Round of 32 -->
+<section class="flex flex-col gap-6 w-72">
+<h3 class="font-headline font-bold text-sm text-primary uppercase tracking-widest text-center py-2 bg-primary/5 rounded-full mb-2">Round of 32</h3>
+<!-- Match Card 1 -->
+<div class="bg-white rounded-2xl p-4 card-shadow hover:-translate-y-1 transition-transform cursor-pointer relative group">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-7 rounded shadow-sm overflow-hidden bg-slate-100 relative">
+<img alt="USA Flag" class="w-full h-full object-cover" data-alt="A highly detailed close-up of the United States flag with vibrant red and white stripes and a deep blue canton featuring sharp white stars. The fabric shows a subtle high-quality linen texture under soft, natural daylight, perfectly fitting a professional sports tournament aesthetic with clean, modern lighting." src="../google-cdn-assets/images/AB6AXuASLhdGxRc7UwMisXLP-4cde69d74148.png"/>
+</div>
+<span class="font-headline font-bold text-sm">USA</span>
+</div>
+<input class="w-10 h-10 text-center bg-surface-container border-none rounded-xl font-bold text-primary focus:ring-2 focus:ring-primary" type="number" value="2"/>
+</div>
+<div class="flex items-center justify-between border-t border-slate-50 pt-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-7 rounded shadow-sm overflow-hidden bg-slate-100 relative">
+<img alt="Brazil Flag" class="w-full h-full object-cover" data-alt="The flag of Brazil rendered in stunning detail, highlighting the vivid forest green background, the bright yellow rhombus, and the iconic blue globe with white stars. The lighting is crisp and even, emphasizing the bold primary colors of the design in a clean, professional sports broadcast style." src="../google-cdn-assets/images/AB6AXuBj5JoIVyYIOAfOaHuQ-70daa37540e6.png"/>
+</div>
+<span class="font-headline font-bold text-sm">BRAZIL</span>
+</div>
+<input class="w-10 h-10 text-center bg-surface-container-low border-none rounded-xl font-bold text-on-surface-variant focus:ring-2 focus:ring-primary" type="number" value="1"/>
+</div>
+</div>
+<div class="absolute -right-6 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-primary"></div>
+</div>
+<!-- Match Card 2 -->
+<div class="bg-white rounded-2xl p-4 card-shadow hover:-translate-y-1 transition-transform cursor-pointer relative group">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-7 rounded shadow-sm overflow-hidden bg-slate-100 relative">
+<img alt="England Flag" class="w-full h-full object-cover" data-alt="The St George's Cross of England, featuring a bold red cross on a pristine white field. The image is clean and bright, with a minimalist aesthetic that emphasizes the symmetry and sharp lines of the flag, set against a soft, high-key studio lighting environment." src="../google-cdn-assets/images/AB6AXuDNlPvh3YXrzGBh5OEg-ab977a1dae37.png"/>
+</div>
+<span class="font-headline font-bold text-sm">ENGLAND</span>
+</div>
+<input class="w-10 h-10 text-center bg-surface-container border-none rounded-xl font-bold text-primary focus:ring-2 focus:ring-primary" type="number" value="3"/>
+</div>
+<div class="flex items-center justify-between border-t border-slate-50 pt-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-7 rounded shadow-sm overflow-hidden bg-slate-100 relative">
+<img alt="France Flag" class="w-full h-full object-cover" data-alt="The French Tricolour flag with its iconic vertical bands of blue, white, and red. The colors are deeply saturated and the white band is crisp and bright. The visual style is modern and clean, resembling a premium digital graphic from a world-class sporting event interface." src="../google-cdn-assets/images/AB6AXuC8sGIRIL7P1L487Hz0-6a392ee36dd7.png"/>
+</div>
+<span class="font-headline font-bold text-sm">FRANCE</span>
+</div>
+<input class="w-10 h-10 text-center bg-surface-container-low border-none rounded-xl font-bold text-on-surface-variant focus:ring-2 focus:ring-primary" type="number" value="2"/>
+</div>
+</div>
+<div class="absolute -right-6 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-primary"></div>
+</div>
+<!-- Match Card 3 -->
+<div class="bg-white rounded-2xl p-4 card-shadow hover:-translate-y-1 transition-transform cursor-pointer relative group">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-7 rounded shadow-sm overflow-hidden bg-slate-100 relative">
+<img alt="Argentina Flag" class="w-full h-full object-cover" data-alt="The flag of Argentina with its sky blue and white horizontal stripes and the radiant Sun of May in the center. The lighting is soft and airy, creating a sense of national pride and celebratory mood, rendered in a professional, high-fidelity digital art style with clean gradients." src="../google-cdn-assets/images/AB6AXuBhFH5Y0y6HTDSWNCn0-4e22be4a2877.png"/>
+</div>
+<span class="font-headline font-bold text-sm">ARGENTINA</span>
+</div>
+<input class="w-10 h-10 text-center bg-surface-container border-none rounded-xl font-bold text-primary focus:ring-2 focus:ring-primary" type="number" value="4"/>
+</div>
+<div class="flex items-center justify-between border-t border-slate-50 pt-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-7 rounded shadow-sm overflow-hidden bg-slate-100 relative">
+<img alt="Spain Flag" class="w-full h-full object-cover" data-alt="The vibrant flag of Spain, showcasing its bold red and yellow horizontal bands and the intricate coat of arms. The image is sharp and bright, with the yellow band glowing slightly under simulated studio lights, capturing a celebratory and modern athletic tournament aesthetic." src="../google-cdn-assets/images/AB6AXuCuEpZ6A4VphDSh9Dh7-9bfd29fb265d.png"/>
+</div>
+<span class="font-headline font-bold text-sm">SPAIN</span>
+</div>
+<input class="w-10 h-10 text-center bg-surface-container-low border-none rounded-xl font-bold text-on-surface-variant focus:ring-2 focus:ring-primary" type="number" value="1"/>
+</div>
+</div>
+<div class="absolute -right-6 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-primary"></div>
+</div>
+</section>
+<!-- Round of 16 -->
+<section class="flex flex-col gap-24 w-72 pt-12">
+<h3 class="font-headline font-bold text-sm text-primary uppercase tracking-widest text-center py-2 bg-primary/5 rounded-full mb-2">Round of 16</h3>
+<div class="bg-white rounded-2xl p-4 card-shadow hover:-translate-y-1 transition-transform cursor-pointer relative group">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3 opacity-100">
+<div class="w-10 h-7 rounded shadow-sm overflow-hidden">
+<img alt="USA Flag" class="w-full h-full object-cover" src="../google-cdn-assets/images/AB6AXuAzkBnR6B78gffj-mRO-f2fc0127e6cb.png"/>
+</div>
+<span class="font-headline font-bold text-sm">USA</span>
+</div>
+<input class="w-10 h-10 text-center bg-slate-50 border-none rounded-xl font-bold text-on-surface focus:ring-2 focus:ring-primary" placeholder="-" type="number"/>
+</div>
+<div class="flex items-center justify-between border-t border-slate-50 pt-4">
+<div class="flex items-center gap-3 opacity-100">
+<div class="w-10 h-7 rounded shadow-sm overflow-hidden">
+<img alt="England Flag" class="w-full h-full object-cover" src="../google-cdn-assets/images/AB6AXuA-yzs38gL1iFvxP26K-18da1c009b92.png"/>
+</div>
+<span class="font-headline font-bold text-sm">ENGLAND</span>
+</div>
+<input class="w-10 h-10 text-center bg-slate-50 border-none rounded-xl font-bold text-on-surface focus:ring-2 focus:ring-primary" placeholder="-" type="number"/>
+</div>
+</div>
+<div class="absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-primary"></div>
+<div class="absolute -right-6 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-primary"></div>
+</div>
+<div class="bg-white rounded-2xl p-4 card-shadow opacity-60">
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-7 rounded shadow-sm overflow-hidden">
+<img alt="Argentina Flag" class="w-full h-full object-cover" src="../google-cdn-assets/images/AB6AXuDyY62oj4f2WyRKIX5U-37929d16334a.png"/>
+</div>
+<span class="font-headline font-bold text-sm">ARGENTINA</span>
+</div>
+<span class="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-xl font-bold text-slate-400">?</span>
+</div>
+<div class="flex items-center justify-between border-t border-slate-50 pt-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-7 rounded shadow-sm bg-slate-100"></div>
+<span class="font-headline font-bold text-sm text-slate-300">TBD</span>
+</div>
+<span class="w-10 h-10 flex items-center justify-center bg-slate-100 rounded-xl font-bold text-slate-400">?</span>
+</div>
+</div>
+<div class="absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-primary"></div>
+</div>
+</section>
+<!-- Quarter Finals -->
+<section class="flex flex-col gap-40 w-72 pt-24">
+<h3 class="font-headline font-bold text-sm text-tertiary uppercase tracking-widest text-center py-2 bg-tertiary/5 rounded-full mb-2">Quarter-Finals</h3>
+<div class="bg-white rounded-2xl p-6 card-shadow border-2 border-primary/20 relative">
+<div class="text-center text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-4">Final 8 Matchup</div>
+<div class="flex items-center justify-around gap-4 mb-6">
+<div class="text-center">
+<img alt="USA" class="w-16 h-10 rounded shadow-md mb-2 mx-auto" src="../google-cdn-assets/images/AB6AXuD15UEJyiXV99DqBTS7-94e6efa57e52.png"/>
+<div class="font-headline font-extrabold text-xs">USA</div>
+</div>
+<div class="text-2xl font-headline font-black text-slate-200 italic">VS</div>
+<div class="text-center">
+<div class="w-16 h-10 bg-slate-100 rounded shadow-inner mb-2 mx-auto flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-300">help</span>
+</div>
+<div class="font-headline font-extrabold text-xs text-slate-300">TBD</div>
+</div>
+</div>
+<div class="flex gap-2">
+<input class="flex-1 h-12 text-center bg-surface-bright border-none rounded-xl font-bold text-xl text-primary focus:ring-2 focus:ring-primary" placeholder="0" type="number"/>
+<input class="flex-1 h-12 text-center bg-slate-50 border-none rounded-xl font-bold text-xl text-on-surface focus:ring-2 focus:ring-primary" placeholder="0" type="number"/>
+</div>
+<div class="absolute -left-6 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-primary"></div>
+</div>
+</section>
+<!-- Semi Finals -->
+<section class="flex flex-col gap-40 w-72 pt-32">
+<h3 class="font-headline font-bold text-sm text-tertiary uppercase tracking-widest text-center py-2 bg-tertiary/5 rounded-full mb-2">Semi-Finals</h3>
+<div class="h-64 flex items-center justify-center">
+<div class="w-full py-12 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-slate-300 gap-2">
+<span class="material-symbols-outlined text-4xl">lock</span>
+<span class="text-xs font-bold uppercase tracking-widest">Awaiting Results</span>
+</div>
+</div>
+</section>
+<!-- Grand Final & Champion -->
+<section class="flex flex-col gap-8 w-96 pt-16">
+<h3 class="font-headline font-bold text-sm text-secondary uppercase tracking-widest text-center py-2 bg-secondary/5 rounded-full mb-2">World Cup Final</h3>
+<div class="relative">
+<!-- Decorative SVG Background for Champion Area -->
+<div class="absolute inset-0 bg-gradient-to-b from-secondary-container/20 to-transparent rounded-3xl -z-10 blur-xl"></div>
+<div class="bg-white rounded-[2rem] p-8 card-shadow border-4 border-secondary-fixed relative overflow-hidden group">
+<!-- Trophy Icon -->
+<div class="flex justify-center mb-6">
+<div class="w-24 h-24 bg-gradient-to-br from-secondary-fixed to-secondary rounded-full flex items-center justify-center shadow-lg transform group-hover:rotate-12 transition-transform">
+<span class="material-symbols-outlined text-white text-5xl" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+</div>
+</div>
+<h4 class="text-center font-headline font-black text-2xl text-secondary mb-8 uppercase tracking-tighter">Predict Your Champion</h4>
+<div class="flex flex-col gap-4">
+<div class="bg-slate-50 p-6 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center gap-3 transition-colors hover:bg-surface-bright/30">
+<div class="w-20 h-14 bg-slate-100 rounded-lg flex items-center justify-center text-slate-300">
+<span class="material-symbols-outlined">flag</span>
+</div>
+<span class="font-headline font-bold text-slate-400">Select Finalist 1</span>
+</div>
+<div class="text-center font-headline font-black text-secondary/30 italic text-xl">VERSUS</div>
+<div class="bg-slate-50 p-6 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center gap-3 transition-colors hover:bg-surface-bright/30">
+<div class="w-20 h-14 bg-slate-100 rounded-lg flex items-center justify-center text-slate-300">
+<span class="material-symbols-outlined">flag</span>
+</div>
+<span class="font-headline font-bold text-slate-400">Select Finalist 2</span>
+</div>
+</div>
+<button class="w-full mt-8 bg-secondary text-white py-4 rounded-full font-black text-lg shadow-xl hover:scale-105 transition-all">
+                                CROWN THE KING
+                            </button>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Float Info Footer -->
+<div class="max-w-7xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-primary/5 p-6 rounded-2xl flex items-start gap-4">
+<span class="material-symbols-outlined text-primary">info</span>
+<div>
+<h5 class="font-bold text-sm mb-1">How it works</h5>
+<p class="text-xs text-on-surface-variant leading-relaxed">Enter scores for each match to advance teams. In case of a draw, click the gold crown to select who wins on penalties.</p>
+</div>
+</div>
+<div class="bg-tertiary/5 p-6 rounded-2xl flex items-start gap-4">
+<span class="material-symbols-outlined text-tertiary">history</span>
+<div>
+<h5 class="font-bold text-sm mb-1">Auto-Save</h5>
+<p class="text-xs text-on-surface-variant leading-relaxed">Your bracket is automatically saved to your account every 30 seconds. No progress lost.</p>
+</div>
+</div>
+<div class="bg-secondary/5 p-6 rounded-2xl flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary">share</span>
+<div>
+<h5 class="font-bold text-sm mb-1">Challenge Friends</h5>
+<p class="text-xs text-on-surface-variant leading-relaxed">Once finished, export your bracket and share it on social media to join public leaderboards.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white shadow-[0_-5px_20px_rgba(0,0,0,0.05)] z-50 flex justify-around items-center py-3 px-2">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<span class="text-[10px] font-bold">Predict</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="text-[10px] font-bold">Stats</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="text-[10px] font-bold">Profile</span>
+</button>
+</nav>
+<script>
+        // Simple drag to scroll for the bracket container
+        const slider = document.querySelector('.bracket-container');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Micro-interaction for score inputs
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('change', (e) => {
+                if(e.target.value > 0) {
+                    e.target.closest('.group').classList.add('ring-2', 'ring-primary/20');
+                }
+            });
+        });
+    </script>
+</body></html>

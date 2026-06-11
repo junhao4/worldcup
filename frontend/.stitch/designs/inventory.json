@@ -1,0 +1,90 @@
+[
+  {
+    "title": "Prediction Export Studio - Detailed Scores",
+    "screen": "projects/14988967190173135424/screens/35c59bba7c48409d931c6b17bd5a3224",
+    "width": "2560",
+    "height": "2048",
+    "html": "frontend/.stitch/designs/prediction-export-studio-detailed-scores.html",
+    "screenshot": "frontend/.stitch/designs/prediction-export-studio-detailed-scores.png"
+  },
+  {
+    "title": "2026 World Cup Predictor",
+    "screen": "projects/14988967190173135424/screens/4bf5f4335f214609892df7111992894e",
+    "width": "2560",
+    "height": "2048",
+    "html": "frontend/.stitch/designs/2026-world-cup-predictor.html",
+    "screenshot": "frontend/.stitch/designs/2026-world-cup-predictor.png"
+  },
+  {
+    "title": "Group Stage Predictions - Modern Light",
+    "screen": "projects/14988967190173135424/screens/5cb0d6a74ae646518b6f94bf79710b01",
+    "width": "2560",
+    "height": "2232",
+    "html": "frontend/.stitch/designs/group-stage-predictions-modern-light.html",
+    "screenshot": "frontend/.stitch/designs/group-stage-predictions-modern-light.png"
+  },
+  {
+    "title": "Prediction Export Studio - Final Preview",
+    "screen": "projects/14988967190173135424/screens/70ac152daa8643b39d694179ff2e9972",
+    "width": "2560",
+    "height": "2048",
+    "html": "frontend/.stitch/designs/prediction-export-studio-final-preview.html",
+    "screenshot": "frontend/.stitch/designs/prediction-export-studio-final-preview.png"
+  },
+  {
+    "title": "Exported Prediction Preview",
+    "screen": "projects/14988967190173135424/screens/57e461d86e7a4cfb9b6efcb59fa8d13e",
+    "width": "2560",
+    "height": "2048",
+    "html": "frontend/.stitch/designs/exported-prediction-preview.html",
+    "screenshot": "frontend/.stitch/designs/exported-prediction-preview.png"
+  },
+  {
+    "title": "Prediction Card Personalization",
+    "screen": "projects/14988967190173135424/screens/dedfcf73370f4ba1aa537361f5e46a23",
+    "width": "2560",
+    "height": "2048",
+    "html": "frontend/.stitch/designs/prediction-card-personalization.html",
+    "screenshot": "frontend/.stitch/designs/prediction-card-personalization.png"
+  },
+  {
+    "title": "2026 World Cup Predictor - Light Theme",
+    "screen": "projects/14988967190173135424/screens/9942334f946b4770bf7f7bbc51ec386c",
+    "width": "2560",
+    "height": "2472",
+    "html": "frontend/.stitch/designs/2026-world-cup-predictor-light-theme.html",
+    "screenshot": "frontend/.stitch/designs/2026-world-cup-predictor-light-theme.png"
+  },
+  {
+    "title": "Prediction Export Studio - Full Match Breakdown",
+    "screen": "projects/14988967190173135424/screens/ceec0a36583c427780256d22bfd88fe3",
+    "width": "2560",
+    "height": "2454",
+    "html": "frontend/.stitch/designs/prediction-export-studio-full-match-breakdown.html",
+    "screenshot": "frontend/.stitch/designs/prediction-export-studio-full-match-breakdown.png"
+  },
+  {
+    "title": "2026 World Cup Predictor - Large Flags",
+    "screen": "projects/14988967190173135424/screens/d0590615c7fa4e428681459ce7b9455f",
+    "width": "2560",
+    "height": "2048",
+    "html": "frontend/.stitch/designs/2026-world-cup-predictor-large-flags.html",
+    "screenshot": "frontend/.stitch/designs/2026-world-cup-predictor-large-flags.png"
+  },
+  {
+    "title": "Prediction Export Studio - Light Edition",
+    "screen": "projects/14988967190173135424/screens/764dc927d40b43eea339af9a72ebd525",
+    "width": "2560",
+    "height": "2048",
+    "html": "frontend/.stitch/designs/prediction-export-studio-light-edition.html",
+    "screenshot": "frontend/.stitch/designs/prediction-export-studio-light-edition.png"
+  },
+  {
+    "title": "2026 World Cup - Knockout Bracket",
+    "screen": "projects/14988967190173135424/screens/0b46ed5744304035b483114678e1703a",
+    "width": "2560",
+    "height": "2708",
+    "html": "frontend/.stitch/designs/2026-world-cup-knockout-bracket.html",
+    "screenshot": "frontend/.stitch/designs/2026-world-cup-knockout-bracket.png"
+  }
+]

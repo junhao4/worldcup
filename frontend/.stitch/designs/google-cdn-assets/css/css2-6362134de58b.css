@@ -1,0 +1,49 @@
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/UcCO3FwrK3iLTeHuS_nVMrMx-bad5f68b18b9.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../fonts/UcCO3FwrK3iLTeHuS_nVMrMx-11e1d80f42f9.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../fonts/UcCO3FwrK3iLTeHuS_nVMrMx-e9191f0db3ed.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/LDIbaomQNQcsA88c7O9yZ4KM-e5e1b0b632fb.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(../fonts/LDIbaomQNQcsA88c7O9yZ4KM-a4d28ff0e834.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fonts/LDIbaomQNQcsA88c7O9yZ4KM-049e3e9afb51.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(../fonts/LDIbaomQNQcsA88c7O9yZ4KM-d2acd40a3d2b.ttf) format('truetype');
+}
