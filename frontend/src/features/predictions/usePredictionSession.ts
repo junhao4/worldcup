@@ -7,7 +7,6 @@ import type {
   PredictionSession,
   PredictionValidationResult,
   PredictionCard,
-  UserProfile,
 } from '../../types/prediction';
 import type { AppUser } from '../../types/auth';
 import { SCHEMA_VERSION, DEFAULT_CARD } from '../../types/prediction';
@@ -20,14 +19,12 @@ import {
 import {
   choosePreferredSession,
   loadCloudPredictionSession,
+  loadLeaderboardUsers,
   loadMatchLockOverrides,
   loadMatchTimeOverrides,
   loadOfficialResults,
   loadPublicPredictionSessions,
-  loadPublicProfiles,
-  loadUserProfile,
   saveCloudPredictionSession,
-  saveUserProfile,
 } from '../../persistence/predictionCloudStorage';
 import { isSupabaseConfigured } from '../../lib/supabase';
 
@@ -45,9 +42,6 @@ export interface PredictionSessionState {
   totalMatches: number;
   cloudSyncStatus: 'disabled' | 'idle' | 'loading' | 'syncing' | 'synced' | 'error';
   cloudSyncMessage: string;
-  profile: UserProfile | null;
-  profileStatus: 'idle' | 'saving' | 'saved' | 'error';
-  profileMessage: string;
   leaderboardEntries: LeaderboardEntry[];
   leaderboardStatus: 'disabled' | 'loading' | 'ready' | 'error';
   leaderboardMessage: string;
@@ -57,7 +51,6 @@ export interface PredictionSessionState {
   handleScoreChange: (matchId: string, homeScore: number, awayScore: number) => void;
   handleAdvancingTeamChange: (matchId: string, teamId: string) => void;
   handleCardChange: (updates: Partial<PredictionCard>) => void;
-  handleProfileChange: (updates: Pick<UserProfile, 'displayName' | 'isPublic'>) => Promise<void>;
   handleReset: () => void;
 }
 
@@ -99,13 +92,10 @@ export function usePredictionSession(
   );
   const [cloudSyncMessage, setCloudSyncMessage] = useState(
     onlineEnabled
-      ? 'Create an account or log in to save across devices and join the leaderboard.'
+      ? 'Create an account or log in to save across devices.'
       : 'Online save is not available in this build.',
   );
   const [remoteReady, setRemoteReady] = useState(!onlineEnabled);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [profileStatus, setProfileStatus] = useState<PredictionSessionState['profileStatus']>('idle');
-  const [profileMessage, setProfileMessage] = useState('Choose how your name appears on the leaderboard.');
   const [officialResults, setOfficialResults] = useState<Map<string, MatchResult>>(new Map());
   const [matchLockOverrides, setMatchLockOverrides] = useState<Map<string, MatchLockOverrideMode>>(new Map());
   const [matchTimeOverrides, setMatchTimeOverrides] = useState<Map<string, string>>(new Map());
@@ -183,11 +173,8 @@ export function usePredictionSession(
     if (!user) {
       setRemoteReady(true);
       setCloudSyncStatus('idle');
-      setCloudSyncMessage('Create an account or log in to save across devices and join the leaderboard.');
+      setCloudSyncMessage('Create an account or log in to save across devices.');
       lastSyncedUpdatedAtRef.current = null;
-      setProfile(null);
-      setProfileStatus('idle');
-      setProfileMessage('Log in to choose a public display name.');
       return;
     }
 
@@ -197,11 +184,8 @@ export function usePredictionSession(
     setCloudSyncStatus('loading');
     setCloudSyncMessage('Loading your saved picks...');
 
-    Promise.all([
-      loadCloudPredictionSession(user, tournament.id),
-      loadUserProfile(user),
-    ])
-      .then(([remoteSession, remoteProfile]) => {
+    loadCloudPredictionSession(user, tournament.id)
+      .then((remoteSession) => {
         if (!active) return;
 
         setSession(prev => {
@@ -209,16 +193,6 @@ export function usePredictionSession(
           lastSyncedUpdatedAtRef.current = remoteSession?.updatedAt ?? null;
           return preferred;
         });
-
-        setProfile(remoteProfile);
-        setProfileStatus('saved');
-        setProfileMessage(
-          remoteProfile
-            ? remoteProfile.isPublic
-              ? 'Your display name is visible on the leaderboard.'
-              : 'Your account is saved privately.'
-            : 'Set a display name if you want to appear on the leaderboard.',
-        );
 
         setCloudSyncStatus('synced');
         setCloudSyncMessage(remoteSession ? 'Your picks are saved.' : 'Your next change will create a saved draft.');
@@ -229,8 +203,6 @@ export function usePredictionSession(
         setRemoteReady(true);
         setCloudSyncStatus('error');
         setCloudSyncMessage(error instanceof Error ? error.message : 'Unable to load your saved picks.');
-        setProfileStatus('error');
-        setProfileMessage('Unable to load your account settings.');
       });
 
     return () => {
@@ -281,18 +253,18 @@ export function usePredictionSession(
 
     async function refreshLeaderboard() {
       try {
-        const publicProfiles = await loadPublicProfiles();
-        const publicUserIds = publicProfiles.map(entry => entry.userId);
-        const publicSessions = await loadPublicPredictionSessions(tournament.id, publicUserIds);
+        const leaderboardUsers = await loadLeaderboardUsers();
+        const leaderboardUserIds = leaderboardUsers.map(entry => entry.userId);
+        const publicSessions = await loadPublicPredictionSessions(tournament.id, leaderboardUserIds);
         if (!active) return;
 
-        const entries = buildLeaderboardEntries(mergedMatches, publicSessions, publicProfiles, user?.id ?? null);
+        const entries = buildLeaderboardEntries(mergedMatches, publicSessions, leaderboardUsers, user?.id ?? null);
         setLeaderboardEntries(entries);
         setLeaderboardStatus('ready');
         setLeaderboardMessage(
           entries.length > 0
             ? 'Leaderboard updated.'
-            : 'No public leaderboard entries yet.',
+            : 'No leaderboard entries yet.',
         );
       } catch (error) {
         if (!active) return;
@@ -351,30 +323,6 @@ export function usePredictionSession(
     }));
   }, []);
 
-  const handleProfileChange = useCallback(async (updates: Pick<UserProfile, 'displayName' | 'isPublic'>) => {
-    if (!user) {
-      throw new Error('Sign in first to manage your public profile.');
-    }
-
-    setProfileStatus('saving');
-    setProfileMessage('Saving your profile...');
-
-    try {
-      const savedProfile = await saveUserProfile(user, updates);
-      setProfile(savedProfile);
-      setProfileStatus('saved');
-      setProfileMessage(
-        savedProfile.isPublic
-          ? 'Your display name is visible on the leaderboard.'
-          : 'Your account is saved privately.',
-      );
-    } catch (error) {
-      setProfileStatus('error');
-      setProfileMessage(error instanceof Error ? error.message : 'Unable to save your profile.');
-      throw error;
-    }
-  }, [user]);
-
   const handleReset = useCallback(() => {
     clearPredictionSession();
     const freshSession = createEmptySession(tournament);
@@ -389,9 +337,6 @@ export function usePredictionSession(
     totalMatches,
     cloudSyncStatus,
     cloudSyncMessage,
-    profile,
-    profileStatus,
-    profileMessage,
     leaderboardEntries,
     leaderboardStatus,
     leaderboardMessage,
@@ -401,7 +346,6 @@ export function usePredictionSession(
     handleScoreChange,
     handleAdvancingTeamChange,
     handleCardChange,
-    handleProfileChange,
     handleReset,
   };
 }

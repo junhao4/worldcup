@@ -1,9 +1,10 @@
 import type { MatchResult } from '../types/tournament';
-import type { MatchLockOverrideMode, PredictionSession, UserProfile } from '../types/prediction';
+import type { LeaderboardUser, MatchLockOverrideMode, PredictionSession } from '../types/prediction';
 import type { AppUser } from '../types/auth';
 import { MatchResultSchema } from '../types/tournament';
-import { MatchLockOverrideModeSchema, PredictionSessionSchema, UserProfileSchema } from '../types/prediction';
+import { LeaderboardUserSchema, MatchLockOverrideModeSchema, PredictionSessionSchema } from '../types/prediction';
 import { supabase } from '../lib/supabase';
+import { APP_USER_TABLE } from '../lib/simpleAuth';
 
 interface ResultRow {
   match_id: string;
@@ -22,8 +23,8 @@ interface MatchTimeOverrideRow {
   kickoff_at: string | null;
 }
 
-function mapProfile(profile: unknown): UserProfile | null {
-  const parsed = UserProfileSchema.safeParse(profile);
+function mapLeaderboardUser(user: unknown): LeaderboardUser | null {
+  const parsed = LeaderboardUserSchema.safeParse(user);
   return parsed.success ? parsed.data : null;
 }
 
@@ -93,61 +94,6 @@ export async function saveCloudPredictionSession(
   if (error) {
     throw error;
   }
-}
-
-export async function loadUserProfile(user: AppUser): Promise<UserProfile | null> {
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('user_id,display_name,is_public')
-    .eq('user_id', user.id)
-    .maybeSingle();
-
-  if (error) {
-    throw error;
-  }
-  if (!data) return null;
-
-  return mapProfile({
-    userId: (data as { user_id: string }).user_id,
-    displayName: (data as { display_name: string }).display_name,
-    isPublic: (data as { is_public: boolean }).is_public,
-  });
-}
-
-export async function saveUserProfile(
-  user: AppUser,
-  profile: Pick<UserProfile, 'displayName' | 'isPublic'>,
-): Promise<UserProfile> {
-  if (!supabase) {
-    throw new Error('Online account features are not available in this build.');
-  }
-
-  const { data, error } = await supabase
-    .from('profiles')
-    .upsert({
-      user_id: user.id,
-      display_name: profile.displayName,
-      is_public: profile.isPublic,
-    }, { onConflict: 'user_id' })
-    .select('user_id,display_name,is_public')
-    .single();
-
-  if (error) {
-    throw error;
-  }
-
-  const mapped = mapProfile({
-    userId: (data as { user_id: string }).user_id,
-    displayName: (data as { display_name: string }).display_name,
-    isPublic: (data as { is_public: boolean }).is_public,
-  });
-  if (!mapped) {
-    throw new Error('Unable to read your saved profile.');
-  }
-
-  return mapped;
 }
 
 export async function loadOfficialResults(matchIds: string[]): Promise<Map<string, MatchResult>> {
@@ -222,21 +168,20 @@ export async function loadMatchTimeOverrides(matchIds: string[]): Promise<Map<st
   return mapped;
 }
 
-export async function loadPublicProfiles(): Promise<UserProfile[]> {
+export async function loadLeaderboardUsers(): Promise<LeaderboardUser[]> {
   if (!supabase) return [];
 
   const { data, error } = await supabase
-    .from('profiles')
-    .select('user_id,display_name,is_public')
-    .eq('is_public', true);
+    .from(APP_USER_TABLE)
+    .select('id,username');
 
   if (error) {
     throw error;
   }
 
-  return ((data ?? []) as Array<{ user_id: string; display_name: string; is_public: boolean }>)
-    .map(row => mapProfile({ userId: row.user_id, displayName: row.display_name, isPublic: row.is_public }))
-    .filter((profile): profile is UserProfile => profile != null);
+  return ((data ?? []) as Array<{ id: string; username: string }>)
+    .map(row => mapLeaderboardUser({ userId: row.id, username: row.username }))
+    .filter((user): user is LeaderboardUser => user != null);
 }
 
 export async function loadPublicPredictionSessions(

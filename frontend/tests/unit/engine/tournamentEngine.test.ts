@@ -3,7 +3,7 @@ import { computeGroupStandings, sortStandings } from '../../../src/engine/standi
 import { resolveKnockoutWinner, buildBracketProgression } from '../../../src/engine/bracket';
 import { validatePredictionSession } from '../../../src/engine/validation';
 import { buildLeaderboardEntries, computePredictionPoints, scoreMatchPrediction } from '../../../src/engine/scoring';
-import type { MatchPrediction, PredictionSession, UserProfile } from '../../../src/types/prediction';
+import type { LeaderboardUser, MatchPrediction, PredictionSession } from '../../../src/types/prediction';
 import type { Match, StandingsRow } from '../../../src/types/tournament';
 import { tournament2026 } from '../../../src/data/tournament2026';
 import { formatSingaporeKickoff } from '../../../src/lib/matchTime';
@@ -226,7 +226,7 @@ describe('prediction scoring', () => {
     expect(summary.maximumPoints).toBe(8);
   });
 
-  it('builds public leaderboard entries sorted by score and exact picks', () => {
+  it('builds leaderboard entries sorted by score and exact picks', () => {
     const matches: Match[] = [
       completedGroupMatch,
       completedKnockoutMatch,
@@ -269,31 +269,46 @@ describe('prediction scoring', () => {
       },
     ];
 
-    const profiles: UserProfile[] = [
-      { userId: 'user-a', displayName: 'Alice', isPublic: true },
-      { userId: 'user-b', displayName: 'Bob', isPublic: true },
-      { userId: 'user-c', displayName: 'Chris', isPublic: false },
+    const users: LeaderboardUser[] = [
+      { userId: 'user-a', username: 'alice' },
+      { userId: 'user-b', username: 'bob' },
+      { userId: 'user-c', username: 'chris' },
     ];
 
-    const leaderboard = buildLeaderboardEntries(matches, sessions, profiles, 'user-b');
+    const leaderboard = buildLeaderboardEntries(matches, sessions, users, 'user-b');
 
-    expect(leaderboard).toHaveLength(2);
+    expect(leaderboard).toHaveLength(3);
     expect(leaderboard[0]).toMatchObject({
       rank: 1,
       userId: 'user-a',
-      displayName: 'Alice',
+      username: 'alice',
       totalPoints: 8,
       exactScorePoints: 4,
       outcomePoints: 4,
+      correctResultCount: 2,
+      resultAccuracy: 100,
       isCurrentUser: false,
     });
     expect(leaderboard[1]).toMatchObject({
       rank: 2,
+      userId: 'user-c',
+      username: 'chris',
+      totalPoints: 4,
+      exactScorePoints: 2,
+      outcomePoints: 2,
+      correctResultCount: 1,
+      resultAccuracy: 100,
+      isCurrentUser: false,
+    });
+    expect(leaderboard[2]).toMatchObject({
+      rank: 3,
       userId: 'user-b',
-      displayName: 'Bob',
+      username: 'bob',
       totalPoints: 4,
       exactScorePoints: 0,
       outcomePoints: 4,
+      correctResultCount: 2,
+      resultAccuracy: 100,
       isCurrentUser: true,
     });
   });
@@ -334,12 +349,12 @@ describe('prediction scoring', () => {
       },
     ];
 
-    const profiles: UserProfile[] = [
-      { userId: 'user-a', displayName: 'Alice', isPublic: true },
-      { userId: 'user-b', displayName: 'Bob', isPublic: true },
+    const users: LeaderboardUser[] = [
+      { userId: 'user-a', username: 'alice' },
+      { userId: 'user-b', username: 'bob' },
     ];
 
-    const leaderboard = buildLeaderboardEntries(matches, sessions, profiles);
+    const leaderboard = buildLeaderboardEntries(matches, sessions, users);
 
     expect(leaderboard[0]).toMatchObject({
       rank: 1,
