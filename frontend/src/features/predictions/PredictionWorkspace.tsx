@@ -80,9 +80,6 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
     totalMatches,
     cloudSyncStatus,
     cloudSyncMessage,
-    profile,
-    profileStatus,
-    profileMessage,
     leaderboardEntries,
     leaderboardStatus,
     leaderboardMessage,
@@ -91,7 +88,6 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
     matchTimeOverrides,
     handleScoreChange,
     handleAdvancingTeamChange,
-    handleProfileChange,
     handleReset,
   } = usePredictionSession(tournament, { user: auth.user });
 
@@ -357,13 +353,9 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
                 username={auth.user.username}
                 syncStatus={cloudSyncStatus}
                 syncMessage={cloudSyncMessage}
-                profile={profile}
-                profileStatus={profileStatus}
-                profileMessage={profileMessage}
                 onSignUp={auth.signUp}
                 onSignIn={auth.signIn}
                 onSignOut={auth.signOut}
-                onSaveProfile={handleProfileChange}
               />
             ) : null}
           </div>
@@ -423,13 +415,9 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
             username={null}
             syncStatus={cloudSyncStatus}
             syncMessage={cloudSyncMessage}
-            profile={profile}
-            profileStatus={profileStatus}
-            profileMessage={profileMessage}
             onSignUp={auth.signUp}
             onSignIn={auth.signIn}
             onSignOut={auth.signOut}
-            onSaveProfile={handleProfileChange}
           />
         ) : null}
 
@@ -689,7 +677,7 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
                         <td>{entry.rank}</td>
                         <td>
                           <span className="leaderboard-name">
-                            <span className="leaderboard-name__text">{entry.displayName}</span>
+                            <span className="leaderboard-name__text">{entry.username}</span>
                             {entry.isCurrentUser ? <strong className="leaderboard-you">You</strong> : null}
                           </span>
                         </td>

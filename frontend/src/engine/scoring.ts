@@ -1,5 +1,5 @@
 import type { Match } from '../types/tournament';
-import type { LeaderboardEntry, MatchPrediction, PredictionSession, UserProfile } from '../types/prediction';
+import type { LeaderboardEntry, LeaderboardUser, MatchPrediction, PredictionSession } from '../types/prediction';
 
 export interface PredictionPointsSummary {
   totalPoints: number;
@@ -101,26 +101,29 @@ export function computePredictionPoints(
 
 export function buildLeaderboardEntries(
   matches: Match[],
-  sessions: Array<{ userId: string; session: PredictionSession }>,
-  profiles: UserProfile[],
+  sessions: Array<{ userId: string; session: PredictionSession | null }>,
+  users: LeaderboardUser[],
   currentUserId?: string | null,
 ): LeaderboardEntry[] {
-  const publicProfiles = new Map(
-    profiles
-      .filter(profile => profile.isPublic)
-      .map(profile => [profile.userId, profile]),
+  const leaderboardUsers = new Map(
+    users.map(user => [user.userId, user]),
+  );
+  const sessionMap = new Map(
+    sessions.map(entry => [entry.userId, entry.session]),
   );
 
   const entries: LeaderboardEntry[] = [];
 
-  for (const { userId, session } of sessions) {
-    const profile = publicProfiles.get(userId);
-    if (!profile) continue;
+  for (const user of users) {
+    const session = sessionMap.get(user.userId);
+    const predictions = session?.predictions ?? [];
+    const leaderboardUser = leaderboardUsers.get(user.userId);
+    if (!leaderboardUser) continue;
 
-    const summary = computePredictionPoints(matches, session.predictions);
+    const summary = computePredictionPoints(matches, predictions);
     entries.push({
-      userId,
-      displayName: profile.displayName,
+      userId: user.userId,
+      username: leaderboardUser.username,
       totalPoints: summary.totalPoints,
       outcomePoints: summary.outcomePoints,
       exactScorePoints: summary.exactScorePoints,
@@ -131,7 +134,7 @@ export function buildLeaderboardEntries(
       gradedPredictionCount: summary.gradedPredictionCount,
       resultMatchCount: summary.resultMatchCount,
       rank: 0,
-      isCurrentUser: currentUserId === userId,
+      isCurrentUser: currentUserId === user.userId,
     });
   }
 
@@ -139,7 +142,7 @@ export function buildLeaderboardEntries(
     if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
     if (b.exactScorePoints !== a.exactScorePoints) return b.exactScorePoints - a.exactScorePoints;
     if (b.resultAccuracy !== a.resultAccuracy) return b.resultAccuracy - a.resultAccuracy;
-    return a.displayName.localeCompare(b.displayName);
+    return a.username.localeCompare(b.username);
   });
 
   return entries.map((entry, index) => ({

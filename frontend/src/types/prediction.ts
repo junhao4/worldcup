@@ -56,17 +56,16 @@ export const MatchLockOverrideModeSchema = z.enum([
 
 export type MatchLockOverrideMode = z.infer<typeof MatchLockOverrideModeSchema>;
 
-export const UserProfileSchema = z.object({
+export const LeaderboardUserSchema = z.object({
   userId: z.string().min(1),
-  displayName: z.string().min(1).max(40),
-  isPublic: z.boolean(),
+  username: z.string().min(1).max(24),
 });
 
-export type UserProfile = z.infer<typeof UserProfileSchema>;
+export type LeaderboardUser = z.infer<typeof LeaderboardUserSchema>;
 
 export const LeaderboardEntrySchema = z.object({
   userId: z.string().min(1),
-  displayName: z.string().min(1),
+  username: z.string().min(1),
   totalPoints: z.number().int().nonnegative(),
   outcomePoints: z.number().int().nonnegative(),
   exactScorePoints: z.number().int().nonnegative(),

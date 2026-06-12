@@ -3,12 +3,10 @@ export { migrateSession } from './predictionMigrations';
 export {
   choosePreferredSession,
   loadCloudPredictionSession,
+  loadLeaderboardUsers,
   loadMatchLockOverrides,
   loadMatchTimeOverrides,
   loadOfficialResults,
   loadPublicPredictionSessions,
-  loadPublicProfiles,
-  loadUserProfile,
   saveCloudPredictionSession,
-  saveUserProfile,
 } from './predictionCloudStorage';

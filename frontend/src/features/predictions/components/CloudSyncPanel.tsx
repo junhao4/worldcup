@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import type { UserProfile } from '../../../types/prediction';
 
 export interface CloudSyncPanelProps {
   readonly compact?: boolean;
@@ -8,13 +7,9 @@ export interface CloudSyncPanelProps {
   readonly username: string | null;
   readonly syncStatus: 'disabled' | 'idle' | 'loading' | 'syncing' | 'synced' | 'error';
   readonly syncMessage: string;
-  readonly profile: UserProfile | null;
-  readonly profileStatus: 'idle' | 'saving' | 'saved' | 'error';
-  readonly profileMessage: string;
   readonly onSignUp: (username: string, password: string) => Promise<void>;
   readonly onSignIn: (username: string, password: string) => Promise<void>;
   readonly onSignOut: () => Promise<void>;
-  readonly onSaveProfile: (updates: Pick<UserProfile, 'displayName' | 'isPublic'>) => Promise<void>;
 }
 
 export function CloudSyncPanel({
@@ -24,32 +19,21 @@ export function CloudSyncPanel({
   username,
   syncStatus,
   syncMessage,
-  profile,
-  profileStatus,
-  profileMessage,
   onSignUp,
   onSignIn,
   onSignOut,
-  onSaveProfile,
 }: CloudSyncPanelProps) {
   const [authUsername, setAuthUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [displayName, setDisplayName] = useState(profile?.displayName ?? '');
-  const [isPublic, setIsPublic] = useState(profile?.isPublic ?? false);
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
-    setDisplayName(profile?.displayName ?? '');
-    setIsPublic(profile?.isPublic ?? false);
-  }, [profile?.displayName, profile?.isPublic]);
-
-  useEffect(() => {
-    if (authMessage || profileStatus === 'saving' || syncStatus === 'error' || profileStatus === 'error') {
+    if (authMessage || syncStatus === 'error') {
       setExpanded(true);
     }
-  }, [authMessage, profileStatus, syncStatus]);
+  }, [authMessage, syncStatus]);
 
   async function handleAuth(mode: 'signup' | 'signin') {
     if (!authUsername.trim() || !password) return;
@@ -85,24 +69,6 @@ export function CloudSyncPanel({
     }
   }
 
-  async function handleProfileSave() {
-    if (!displayName.trim()) {
-      setAuthMessage('Add a display name before joining the leaderboard.');
-      return;
-    }
-
-    setSubmitting(true);
-    setAuthMessage(null);
-
-    try {
-      await onSaveProfile({ displayName: displayName.trim(), isPublic });
-    } catch (error) {
-      setAuthMessage(error instanceof Error ? error.message : 'Unable to save your profile.');
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
   const rootClassName = `cloud-sync-panel${compact ? ' cloud-sync-panel--compact' : ''}`;
 
   if (!enabled) {
@@ -125,7 +91,7 @@ export function CloudSyncPanel({
         <div className="cloud-sync-panel__summary">
           <div className="cloud-sync-panel__summary-copy">
             <p className="cloud-sync-panel__label">Account</p>
-            <strong className="cloud-sync-panel__headline">{displayName || username}</strong>
+            <strong className="cloud-sync-panel__headline">{username}</strong>
             <p className={`cloud-sync-panel__message cloud-sync-panel__message--${syncStatus}`}>
               {loading ? 'Checking your account...' : syncMessage}
             </p>
@@ -143,39 +109,7 @@ export function CloudSyncPanel({
 
         {expanded ? (
           <>
-            <div className="cloud-sync-panel__fields">
-              <label className="cloud-sync-panel__field">
-                <span>Display name</span>
-                <input
-                  className="cloud-sync-panel__input"
-                  type="text"
-                  maxLength={40}
-                  value={displayName}
-                  onChange={(event) => setDisplayName(event.target.value)}
-                  disabled={submitting}
-                />
-              </label>
-
-              <label className="cloud-sync-panel__checkbox">
-                <input
-                  type="checkbox"
-                  checked={isPublic}
-                  onChange={(event) => setIsPublic(event.target.checked)}
-                  disabled={submitting}
-                />
-                <span>Show me on the public leaderboard</span>
-              </label>
-            </div>
-
             <div className="cloud-sync-panel__actions">
-              <button
-                className="cloud-sync-panel__button"
-                type="button"
-                disabled={submitting || profileStatus === 'saving'}
-                onClick={handleProfileSave}
-              >
-                {profileStatus === 'saving' ? 'Saving...' : 'Save Profile'}
-              </button>
               <button
                 className="cloud-sync-panel__button cloud-sync-panel__button--secondary"
                 type="button"
@@ -185,9 +119,6 @@ export function CloudSyncPanel({
                 Sign out
               </button>
             </div>
-            <p className={`cloud-sync-panel__message cloud-sync-panel__message--${profileStatus}`}>
-              {profileMessage}
-            </p>
             {authMessage ? <p className="cloud-sync-panel__feedback">{authMessage}</p> : null}
           </>
         ) : null}
@@ -202,7 +133,7 @@ export function CloudSyncPanel({
           <p className="cloud-sync-panel__label">Account</p>
           <strong className="cloud-sync-panel__headline">Save across devices</strong>
           <p className={`cloud-sync-panel__message cloud-sync-panel__message--${syncStatus}`}>
-            {loading ? 'Checking your account...' : 'Optional for backups and leaderboard.'}
+            {loading ? 'Checking your account...' : 'Optional for backups.'}
           </p>
         </div>
 
