@@ -15,6 +15,16 @@
 - Q: How should tied scorelines be handled? → A: Group draws are allowed; knockout ties require a winner selection.
 - Q: What should be improved most compared with the reference score predictor? → A: More polished PNG prediction card and preview.
 
+### Session 2026-06-11
+
+- Q: When should a prediction stop being editable? → A: Lock each match exactly 1 hour before kickoff.
+- Q: Should users see the official score after a match finishes? → A: Yes, show the official result alongside their prediction.
+- Q: How should scoring work? → A: 1 point for the correct outcome plus 1 point for each exact team score.
+- Q: Should there be a public competition layer? → A: Yes, add a public leaderboard of player scores.
+- Q: How should users appear publicly? → A: Let each user set a display name for leaderboard use.
+- Q: How should official scores be maintained operationally? → A: Store them in a simple Supabase table that can be updated daily.
+- Q: Should internal platform details appear in user-facing copy? → A: No, do not mention Supabase or sync internals in core user messaging.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Build My Tournament Prediction (Priority: P1)
@@ -30,6 +40,8 @@ A fan can predict scores for every match across the World Cup tournament so they
 1. **Given** a user starts a new prediction, **When** they enter valid scores for each required match, **Then** the website updates standings, advancing teams, and the complete tournament outcome.
 2. **Given** a user has not completed all required picks, **When** they try to finalize their prediction, **Then** the website highlights the missing selections and prevents completion until the prediction is valid.
 3. **Given** a user enters a tied score for a knockout match, **When** the match requires a winner, **Then** the website asks the user to choose which team advances.
+4. **Given** a match is within 1 hour of kickoff, **When** a user views that fixture, **Then** the prediction is locked and can no longer be edited.
+5. **Given** a match has already started, **When** a user views that fixture, **Then** the prediction remains read-only and clearly indicates that it is locked.
 
 ---
 
@@ -61,6 +73,54 @@ A fan can name their prediction card, add lightweight personalization, and retur
 1. **Given** a user has an in-progress prediction, **When** they save or revisit it later on the same device, **Then** the previously selected outcomes and title remain available for editing.
 2. **Given** a user customizes the prediction card title or theme, **When** they preview or export it, **Then** the chosen personalization appears consistently in the on-screen preview and final image.
 
+---
+
+### User Story 4 - Compare Predictions With Official Results (Priority: P2)
+
+A fan can see official match results beside their locked predictions and understand the points they earned once matches finish.
+
+**Why this priority**: The app becomes much more compelling during the tournament if users can track how accurate they are, not just what they predicted.
+
+**Independent Test**: Mark one or more matches as complete with official scores, open a user prediction, and verify the UI shows the official result, earned points, and locked state without allowing edits.
+
+**Acceptance Scenarios**:
+
+1. **Given** a match has an official final score, **When** a user opens that match, **Then** the website shows the official score alongside the user’s predicted score.
+2. **Given** a completed match has both an official result and a user prediction, **When** points are calculated, **Then** the website awards 1 point for the correct outcome and 1 point for each exact team score.
+3. **Given** a completed knockout match needs an advancing side to resolve the outcome, **When** the official advancing team is present, **Then** the outcome point uses that advancing side.
+
+---
+
+### User Story 5 - Join a Public Leaderboard (Priority: P2)
+
+A fan can set a display name and compare their cumulative score against other players on a public leaderboard.
+
+**Why this priority**: Public ranking makes the product social and sticky across the full tournament window.
+
+**Independent Test**: Create multiple users with display names and completed-match scoring, then verify the leaderboard ranks them correctly using only public-facing profile data.
+
+**Acceptance Scenarios**:
+
+1. **Given** a user wants to appear publicly, **When** they set a display name, **Then** that name is used in the leaderboard.
+2. **Given** multiple users have scored predictions, **When** the leaderboard is opened, **Then** it ranks them by cumulative points in descending order.
+3. **Given** a user has not chosen a display name yet, **When** they try to participate publicly, **Then** the website prompts them to set one first.
+
+---
+
+### User Story 6 - Record Official Match Results Daily (Priority: P1)
+
+An organizer can enter official match results in a simple database table so prediction locking, comparison, and leaderboard scoring all stay current.
+
+**Why this priority**: The results layer is the backbone for daily tournament operation. Without it, post-match comparison and leaderboard features cannot function reliably.
+
+**Independent Test**: Update official match results for a given day in the database, refresh the app, and verify the results, points, and leaderboard reflect the change.
+
+**Acceptance Scenarios**:
+
+1. **Given** the organizer enters an official match result, **When** users refresh or revisit the app, **Then** that result becomes the source of truth shown in comparison views.
+2. **Given** an official score is corrected after entry, **When** the organizer updates the result record, **Then** affected user scores and leaderboard totals are recalculated.
+3. **Given** a match has kicked off but no official final score is available yet, **When** users view that match, **Then** the match is still locked and the UI indicates that the official result is pending.
+
 ### Edge Cases
 
 - What happens when a user selects contradictory outcomes that would place the wrong team in a later knockout match?
@@ -69,6 +129,11 @@ A fan can name their prediction card, add lightweight personalization, and retur
 - How does the export flow behave on smaller mobile screens where the full bracket may not be visible at once?
 - What happens when the generated image would exceed the supported output dimensions or file size?
 - How does the system handle tied group-stage scores compared with tied knockout scores?
+- What happens if a user is editing a match while the 1-hour lock threshold is crossed?
+- How should the leaderboard handle ties between players on the same total score?
+- What happens when a user never predicted a match that later receives an official result?
+- How does the system behave if an organizer enters a knockout result without an advancing team where one is required?
+- What happens when a user changes their display name after already appearing on the leaderboard?
 
 ## Requirements *(mandatory)*
 
@@ -92,6 +157,22 @@ A fan can name their prediction card, add lightweight personalization, and retur
 - **FR-016**: The system MUST require a user-selected advancing team for any knockout match whose predicted score is tied.
 - **FR-017**: The system MUST use the reference score predictor at `https://world-cup-2026-scores.vercel.app` as a baseline for score entry, standings, best-third review, and bracket route visibility, while improving the review and export experience for share-ready predictions.
 - **FR-018**: The system MUST prioritize a polished PNG prediction card and preview that feels more share-ready than the reference score predictor's functional score and bracket views.
+- **FR-019**: The system MUST lock each match prediction exactly 1 hour before the scheduled kickoff time and prevent further edits after that point.
+- **FR-020**: The system MUST keep locked predictions visible after kickoff so users can compare them with official results.
+- **FR-021**: The system MUST calculate user points as 1 point for the correct outcome plus 1 point for each exact team score.
+- **FR-022**: The system MUST show the official final score for completed matches alongside each user’s prediction.
+- **FR-023**: The system MUST show per-match earned points and cumulative total points for each user once official results exist.
+- **FR-024**: The system MUST support a public leaderboard ranked by cumulative points.
+- **FR-025**: The system MUST allow a user to set and update a public display name for leaderboard participation.
+- **FR-026**: The system MUST allow a user to opt out of public leaderboard participation while still using the prediction product.
+- **FR-027**: The system MUST avoid exposing private identifiers such as email addresses in public leaderboard views.
+- **FR-028**: The system MUST store official match results in a Supabase-backed table that can be maintained daily through Supabase tools without code changes.
+- **FR-029**: The system MUST support an official advancing team field for knockout matches whose final score is level in the score-entry model.
+- **FR-030**: The system MUST recalculate user points and leaderboard rankings when official results are added or corrected.
+- **FR-031**: The system MUST present user-facing account and save copy without mentioning internal implementation terms such as “Supabase” or “sync”.
+- **FR-032**: The system MUST clearly mark each match state as open, locked, in progress, completed, or awaiting official result.
+- **FR-033**: The system MUST show the official score comparison in a layout that makes the user’s prediction and the correct result easy to scan side by side.
+- **FR-034**: The system MUST support cross-device restore for signed-in users whose predictions are stored remotely.
 
 ### Key Entities *(include if feature involves data)*
 
@@ -100,6 +181,9 @@ A fan can name their prediction card, add lightweight personalization, and retur
 - **Knockout Tiebreak Selection**: Represents the team chosen to advance when a knockout match score is tied.
 - **Prediction Card**: Represents the full user-created prediction set, including title, all selected outcomes, champion, and visual personalization choices.
 - **Export Image**: Represents the downloadable PNG share artifact generated from a completed prediction card.
+- **User Profile**: Represents a participant account, including private identity, public display name, and leaderboard participation preference.
+- **Official Match Result**: Represents the verified final score and, when needed, advancing team for a completed match.
+- **Leaderboard Entry**: Represents the public score summary for one participant, including display name, total points, and rank.
 
 ## Success Criteria *(mandatory)*
 
@@ -111,14 +195,20 @@ A fan can name their prediction card, add lightweight personalization, and retur
 - **SC-004**: At least 90% of users on supported mobile screen sizes can create, review, and export a prediction without needing to switch to desktop.
 - **SC-005**: In side-by-side usability comparison with the reference score predictor, at least 80% of evaluators prefer this product's prediction review and export flow.
 - **SC-006**: At least 85% of evaluators describe the exported PNG card as share-ready without needing additional editing.
+- **SC-007**: At least 95% of matches become non-editable for all users by the configured 1-hour pre-kickoff lock threshold.
+- **SC-008**: Official result updates made in Supabase are reflected in match comparison views and leaderboard totals within 1 minute.
+- **SC-009**: At least 90% of users can correctly explain why they gained or missed points for a completed match after viewing the comparison state.
+- **SC-010**: No public leaderboard screen exposes email addresses or internal account identifiers.
 
 ## Assumptions
 
 - The initial release focuses on the full 2026 World Cup format rather than supporting custom tournament creation.
-- Users do not need to create an account for v1; prediction persistence is limited to the same device or browser context.
+- Users who want cross-device restore or leaderboard participation will use an account-backed flow.
 - The first version prioritizes score prediction and tournament progression over advanced analytics or live data integration.
 - The PNG image export is intended for sharing and saving, not for post-export editing within the product.
 - The reference score predictor is treated as competitive inspiration, not as a strict visual design requirement.
+- Official match results are entered manually by the organizer in Supabase rather than pulled from an automated sports feed.
+- Leaderboard ordering is based on cumulative points unless a later clarification adds explicit tie-break rules.
 
 ## UI Design
 

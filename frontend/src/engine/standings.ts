@@ -1,9 +1,40 @@
 import type { Match, StandingsRow } from '../types/tournament';
 import type { MatchPrediction } from '../types/prediction';
 
+export type GroupStandingsMode = 'predicted' | 'actual' | 'combined';
+
+function getAppliedScoreline(
+  match: Match,
+  prediction: MatchPrediction | undefined,
+  mode: GroupStandingsMode,
+) {
+  if (mode === 'actual') {
+    if (!match.result) return null;
+    return {
+      homeScore: match.result.homeScore,
+      awayScore: match.result.awayScore,
+    };
+  }
+
+  if (mode === 'combined' && match.result) {
+    return {
+      homeScore: match.result.homeScore,
+      awayScore: match.result.awayScore,
+    };
+  }
+
+  if (!prediction) return null;
+
+  return {
+    homeScore: prediction.homeScore,
+    awayScore: prediction.awayScore,
+  };
+}
+
 export function computeGroupStandings(
   groupMatches: Match[],
   predictions: MatchPrediction[],
+  mode: GroupStandingsMode = 'combined',
 ): StandingsRow[] {
   // Build index map for O(1) prediction lookups (KB: 07a)
   const predByMatch = new Map(predictions.map(p => [p.matchId, p]));
@@ -32,24 +63,24 @@ export function computeGroupStandings(
   }
 
   for (const match of groupMatches) {
-    const pred = predByMatch.get(match.id);
-    if (!pred) continue;
+    const scoreline = getAppliedScoreline(match, predByMatch.get(match.id), mode);
+    if (!scoreline) continue;
 
     const home = rows.get(match.homeTeamId)!;
     const away = rows.get(match.awayTeamId)!;
 
     home.played++;
     away.played++;
-    home.goalsFor += pred.homeScore;
-    home.goalsAgainst += pred.awayScore;
-    away.goalsFor += pred.awayScore;
-    away.goalsAgainst += pred.homeScore;
+    home.goalsFor += scoreline.homeScore;
+    home.goalsAgainst += scoreline.awayScore;
+    away.goalsFor += scoreline.awayScore;
+    away.goalsAgainst += scoreline.homeScore;
 
-    if (pred.homeScore > pred.awayScore) {
+    if (scoreline.homeScore > scoreline.awayScore) {
       home.won++;
       home.points += 3;
       away.lost++;
-    } else if (pred.homeScore < pred.awayScore) {
+    } else if (scoreline.homeScore < scoreline.awayScore) {
       away.won++;
       away.points += 3;
       home.lost++;

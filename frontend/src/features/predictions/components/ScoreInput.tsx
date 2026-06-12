@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import type { Match } from '../../../types/tournament';
-import type { MatchPrediction } from '../../../types/prediction';
+import type { Match, MatchResult } from '../../../types/tournament';
+import type { MatchLifecycleState, MatchPrediction } from '../../../types/prediction';
 import { AdvancementPicker } from './AdvancementPicker';
 import { formatSingaporeKickoff } from '../../../lib/matchTime';
 
@@ -16,6 +16,9 @@ export interface ScoreInputProps {
   readonly disabled?: boolean;
   readonly disabledReason?: string;
   readonly scheduleDisplay?: 'full' | 'time-only' | 'hidden';
+  readonly matchState?: MatchLifecycleState;
+  readonly officialResult?: MatchResult | null;
+  readonly earnedPoints?: number | null;
 }
 
 /** Map FIFA codes to ISO 3166-1 alpha-2 for flag images */
@@ -64,16 +67,17 @@ export function ScoreInput({
   match, prediction, onScoreChange, onAdvancingTeamChange,
   homeLabel, awayLabel, homeFifaCode, awayFifaCode,
   disabled = false, disabledReason, scheduleDisplay = 'full',
+  matchState = 'open', officialResult, earnedPoints = null,
 }: ScoreInputProps) {
   // Local string state so user can type freely (empty, partial)
   const [homeText, setHomeText] = useState(prediction?.homeScore?.toString() ?? '');
   const [awayText, setAwayText] = useState(prediction?.awayScore?.toString() ?? '');
 
-  // Sync from external prediction changes (e.g. reset)
+  // Sync from prediction or official result changes
   useEffect(() => {
     setHomeText(prediction?.homeScore?.toString() ?? '');
     setAwayText(prediction?.awayScore?.toString() ?? '');
-  }, [prediction?.homeScore, prediction?.awayScore]);
+  }, [prediction?.awayScore, prediction?.homeScore]);
 
   const needsWinner =
     !disabled && match.knockout && prediction != null && prediction.homeScore === prediction.awayScore;
@@ -155,6 +159,29 @@ export function ScoreInput({
           selectedTeamId={prediction.advancingTeamId}
           onSelect={onAdvancingTeamChange}
         />
+      ) : null}
+      {officialResult ? (
+        <div className="score-card__result" data-testid={`official-result-${match.id}`}>
+          <div className="score-card__result-row">
+            <span className="score-card__result-label">Official result</span>
+            <strong>{officialResult.homeScore}:{officialResult.awayScore}</strong>
+          </div>
+          {earnedPoints != null ? (
+            <div className="score-card__result-row">
+              <span className="score-card__result-label">Points earned</span>
+              <strong>{earnedPoints}/4</strong>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
+      {!officialResult && (matchState === 'in_progress' || matchState === 'awaiting_official_result') ? (
+        <div className="score-card__result score-card__result--pending">
+          <div className="score-card__result-row">
+            <span className="score-card__result-label">
+              {matchState === 'in_progress' ? 'Match in progress' : 'Official result pending'}
+            </span>
+          </div>
+        </div>
       ) : null}
     </div>
   );

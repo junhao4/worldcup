@@ -321,10 +321,11 @@ export type PredictionCard = z.infer<typeof PredictionCardSchema>;
 
 ## Entity: PredictionSession
 
-**Purpose**: Represents the full in-progress or completed prediction stored in the browser and optionally mirrored by a future backend.
+**Purpose**: Represents the full in-progress or completed prediction stored in the browser and mirrored to the hosted database for signed-in users.
 
 **Fields**:
 - `id`: stable session identifier
+- `userId`: authenticated player identifier for cloud save and leaderboard joins
 - `tournamentId`: linked tournament identifier
 - `predictions`: all `MatchPrediction` entries authored by the user
 - `card`: `PredictionCard` display settings
@@ -333,6 +334,7 @@ export type PredictionCard = z.infer<typeof PredictionCardSchema>;
 
 **Relationships**:
 - References one `Tournament`
+- References one authenticated player account
 - Owns many `MatchPrediction` records
 - Owns one `PredictionCard`
 
@@ -387,6 +389,132 @@ export const PredictionSessionSchema = z.object({
 });
 
 export type PredictionSession = z.infer<typeof PredictionSessionSchema>;
+```
+
+## Entity: UserProfile
+
+**Purpose**: Stores the player-facing display name and public leaderboard preference for a signed-in user.
+
+**Fields**:
+- `userId`: authenticated account ID
+- `displayName`: public-facing player name
+- `isPublic`: whether this player appears on the public leaderboard
+- `updatedAt`: last profile update timestamp
+
+**Relationships**:
+- Belongs to one authenticated player account
+- Is referenced when building `LeaderboardEntry` records
+
+**Validation Rules**:
+- `displayName` must be 1 to 40 characters after trimming
+- Only public profiles participate in the leaderboard
+
+**Supabase/Postgres Representation**:
+
+```sql
+create table if not exists public.profiles (
+  user_id uuid primary key references public.app_users(id) on delete cascade,
+  display_name text not null check (char_length(trim(display_name)) between 1 and 40),
+  is_public boolean not null default false,
+  updated_at timestamptz not null default timezone('utc', now())
+);
+```
+
+**TypeScript/Zod Representation**:
+
+```ts
+export const UserProfileSchema = z.object({
+  userId: z.string().min(1),
+  displayName: z.string().min(1).max(40),
+  isPublic: z.boolean(),
+});
+
+export type UserProfile = z.infer<typeof UserProfileSchema>;
+```
+
+## Entity: OfficialMatchResult
+
+**Purpose**: Stores the official result entered by the organizer after each real-world match, which locks in scoring and side-by-side comparison.
+
+**Fields**:
+- `matchId`: tournament match identifier
+- `homeScore`: official home score
+- `awayScore`: official away score
+- `advancingTeamId`: required for knockout draws when a winner advances
+- `updatedAt`: last result update timestamp
+
+**Relationships**:
+- References one `Match`
+- Drives `LeaderboardEntry` recalculation and per-match point totals
+
+**Validation Rules**:
+- Scores must be integers greater than or equal to zero
+- `advancingTeamId` must be null for group matches unless knockout rules apply
+- Each match may have only one official result row
+
+**Supabase/Postgres Representation**:
+
+```sql
+create table if not exists public.match_results (
+  match_id text primary key,
+  home_score integer not null check (home_score >= 0),
+  away_score integer not null check (away_score >= 0),
+  advancing_team_id text null,
+  updated_at timestamptz not null default timezone('utc', now())
+);
+```
+
+**TypeScript/Zod Representation**:
+
+```ts
+export const MatchResultSchema = z.object({
+  homeScore: z.number().int().min(0),
+  awayScore: z.number().int().min(0),
+  advancingTeamId: z.string().nullable().optional(),
+});
+
+export type MatchResult = z.infer<typeof MatchResultSchema>;
+```
+
+## Entity: LeaderboardEntry
+
+**Purpose**: Represents one public row in the live leaderboard derived from official results, saved prediction sessions, and public profiles.
+
+**Fields**:
+- `userId`: player identifier
+- `displayName`: public name pulled from `UserProfile`
+- `totalPoints`: total scored points
+- `outcomePoints`: one point per correct winner or advancing team
+- `exactScorePoints`: one point for each exact home or away score
+- `gradedPredictionCount`: number of that player's predictions that now have official results
+- `resultMatchCount`: total number of tournament matches with official results
+- `rank`: display ordering after sort
+
+**Relationships**:
+- Derived from one `PredictionSession`
+- Derived from one `UserProfile`
+- Derived from many `OfficialMatchResult` records
+
+**Validation Rules**:
+- Hidden profiles must not produce leaderboard entries
+- Rank must be recalculated after any official result or profile visibility change
+
+**TypeScript/Zod Representation**:
+
+```ts
+export const LeaderboardEntrySchema = z.object({
+  userId: z.string().min(1),
+  displayName: z.string().min(1),
+  totalPoints: z.number().int().nonnegative(),
+  outcomePoints: z.number().int().nonnegative(),
+  exactScorePoints: z.number().int().nonnegative(),
+  gradedPredictionCount: z.number().int().nonnegative(),
+  resultMatchCount: z.number().int().nonnegative(),
+  rank: z.number().int().positive(),
+  isCurrentUser: z.boolean().optional(),
+});
+
+export type LeaderboardEntry = z.infer<typeof LeaderboardEntrySchema>;
 ```
 
 ## Entity: ExportImage

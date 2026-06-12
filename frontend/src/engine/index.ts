@@ -1,7 +1,10 @@
 export { computeGroupStandings, sortStandings } from './standings';
+export type { GroupStandingsMode } from './standings';
 export { resolveKnockoutWinner, buildBracketProgression } from './bracket';
 export type { BracketProgression } from './bracket';
 export { validatePredictionSession } from './validation';
 export { deriveKnockoutParticipants } from './knockoutSeeding';
 export { buildResolvedKnockoutProgression } from './knockoutProgression';
+export { buildLeaderboardEntries, computePredictionPoints, scoreMatchPrediction } from './scoring';
 export type { KnockoutMatchSlot, ResolvedKnockoutProgression } from './knockoutProgression';
+export type { PredictionPointsSummary } from './scoring';

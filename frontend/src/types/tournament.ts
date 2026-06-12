@@ -30,6 +30,14 @@ export const MatchStage = z.enum([
 
 export type MatchStage = z.infer<typeof MatchStage>;
 
+export const MatchResultSchema = z.object({
+  homeScore: z.number().int().min(0),
+  awayScore: z.number().int().min(0),
+  advancingTeamId: z.string().nullable().optional(),
+});
+
+export type MatchResult = z.infer<typeof MatchResultSchema>;
+
 export const MatchSchema = z.object({
   id: z.string().min(1),
   stage: MatchStage,
@@ -40,6 +48,7 @@ export const MatchSchema = z.object({
   knockout: z.boolean(),
   kickoffAt: z.string().datetime({ offset: true }).optional(),
   kickoffTimeZone: z.literal('Asia/Singapore').optional(),
+  result: MatchResultSchema.optional(),
 });
 
 export type Match = z.infer<typeof MatchSchema>;

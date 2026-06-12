@@ -27,9 +27,9 @@ describe('PersonalizationPanel', () => {
     expect(input).toHaveValue('My 2026 World Cup Path');
   });
 
-  it('renders creator name input', () => {
+  it('renders export credit input', () => {
     render(<PersonalizationPanel card={defaultCard} onCardChange={onCardChange} />);
-    const input = screen.getByLabelText(/display name/i);
+    const input = screen.getByLabelText(/export credit/i);
     expect(input).toBeInTheDocument();
   });
 
@@ -43,7 +43,7 @@ describe('PersonalizationPanel', () => {
 
   it('calls onCardChange with updated creatorName on blur', () => {
     render(<PersonalizationPanel card={defaultCard} onCardChange={onCardChange} />);
-    const input = screen.getByLabelText(/display name/i);
+    const input = screen.getByLabelText(/export credit/i);
     fireEvent.change(input, { target: { value: 'Alice' } });
     fireEvent.blur(input);
     expect(onCardChange).toHaveBeenCalledWith(expect.objectContaining({ creatorName: 'Alice' }));
