@@ -2,10 +2,12 @@ import { describe, it, expect } from 'vitest';
 import { computeGroupStandings, sortStandings } from '../../../src/engine/standings';
 import { resolveKnockoutWinner, buildBracketProgression } from '../../../src/engine/bracket';
 import { validatePredictionSession } from '../../../src/engine/validation';
-import type { MatchPrediction } from '../../../src/types/prediction';
+import { buildLeaderboardEntries, computePredictionPoints, scoreMatchPrediction } from '../../../src/engine/scoring';
+import type { MatchPrediction, PredictionSession, UserProfile } from '../../../src/types/prediction';
 import type { Match, StandingsRow } from '../../../src/types/tournament';
 import { tournament2026 } from '../../../src/data/tournament2026';
 import { formatSingaporeKickoff } from '../../../src/lib/matchTime';
+import { SCHEMA_VERSION } from '../../../src/types/prediction';
 
 describe('computeGroupStandings', () => {
   const groupAMatches = tournament2026.matches.filter(m => m.groupId === 'A');
@@ -126,6 +128,237 @@ describe('validatePredictionSession', () => {
     const result = validatePredictionSession(tournament2026, predictions);
     expect(result.valid).toBe(false);
     expect(result.messages.length).toBeGreaterThan(0);
+  });
+});
+
+describe('prediction scoring', () => {
+  const completedGroupMatch: Match = {
+    id: 'g-A-1',
+    stage: 'group',
+    roundOrder: 1,
+    groupId: 'A',
+    homeTeamId: 'usa',
+    awayTeamId: 'mex',
+    knockout: false,
+    result: { homeScore: 2, awayScore: 1 },
+  };
+
+  const completedKnockoutMatch: Match = {
+    id: 'r32-1',
+    stage: 'round-of-32',
+    roundOrder: 73,
+    groupId: null,
+    homeTeamId: 'usa',
+    awayTeamId: 'mex',
+    knockout: true,
+    result: { homeScore: 1, awayScore: 1, advancingTeamId: 'usa' },
+  };
+
+  it('awards 4 points for an exact prediction', () => {
+    const prediction: MatchPrediction = {
+      matchId: 'g-A-1',
+      homeScore: 2,
+      awayScore: 1,
+      advancingTeamId: null,
+    };
+
+    expect(scoreMatchPrediction(completedGroupMatch, prediction)).toBe(4);
+  });
+
+  it('awards 2 points for correct outcome only', () => {
+    const prediction: MatchPrediction = {
+      matchId: 'g-A-1',
+      homeScore: 4,
+      awayScore: 0,
+      advancingTeamId: null,
+    };
+
+    expect(scoreMatchPrediction(completedGroupMatch, prediction)).toBe(2);
+  });
+
+  it('counts knockout tiebreak advancement plus both exact score bonuses', () => {
+    const prediction: MatchPrediction = {
+      matchId: 'r32-1',
+      homeScore: 1,
+      awayScore: 1,
+      advancingTeamId: 'usa',
+    };
+
+    expect(scoreMatchPrediction(completedKnockoutMatch, prediction)).toBe(4);
+  });
+
+  it('awards partial credit for one exact team score with the correct result', () => {
+    const prediction: MatchPrediction = {
+      matchId: 'g-A-1',
+      homeScore: 2,
+      awayScore: 0,
+      advancingTeamId: null,
+    };
+
+    expect(scoreMatchPrediction(completedGroupMatch, prediction)).toBe(3);
+  });
+
+  it('summarizes points across graded matches only', () => {
+    const pendingMatch: Match = {
+      id: 'g-A-2',
+      stage: 'group',
+      roundOrder: 2,
+      groupId: 'A',
+      homeTeamId: 'bra',
+      awayTeamId: 'arg',
+      knockout: false,
+    };
+
+    const summary = computePredictionPoints(
+      [completedGroupMatch, completedKnockoutMatch, pendingMatch],
+      [
+        { matchId: 'g-A-1', homeScore: 2, awayScore: 1, advancingTeamId: null },
+        { matchId: 'r32-1', homeScore: 1, awayScore: 0, advancingTeamId: null },
+        { matchId: 'g-A-2', homeScore: 3, awayScore: 2, advancingTeamId: null },
+      ],
+    );
+
+    expect(summary.totalPoints).toBe(7);
+    expect(summary.outcomePoints).toBe(4);
+    expect(summary.exactScorePoints).toBe(3);
+    expect(summary.gradedPredictionCount).toBe(2);
+    expect(summary.resultMatchCount).toBe(2);
+    expect(summary.maximumPoints).toBe(8);
+  });
+
+  it('builds public leaderboard entries sorted by score and exact picks', () => {
+    const matches: Match[] = [
+      completedGroupMatch,
+      completedKnockoutMatch,
+    ];
+
+    const makeSession = (id: string, predictions: MatchPrediction[]): PredictionSession => ({
+      id,
+      tournamentId: 'world-cup-2026',
+      predictions,
+      card: {
+        title: 'Predictions',
+        creatorName: null,
+        themeId: 'classic',
+        championTeamId: null,
+      },
+      updatedAt: '2026-06-11T00:00:00.000Z',
+      schemaVersion: SCHEMA_VERSION,
+    });
+
+    const sessions = [
+      {
+        userId: 'user-a',
+        session: makeSession('session-a', [
+          { matchId: 'g-A-1', homeScore: 2, awayScore: 1, advancingTeamId: null },
+          { matchId: 'r32-1', homeScore: 1, awayScore: 1, advancingTeamId: 'usa' },
+        ]),
+      },
+      {
+        userId: 'user-b',
+        session: makeSession('session-b', [
+          { matchId: 'g-A-1', homeScore: 3, awayScore: 0, advancingTeamId: null },
+          { matchId: 'r32-1', homeScore: 0, awayScore: 0, advancingTeamId: 'usa' },
+        ]),
+      },
+      {
+        userId: 'user-c',
+        session: makeSession('session-c', [
+          { matchId: 'g-A-1', homeScore: 2, awayScore: 1, advancingTeamId: null },
+        ]),
+      },
+    ];
+
+    const profiles: UserProfile[] = [
+      { userId: 'user-a', displayName: 'Alice', isPublic: true },
+      { userId: 'user-b', displayName: 'Bob', isPublic: true },
+      { userId: 'user-c', displayName: 'Chris', isPublic: false },
+    ];
+
+    const leaderboard = buildLeaderboardEntries(matches, sessions, profiles, 'user-b');
+
+    expect(leaderboard).toHaveLength(2);
+    expect(leaderboard[0]).toMatchObject({
+      rank: 1,
+      userId: 'user-a',
+      displayName: 'Alice',
+      totalPoints: 8,
+      exactScorePoints: 4,
+      outcomePoints: 4,
+      isCurrentUser: false,
+    });
+    expect(leaderboard[1]).toMatchObject({
+      rank: 2,
+      userId: 'user-b',
+      displayName: 'Bob',
+      totalPoints: 4,
+      exactScorePoints: 0,
+      outcomePoints: 4,
+      isCurrentUser: true,
+    });
+  });
+
+  it('uses higher correct-result percentage as the next tiebreak after exact points', () => {
+    const matches: Match[] = [
+      completedGroupMatch,
+      completedKnockoutMatch,
+    ];
+
+    const makeSession = (id: string, predictions: MatchPrediction[]): PredictionSession => ({
+      id,
+      tournamentId: 'world-cup-2026',
+      predictions,
+      card: {
+        title: 'Predictions',
+        creatorName: null,
+        themeId: 'classic',
+        championTeamId: null,
+      },
+      updatedAt: '2026-06-11T00:00:00.000Z',
+      schemaVersion: SCHEMA_VERSION,
+    });
+
+    const sessions = [
+      {
+        userId: 'user-a',
+        session: makeSession('session-a', [
+          { matchId: 'g-A-1', homeScore: 2, awayScore: 1, advancingTeamId: null },
+        ]),
+      },
+      {
+        userId: 'user-b',
+        session: makeSession('session-b', [
+          { matchId: 'g-A-1', homeScore: 2, awayScore: 1, advancingTeamId: null },
+          { matchId: 'r32-1', homeScore: 0, awayScore: 2, advancingTeamId: 'mex' },
+        ]),
+      },
+    ];
+
+    const profiles: UserProfile[] = [
+      { userId: 'user-a', displayName: 'Alice', isPublic: true },
+      { userId: 'user-b', displayName: 'Bob', isPublic: true },
+    ];
+
+    const leaderboard = buildLeaderboardEntries(matches, sessions, profiles);
+
+    expect(leaderboard[0]).toMatchObject({
+      rank: 1,
+      userId: 'user-a',
+      totalPoints: 4,
+      exactScorePoints: 2,
+      correctResultCount: 1,
+      gradedPredictionCount: 1,
+      resultAccuracy: 100,
+    });
+    expect(leaderboard[1]).toMatchObject({
+      rank: 2,
+      userId: 'user-b',
+      totalPoints: 4,
+      exactScorePoints: 2,
+      correctResultCount: 1,
+      gradedPredictionCount: 2,
+      resultAccuracy: 50,
+    });
   });
 });
 

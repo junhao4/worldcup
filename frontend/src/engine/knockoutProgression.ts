@@ -44,26 +44,32 @@ function sourceMatchesFor(match: Match): [string, string] | null {
 }
 
 function resolveOutcome(
+  match: Match,
   slot: KnockoutMatchSlot,
   prediction: MatchPrediction | undefined,
 ): { winner: string | null; loser: string | null } {
-  if (!prediction || !slot.home || !slot.away) {
+  if (!slot.home || !slot.away) {
     return { winner: null, loser: null };
   }
 
-  if (prediction.homeScore > prediction.awayScore) {
+  const scoreline = match.result ?? prediction;
+  if (!scoreline) {
+    return { winner: null, loser: null };
+  }
+
+  if (scoreline.homeScore > scoreline.awayScore) {
     return { winner: slot.home, loser: slot.away };
   }
 
-  if (prediction.awayScore > prediction.homeScore) {
+  if (scoreline.awayScore > scoreline.homeScore) {
     return { winner: slot.away, loser: slot.home };
   }
 
-  if (prediction.advancingTeamId === slot.home) {
+  if (scoreline.advancingTeamId === slot.home) {
     return { winner: slot.home, loser: slot.away };
   }
 
-  if (prediction.advancingTeamId === slot.away) {
+  if (scoreline.advancingTeamId === slot.away) {
     return { winner: slot.away, loser: slot.home };
   }
 
@@ -113,7 +119,7 @@ export function buildResolvedKnockoutProgression(
 
     slots.set(match.id, slot);
 
-    const { winner, loser } = resolveOutcome(slot, predByMatch.get(match.id));
+    const { winner, loser } = resolveOutcome(match, slot, predByMatch.get(match.id));
     if (winner) winners.set(match.id, winner);
     if (loser) losers.set(match.id, loser);
   }

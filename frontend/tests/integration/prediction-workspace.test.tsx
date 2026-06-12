@@ -204,6 +204,62 @@ describe('GroupStandingsPanel', () => {
     // MEX won => top
     expect(rows[0]).toHaveAttribute('data-testid', 'standing-row-mex');
   });
+
+  it('defaults to predicted standings even when official results exist', () => {
+    const matches: Match[] = [
+      {
+        id: 'g-A-1',
+        stage: 'group',
+        roundOrder: 1,
+        groupId: 'A',
+        homeTeamId: 'usa',
+        awayTeamId: 'mex',
+        knockout: false,
+        result: { homeScore: 0, awayScore: 2 },
+      },
+    ];
+    const predictions: MatchPrediction[] = [
+      { matchId: 'g-A-1', homeScore: 3, awayScore: 0, advancingTeamId: null },
+    ];
+
+    render(
+      <GroupStandingsPanel group={groupA} matches={matches} predictions={predictions} teams={teams} />,
+    );
+
+    const rows = screen.getAllByTestId(/^standing-row-/);
+    expect(rows[0]).toHaveAttribute('data-testid', 'standing-row-usa');
+  });
+
+  it('toggles between predicted and actual standings tables', async () => {
+    const user = userEvent.setup();
+    const matches: Match[] = [
+      {
+        id: 'g-A-1',
+        stage: 'group',
+        roundOrder: 1,
+        groupId: 'A',
+        homeTeamId: 'usa',
+        awayTeamId: 'mex',
+        knockout: false,
+        result: { homeScore: 0, awayScore: 2 },
+      },
+    ];
+    const predictions: MatchPrediction[] = [
+      { matchId: 'g-A-1', homeScore: 3, awayScore: 0, advancingTeamId: null },
+    ];
+
+    render(
+      <GroupStandingsPanel group={groupA} matches={matches} predictions={predictions} teams={teams} />,
+    );
+
+    let rows = screen.getAllByTestId(/^standing-row-/);
+    expect(rows[0]).toHaveAttribute('data-testid', 'standing-row-usa');
+
+    await user.click(screen.getByRole('button', { name: /actual table/i }));
+
+    rows = screen.getAllByTestId(/^standing-row-/);
+    expect(rows[0]).toHaveAttribute('data-testid', 'standing-row-mex');
+  });
 });
 
 describe('KnockoutBracketView', () => {

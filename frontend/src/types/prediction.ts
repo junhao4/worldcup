@@ -38,6 +38,48 @@ export const PredictionSessionSchema = z.object({
 
 export type PredictionSession = z.infer<typeof PredictionSessionSchema>;
 
+export const MatchLifecycleStateSchema = z.enum([
+  'open',
+  'locked',
+  'in_progress',
+  'awaiting_official_result',
+  'completed',
+]);
+
+export type MatchLifecycleState = z.infer<typeof MatchLifecycleStateSchema>;
+
+export const MatchLockOverrideModeSchema = z.enum([
+  'default',
+  'force_locked',
+  'force_open',
+]);
+
+export type MatchLockOverrideMode = z.infer<typeof MatchLockOverrideModeSchema>;
+
+export const UserProfileSchema = z.object({
+  userId: z.string().min(1),
+  displayName: z.string().min(1).max(40),
+  isPublic: z.boolean(),
+});
+
+export type UserProfile = z.infer<typeof UserProfileSchema>;
+
+export const LeaderboardEntrySchema = z.object({
+  userId: z.string().min(1),
+  displayName: z.string().min(1),
+  totalPoints: z.number().int().nonnegative(),
+  outcomePoints: z.number().int().nonnegative(),
+  exactScorePoints: z.number().int().nonnegative(),
+  correctResultCount: z.number().int().nonnegative(),
+  resultAccuracy: z.number().min(0).max(100),
+  gradedPredictionCount: z.number().int().nonnegative(),
+  resultMatchCount: z.number().int().nonnegative(),
+  rank: z.number().int().positive(),
+  isCurrentUser: z.boolean().optional(),
+});
+
+export type LeaderboardEntry = z.infer<typeof LeaderboardEntrySchema>;
+
 export const PredictionValidationResultSchema = z.object({
   complete: z.boolean(),
   valid: z.boolean(),

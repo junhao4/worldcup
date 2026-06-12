@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import type { Group, Match, StandingsRow, Team } from '../../../types/tournament';
 import type { MatchPrediction } from '../../../types/prediction';
-import { computeGroupStandings } from '../../../engine';
+import { computeGroupStandings, type GroupStandingsMode } from '../../../engine';
 
 const fifaToIso: Record<string, string> = {
   MEX: 'mx', RSA: 'za', KOR: 'kr', CZE: 'cz', CAN: 'ca', BIH: 'ba', QAT: 'qa', SUI: 'ch',
@@ -18,6 +19,12 @@ export interface GroupStandingsPanelProps {
   readonly teams: Team[];
 }
 
+const MODE_LABELS: Record<GroupStandingsMode, string> = {
+  predicted: 'Predicted Table',
+  actual: 'Actual Table',
+  combined: 'Combined',
+};
+
 const positionColors: Record<number, string> = {
   1: '#059669',
   2: '#059669',
@@ -31,67 +38,83 @@ function getQualifyAttr(position: number): string {
 }
 
 export function GroupStandingsPanel({ group, matches, predictions, teams }: GroupStandingsPanelProps) {
+  const [mode, setMode] = useState<GroupStandingsMode>('predicted');
   const groupMatches = matches.filter((m) => m.groupId === group.id);
-  const standings: StandingsRow[] = computeGroupStandings(groupMatches, predictions);
+  const standings: StandingsRow[] = computeGroupStandings(groupMatches, predictions, mode);
   const teamMap = new Map(teams.map((t) => [t.id, t]));
 
   return (
     <div className="panel" data-testid={`group-standings-${group.id}`}>
       <div className="panel__header">
         <h3 className="panel__title">{group.name}</h3>
+        <div className="standings-mode-toggle" role="group" aria-label="Choose standings table">
+          {(['predicted', 'actual'] as GroupStandingsMode[]).map(option => (
+            <button
+              key={option}
+              className={`standings-mode-toggle__button ${mode === option ? 'standings-mode-toggle__button--active' : ''}`}
+              type="button"
+              onClick={() => setMode(option)}
+              aria-pressed={mode === option}
+            >
+              {MODE_LABELS[option]}
+            </button>
+          ))}
+        </div>
       </div>
-      <table className="standings-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Team</th>
-            <th>P</th>
-            <th>W</th>
-            <th>D</th>
-            <th>L</th>
-            <th>GD</th>
-            <th>Pts</th>
-          </tr>
-        </thead>
-        <tbody>
-          {standings.map((row, idx) => {
-            const position = idx + 1;
-            const team = teamMap.get(row.teamId);
-            const iso = team ? fifaToIso[team.fifaCode] : undefined;
-            const color = positionColors[position];
-            return (
-              <tr
-                key={row.teamId}
-                data-testid={`standing-row-${row.teamId}`}
-                data-position={position}
-                data-qualify={getQualifyAttr(position)}
-              >
-                <td>
-                  <span style={{ color: color ?? 'var(--ink-soft)', fontWeight: 800 }}>
-                    {position}
-                  </span>
-                </td>
-                <td>
-                  <span className="team-cell">
-                    {iso ? (
-                      <img className="flag-img" src={`/flags/${iso}.svg`} alt="" width={40} height={30} />
-                    ) : (
-                      <span className="flag">{team?.fifaCode ?? ''}</span>
-                    )}
-                    {team?.name ?? row.teamId}
-                  </span>
-                </td>
-                <td>{row.played}</td>
-                <td>{row.won}</td>
-                <td>{row.drawn}</td>
-                <td>{row.lost}</td>
-                <td>{row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}</td>
-                <td><strong>{row.points}</strong></td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="table-scroll">
+        <table className="standings-table standings-table--compact-mobile standings-table--group">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+              <th>P</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>GD</th>
+              <th>Pts</th>
+            </tr>
+          </thead>
+          <tbody>
+            {standings.map((row, idx) => {
+              const position = idx + 1;
+              const team = teamMap.get(row.teamId);
+              const iso = team ? fifaToIso[team.fifaCode] : undefined;
+              const color = positionColors[position];
+              return (
+                <tr
+                  key={row.teamId}
+                  data-testid={`standing-row-${row.teamId}`}
+                  data-position={position}
+                  data-qualify={getQualifyAttr(position)}
+                >
+                  <td>
+                    <span style={{ color: color ?? 'var(--ink-soft)', fontWeight: 800 }}>
+                      {position}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="team-cell">
+                      {iso ? (
+                        <img className="flag-img" src={`/flags/${iso}.svg`} alt="" width={40} height={30} />
+                      ) : (
+                        <span className="flag">{team?.fifaCode ?? ''}</span>
+                      )}
+                      <span className="team-cell__name">{team?.name ?? row.teamId}</span>
+                    </span>
+                  </td>
+                  <td>{row.played}</td>
+                  <td>{row.won}</td>
+                  <td>{row.drawn}</td>
+                  <td>{row.lost}</td>
+                  <td>{row.goalDifference > 0 ? `+${row.goalDifference}` : row.goalDifference}</td>
+                  <td><strong>{row.points}</strong></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import {
   STORAGE_KEY,
 } from '../../../src/persistence/predictionStorage';
 import { migrateSession } from '../../../src/persistence/predictionMigrations';
+import { choosePreferredSession } from '../../../src/persistence/predictionCloudStorage';
 import type { PredictionSession } from '../../../src/types/prediction';
 import { SCHEMA_VERSION } from '../../../src/types/prediction';
 
@@ -87,5 +88,21 @@ describe('predictionMigrations', () => {
     const unknown = { ...validSession, schemaVersion: 'prediction-session:v99' };
     const result = migrateSession(unknown as unknown as PredictionSession);
     expect(result).toBeNull();
+  });
+});
+
+describe('choosePreferredSession', () => {
+  it('prefers the newer remote session when timestamps differ', () => {
+    const remoteSession: PredictionSession = {
+      ...validSession,
+      updatedAt: '2026-06-11T00:00:00.000Z',
+      card: { ...validSession.card, title: 'Remote Wins' },
+    };
+
+    expect(choosePreferredSession(validSession, remoteSession)).toEqual(remoteSession);
+  });
+
+  it('keeps the local session when remote is missing', () => {
+    expect(choosePreferredSession(validSession, null)).toEqual(validSession);
   });
 });

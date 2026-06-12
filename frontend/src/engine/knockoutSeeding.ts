@@ -45,7 +45,7 @@ export function deriveKnockoutParticipants(
   const groupStandings = new Map<string, StandingsRow[]>();
   for (const group of groups) {
     const matches = groupMatches.filter(m => m.groupId === group.id);
-    const standings = computeGroupStandings(matches, predictions);
+    const standings = computeGroupStandings(matches, predictions, 'combined');
     groupStandings.set(group.id, standings);
   }
 

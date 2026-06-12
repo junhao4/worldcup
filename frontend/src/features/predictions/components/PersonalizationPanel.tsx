@@ -28,7 +28,7 @@ export function PersonalizationPanel({ card, onCardChange }: PersonalizationPane
       </label>
 
       <label className="personalization-panel__field">
-        Display name
+        Export credit
         <input
           type="text"
           value={creatorName}

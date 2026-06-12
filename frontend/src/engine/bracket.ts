@@ -11,9 +11,10 @@ export function resolveKnockoutWinner(
   match: Match,
   prediction: MatchPrediction,
 ): string | null {
-  if (prediction.homeScore > prediction.awayScore) return match.homeTeamId;
-  if (prediction.awayScore > prediction.homeScore) return match.awayTeamId;
-  return prediction.advancingTeamId;
+  const scoreline = match.result ?? prediction;
+  if (scoreline.homeScore > scoreline.awayScore) return match.homeTeamId;
+  if (scoreline.awayScore > scoreline.homeScore) return match.awayTeamId;
+  return scoreline.advancingTeamId ?? null;
 }
 
 /** Build bracket progression from knockout matches and predictions */
