@@ -92,10 +92,10 @@ describe('predictionMigrations', () => {
 });
 
 describe('choosePreferredSession', () => {
-  it('prefers the newer remote session when timestamps differ', () => {
+  it('always prefers the remote session when it exists', () => {
     const remoteSession: PredictionSession = {
       ...validSession,
-      updatedAt: '2026-06-11T00:00:00.000Z',
+      updatedAt: '2026-06-09T00:00:00.000Z',
       card: { ...validSession.card, title: 'Remote Wins' },
     };
 

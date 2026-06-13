@@ -33,6 +33,10 @@ describe('matchTime', () => {
     expect(getMatchLifecycleState(kickoffAt, false, 'force_open', kickoffTimestamp + 4 * 60 * 60 * 1000)).toBe('open');
   });
 
+  it('returns open when a match is force-opened even if an official result exists', () => {
+    expect(getMatchLifecycleState(kickoffAt, true, 'force_open', kickoffTimestamp + 4 * 60 * 60 * 1000)).toBe('open');
+  });
+
   it('returns locked when a match is force-locked', () => {
     expect(getMatchLifecycleState(kickoffAt, false, 'force_locked', kickoffTimestamp - 2 * 60 * 60 * 1000)).toBe('locked');
   });
