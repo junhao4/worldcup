@@ -52,10 +52,9 @@ export function getMatchLifecycleState(
   lockOverride: MatchLockOverrideMode = 'default',
   now = Date.now(),
 ): 'open' | 'locked' | 'in_progress' | 'awaiting_official_result' | 'completed' {
-  if (hasOfficialResult) return 'completed';
-
   if (lockOverride === 'force_open') return 'open';
   if (lockOverride === 'force_locked') return 'locked';
+  if (hasOfficialResult) return 'completed';
 
   const kickoffTimestamp = getKickoffTimestamp(kickoffAt);
   if (kickoffTimestamp == null) return 'open';

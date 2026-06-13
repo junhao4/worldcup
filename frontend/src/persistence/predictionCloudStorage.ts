@@ -47,11 +47,7 @@ export function choosePreferredSession(
   remoteSession: PredictionSession | null,
 ): PredictionSession {
   if (!remoteSession) return localSession;
-
-  const localUpdatedAt = new Date(localSession.updatedAt).getTime();
-  const remoteUpdatedAt = new Date(remoteSession.updatedAt).getTime();
-
-  return remoteUpdatedAt > localUpdatedAt ? remoteSession : localSession;
+  return remoteSession;
 }
 
 export async function loadCloudPredictionSession(
