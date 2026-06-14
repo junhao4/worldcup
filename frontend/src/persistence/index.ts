@@ -9,4 +9,7 @@ export {
   loadOfficialResults,
   loadPublicPredictionSessions,
   saveCloudPredictionSession,
+  saveOfficialResult,
+  saveMatchLockOverride,
+  saveMatchTimeOverride,
 } from './predictionCloudStorage';
