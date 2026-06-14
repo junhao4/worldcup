@@ -92,6 +92,92 @@ export async function saveCloudPredictionSession(
   }
 }
 
+export async function saveOfficialResult(
+  matchId: string,
+  result: MatchResult | null,
+): Promise<void> {
+  if (!supabase) {
+    throw new Error('Online admin tools are not available in this build.');
+  }
+
+  if (!result) {
+    const { error } = await supabase
+      .from('match_results')
+      .delete()
+      .eq('match_id', matchId);
+
+    if (error) throw error;
+    return;
+  }
+
+  const { error } = await supabase
+    .from('match_results')
+    .upsert({
+      match_id: matchId,
+      home_score: result.homeScore,
+      away_score: result.awayScore,
+      advancing_team_id: result.advancingTeamId ?? null,
+    }, { onConflict: 'match_id' });
+
+  if (error) throw error;
+}
+
+export async function saveMatchLockOverride(
+  matchId: string,
+  mode: MatchLockOverrideMode,
+): Promise<void> {
+  if (!supabase) {
+    throw new Error('Online admin tools are not available in this build.');
+  }
+
+  if (mode === 'default') {
+    const { error } = await supabase
+      .from('match_lock_overrides')
+      .delete()
+      .eq('match_id', matchId);
+
+    if (error) throw error;
+    return;
+  }
+
+  const { error } = await supabase
+    .from('match_lock_overrides')
+    .upsert({
+      match_id: matchId,
+      mode,
+    }, { onConflict: 'match_id' });
+
+  if (error) throw error;
+}
+
+export async function saveMatchTimeOverride(
+  matchId: string,
+  kickoffAt: string | null,
+): Promise<void> {
+  if (!supabase) {
+    throw new Error('Online admin tools are not available in this build.');
+  }
+
+  if (!kickoffAt) {
+    const { error } = await supabase
+      .from('match_time_overrides')
+      .delete()
+      .eq('match_id', matchId);
+
+    if (error) throw error;
+    return;
+  }
+
+  const { error } = await supabase
+    .from('match_time_overrides')
+    .upsert({
+      match_id: matchId,
+      kickoff_at: kickoffAt,
+    }, { onConflict: 'match_id' });
+
+  if (error) throw error;
+}
+
 export async function loadOfficialResults(matchIds: string[]): Promise<Map<string, MatchResult>> {
   if (matchIds.length === 0) return new Map();
 

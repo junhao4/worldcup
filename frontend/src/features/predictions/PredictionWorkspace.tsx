@@ -6,6 +6,7 @@ import { GroupStandingsPanel } from './components/GroupStandingsPanel';
 import { KnockoutBracketView } from './components/KnockoutBracketView';
 import { ScoreInput } from './components/ScoreInput';
 import { CloudSyncPanel } from './components/CloudSyncPanel';
+import { AdminMatchPanel } from './components/AdminMatchPanel';
 import { buildResolvedKnockoutProgression, computeGroupStandings, computePredictionPoints, scoreMatchPrediction } from '../../engine';
 import {
   formatSingaporeDateLabel,
@@ -14,7 +15,7 @@ import {
 } from '../../lib/matchTime';
 import type { AppAuthState } from '../../hooks/useAppAuth';
 
-export type WorkspaceTab = 'groups' | 'schedule' | 'third-place' | 'knockouts' | 'leaderboard';
+export type WorkspaceTab = 'groups' | 'schedule' | 'third-place' | 'knockouts' | 'leaderboard' | 'admin';
 type ScheduleFilter = 'upcoming' | 'past';
 
 export interface PredictionWorkspaceProps {
@@ -86,6 +87,7 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
     officialResults,
     matchLockOverrides,
     matchTimeOverrides,
+    saveAdminMatchState,
     handleScoreChange,
     handleAdvancingTeamChange,
     handleReset,
@@ -96,6 +98,7 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const [selectedKnockoutStage, setSelectedKnockoutStage] = useState<MatchStage>('round-of-32');
   const [selectedKnockoutMatchId, setSelectedKnockoutMatchId] = useState<string | null>(null);
+  const isAdmin = auth.user?.username === 'junhao';
 
   const tournamentWithResults = useMemo(() => {
     const timeAdjustedTournament = mergeKickoffOverrides(tournament, matchTimeOverrides);
@@ -427,6 +430,9 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
           <button className={`workspace-tabs__tab ${activeTab === 'third-place' ? 'workspace-tabs__tab--active' : ''}`} onClick={() => setActiveTab('third-place')} type="button">3rd Place</button>
           <button className={`workspace-tabs__tab ${activeTab === 'knockouts' ? 'workspace-tabs__tab--active' : ''}`} onClick={() => setActiveTab('knockouts')} type="button">Knockouts</button>
           <button className={`workspace-tabs__tab ${activeTab === 'leaderboard' ? 'workspace-tabs__tab--active' : ''}`} onClick={() => setActiveTab('leaderboard')} type="button">Leaderboard</button>
+          {isAdmin ? (
+            <button className={`workspace-tabs__tab ${activeTab === 'admin' ? 'workspace-tabs__tab--active' : ''}`} onClick={() => setActiveTab('admin')} type="button">Admin</button>
+          ) : null}
           <button className="workspace-tabs__reset" onClick={handleReset} disabled={predictedCount === 0} type="button">Reset</button>
         </nav>
       </header>
@@ -696,6 +702,23 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
             )}
           </div>
         </section>
+      )}
+
+      {activeTab === 'admin' && (
+        isAdmin ? (
+          <AdminMatchPanel
+            tournament={tournamentWithResults}
+            officialResults={officialResults}
+            lockOverrides={matchLockOverrides}
+            timeOverrides={matchTimeOverrides}
+            onSaveMatch={saveAdminMatchState}
+          />
+        ) : (
+          <section className="schedule-page__empty">
+            <h3>Admin only</h3>
+            <p>Log in as the admin account to manage official results here.</p>
+          </section>
+        )
       )}
 
     </div>

@@ -1568,6 +1568,126 @@ input {
   width: 56px;
 }
 
+.admin-page {
+  display: grid;
+  gap: 18px;
+}
+
+.admin-page__header {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.admin-page__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-page__list {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-match-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+}
+
+.admin-match-card__top {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.admin-match-card__eyebrow {
+  color: var(--accent-green);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+}
+
+.admin-match-card__title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.admin-match-card__meta {
+  color: var(--ink-muted);
+  margin: 8px 0 0;
+}
+
+.admin-match-card__id {
+  background: var(--surface-mint);
+  border-radius: var(--radius-pill);
+  color: var(--ink-muted);
+  font-size: 12px;
+  font-weight: 800;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
+.admin-match-card__grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.admin-match-card__field {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-match-card__field span {
+  color: var(--ink-muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.admin-match-card__select {
+  background: var(--surface-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  min-height: 46px;
+  padding: 0 14px;
+}
+
+.admin-match-card__footer {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.admin-match-card__status {
+  color: var(--ink-muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+.admin-match-card__status--dirty {
+  color: var(--accent-gold);
+}
+
+.admin-match-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .advancement-picker {
   align-items: center;
   display: flex;
@@ -1678,6 +1798,28 @@ input {
 
   .knockout-editor__matches {
     grid-template-columns: 1fr;
+  }
+
+  .admin-match-card {
+    padding: 16px;
+  }
+
+  .admin-match-card__top,
+  .admin-match-card__footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-match-card__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-match-card__actions {
+    width: 100%;
+  }
+
+  .admin-match-card__actions .btn {
+    width: 100%;
   }
 }
 

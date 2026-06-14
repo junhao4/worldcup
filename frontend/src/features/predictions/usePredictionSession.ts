@@ -25,6 +25,9 @@ import {
   loadOfficialResults,
   loadPublicPredictionSessions,
   saveCloudPredictionSession,
+  saveMatchLockOverride,
+  saveMatchTimeOverride,
+  saveOfficialResult,
 } from '../../persistence/predictionCloudStorage';
 import { isSupabaseConfigured } from '../../lib/supabase';
 
@@ -48,6 +51,14 @@ export interface PredictionSessionState {
   officialResults: Map<string, MatchResult>;
   matchLockOverrides: Map<string, MatchLockOverrideMode>;
   matchTimeOverrides: Map<string, string>;
+  saveAdminMatchState: (
+    matchId: string,
+    updates: {
+      result: MatchResult | null;
+      lockOverride: MatchLockOverrideMode;
+      kickoffOverride: string | null;
+    },
+  ) => Promise<void>;
   handleScoreChange: (matchId: string, homeScore: number, awayScore: number) => void;
   handleAdvancingTeamChange: (matchId: string, teamId: string) => void;
   handleCardChange: (updates: Partial<PredictionCard>) => void;
@@ -323,6 +334,51 @@ export function usePredictionSession(
     }));
   }, []);
 
+  const saveAdminMatchState = useCallback(async (
+    matchId: string,
+    updates: {
+      result: MatchResult | null;
+      lockOverride: MatchLockOverrideMode;
+      kickoffOverride: string | null;
+    },
+  ) => {
+    await Promise.all([
+      saveOfficialResult(matchId, updates.result),
+      saveMatchLockOverride(matchId, updates.lockOverride),
+      saveMatchTimeOverride(matchId, updates.kickoffOverride),
+    ]);
+
+    setOfficialResults(prev => {
+      const next = new Map(prev);
+      if (updates.result) {
+        next.set(matchId, updates.result);
+      } else {
+        next.delete(matchId);
+      }
+      return next;
+    });
+
+    setMatchLockOverrides(prev => {
+      const next = new Map(prev);
+      if (updates.lockOverride === 'default') {
+        next.delete(matchId);
+      } else {
+        next.set(matchId, updates.lockOverride);
+      }
+      return next;
+    });
+
+    setMatchTimeOverrides(prev => {
+      const next = new Map(prev);
+      if (updates.kickoffOverride) {
+        next.set(matchId, updates.kickoffOverride);
+      } else {
+        next.delete(matchId);
+      }
+      return next;
+    });
+  }, []);
+
   const handleReset = useCallback(() => {
     clearPredictionSession();
     const freshSession = createEmptySession(tournament);
@@ -343,6 +399,7 @@ export function usePredictionSession(
     officialResults,
     matchLockOverrides,
     matchTimeOverrides,
+    saveAdminMatchState,
     handleScoreChange,
     handleAdvancingTeamChange,
     handleCardChange,
