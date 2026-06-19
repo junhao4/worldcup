@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { Match, MatchResult } from '../../../types/tournament';
 import type { MatchLifecycleState, MatchPrediction } from '../../../types/prediction';
+import type { MatchPredictionBreakdown } from '../../../engine';
 import { AdvancementPicker } from './AdvancementPicker';
 import { formatSingaporeKickoff } from '../../../lib/matchTime';
 
@@ -19,6 +20,7 @@ export interface ScoreInputProps {
   readonly matchState?: MatchLifecycleState;
   readonly officialResult?: MatchResult | null;
   readonly earnedPoints?: number | null;
+  readonly scoreBreakdown?: MatchPredictionBreakdown | null;
 }
 
 /** Map FIFA codes to ISO 3166-1 alpha-2 for flag images */
@@ -67,7 +69,7 @@ export function ScoreInput({
   match, prediction, onScoreChange, onAdvancingTeamChange,
   homeLabel, awayLabel, homeFifaCode, awayFifaCode,
   disabled = false, disabledReason, scheduleDisplay = 'full',
-  matchState = 'open', officialResult, earnedPoints = null,
+  matchState = 'open', officialResult, earnedPoints = null, scoreBreakdown = null,
 }: ScoreInputProps) {
   // Local string state so user can type freely (empty, partial)
   const [homeText, setHomeText] = useState(prediction?.homeScore?.toString() ?? '');
@@ -168,8 +170,27 @@ export function ScoreInput({
           </div>
           {earnedPoints != null ? (
             <div className="score-card__result-row">
-              <span className="score-card__result-label">Points earned</span>
-              <strong>{earnedPoints}/4</strong>
+              <span className="score-card__result-label score-card__result-label--with-help">
+                <span>Points earned</span>
+                {scoreBreakdown ? (
+                  <span className="score-card__help">
+                    <button
+                      className="score-card__help-button"
+                      type="button"
+                      aria-label="Explain match score breakdown"
+                    >
+                      ?
+                    </button>
+                    <span className="score-card__tooltip" role="tooltip">
+                      <span className="score-card__tooltip-line">Result: {scoreBreakdown.resultPoints}/2</span>
+                      <span className="score-card__tooltip-line">Goal difference: {scoreBreakdown.goalDifferencePoints}/2</span>
+                      <span className="score-card__tooltip-line">Scoreline: {scoreBreakdown.exactScorePoints}/1</span>
+                      <span className="score-card__tooltip-line score-card__tooltip-line--total">Total: {scoreBreakdown.totalPoints}/5</span>
+                    </span>
+                  </span>
+                ) : null}
+              </span>
+              <strong>{earnedPoints}/5</strong>
             </div>
           ) : null}
         </div>

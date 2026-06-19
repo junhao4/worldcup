@@ -4,11 +4,19 @@ import type { LeaderboardEntry, LeaderboardUser, MatchPrediction, PredictionSess
 export interface PredictionPointsSummary {
   totalPoints: number;
   outcomePoints: number;
+  goalDifferencePoints: number;
   exactScorePoints: number;
   correctResultCount: number;
   gradedPredictionCount: number;
   resultMatchCount: number;
   maximumPoints: number;
+}
+
+export interface MatchPredictionBreakdown {
+  resultPoints: number;
+  goalDifferencePoints: number;
+  exactScorePoints: number;
+  totalPoints: number;
 }
 
 type MatchOutcome = 'home' | 'away' | 'draw' | null;
@@ -27,27 +35,53 @@ function deriveOutcome(
   return null;
 }
 
-export function scoreMatchPrediction(match: Match, prediction: MatchPrediction): number {
-  if (!match.result) return 0;
-
-  let points = 0;
+export function scoreMatchPredictionBreakdown(
+  match: Match,
+  prediction: MatchPrediction,
+): MatchPredictionBreakdown {
+  if (!match.result) {
+    return {
+      resultPoints: 0,
+      goalDifferencePoints: 0,
+      exactScorePoints: 0,
+      totalPoints: 0,
+    };
+  }
 
   const predictedOutcome = deriveOutcome(match, prediction);
   const actualOutcome = deriveOutcome(match, match.result);
+  const predictedGoalDifference = prediction.homeScore - prediction.awayScore;
+  const actualGoalDifference = match.result.homeScore - match.result.awayScore;
+  const hasCorrectResult = predictedOutcome != null && predictedOutcome === actualOutcome;
+  const resultPoints = hasCorrectResult ? 2 : 0;
 
-  if (predictedOutcome != null && predictedOutcome === actualOutcome) {
-    points += 2;
+  let goalDifferencePoints = 0;
+  if (hasCorrectResult) {
+    if (predictedGoalDifference === actualGoalDifference) {
+      goalDifferencePoints = 2;
+    } else if (
+      actualGoalDifference !== 0
+      && Math.abs(predictedGoalDifference - actualGoalDifference) === 1
+    ) {
+      goalDifferencePoints = 1;
+    }
   }
 
-  if (prediction.homeScore === match.result.homeScore) {
-    points += 1;
-  }
+  const exactScorePoints = (
+    prediction.homeScore === match.result.homeScore
+    && prediction.awayScore === match.result.awayScore
+  ) ? 1 : 0;
 
-  if (prediction.awayScore === match.result.awayScore) {
-    points += 1;
-  }
+  return {
+    resultPoints,
+    goalDifferencePoints,
+    exactScorePoints,
+    totalPoints: resultPoints + goalDifferencePoints + exactScorePoints,
+  };
+}
 
-  return points;
+export function scoreMatchPrediction(match: Match, prediction: MatchPrediction): number {
+  return scoreMatchPredictionBreakdown(match, prediction).totalPoints;
 }
 
 export function computePredictionPoints(
@@ -59,6 +93,7 @@ export function computePredictionPoints(
 
   let totalPoints = 0;
   let outcomePoints = 0;
+  let goalDifferencePoints = 0;
   let exactScorePoints = 0;
   let correctResultCount = 0;
   let gradedPredictionCount = 0;
@@ -71,31 +106,45 @@ export function computePredictionPoints(
 
     const predictedOutcome = deriveOutcome(match, prediction);
     const actualOutcome = deriveOutcome(match, match.result);
+    const predictedGoalDifference = prediction.homeScore - prediction.awayScore;
+    const actualGoalDifference = match.result.homeScore - match.result.awayScore;
+    const hasCorrectResult = predictedOutcome != null && predictedOutcome === actualOutcome;
 
-    if (predictedOutcome != null && predictedOutcome === actualOutcome) {
+    if (hasCorrectResult) {
       outcomePoints += 2;
       correctResultCount += 1;
     }
 
-    if (prediction.homeScore === match.result.homeScore) {
-      exactScorePoints += 1;
+    if (hasCorrectResult) {
+      if (predictedGoalDifference === actualGoalDifference) {
+        goalDifferencePoints += 2;
+      } else if (
+        actualGoalDifference !== 0
+        && Math.abs(predictedGoalDifference - actualGoalDifference) === 1
+      ) {
+        goalDifferencePoints += 1;
+      }
     }
 
-    if (prediction.awayScore === match.result.awayScore) {
+    if (
+      prediction.homeScore === match.result.homeScore
+      && prediction.awayScore === match.result.awayScore
+    ) {
       exactScorePoints += 1;
     }
   }
 
-  totalPoints = outcomePoints + exactScorePoints;
+  totalPoints = outcomePoints + goalDifferencePoints + exactScorePoints;
 
   return {
     totalPoints,
     outcomePoints,
+    goalDifferencePoints,
     exactScorePoints,
     correctResultCount,
     gradedPredictionCount,
     resultMatchCount,
-    maximumPoints: resultMatchCount * 4,
+    maximumPoints: resultMatchCount * 5,
   };
 }
 

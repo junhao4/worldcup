@@ -7,6 +7,7 @@ import { GroupStandingsPanel } from '../../src/features/predictions/components/G
 import { KnockoutBracketView } from '../../src/features/predictions/components/KnockoutBracketView';
 import type { Match, Group, Team } from '../../src/types/tournament';
 import type { MatchPrediction } from '../../src/types/prediction';
+import type { MatchPredictionBreakdown } from '../../src/engine';
 
 const groupMatch: Match = {
   id: 'g-A-1',
@@ -114,6 +115,34 @@ describe('ScoreInput', () => {
       />,
     );
     expect(screen.queryByRole('group', { name: 'Select advancing team' })).not.toBeInTheDocument();
+  });
+
+  it('shows a per-match score breakdown tooltip for scored matches', () => {
+    const breakdown: MatchPredictionBreakdown = {
+      resultPoints: 2,
+      goalDifferencePoints: 1,
+      exactScorePoints: 0,
+      totalPoints: 3,
+    };
+
+    render(
+      <ScoreInput
+        match={{ ...groupMatch, result: { homeScore: 2, awayScore: 1 } }}
+        prediction={{ matchId: 'g-A-1', homeScore: 1, awayScore: 0, advancingTeamId: null }}
+        onScoreChange={vi.fn()}
+        homeLabel="United States"
+        awayLabel="Mexico"
+        officialResult={{ homeScore: 2, awayScore: 1 }}
+        earnedPoints={3}
+        scoreBreakdown={breakdown}
+      />,
+    );
+
+    expect(screen.getByLabelText('Explain match score breakdown')).toBeInTheDocument();
+    expect(screen.getByText('Result: 2/2')).toBeInTheDocument();
+    expect(screen.getByText('Goal difference: 1/2')).toBeInTheDocument();
+    expect(screen.getByText('Scoreline: 0/1')).toBeInTheDocument();
+    expect(screen.getByText('Total: 3/5')).toBeInTheDocument();
   });
 });
 

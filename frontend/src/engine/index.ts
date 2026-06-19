@@ -5,6 +5,6 @@ export type { BracketProgression } from './bracket';
 export { validatePredictionSession } from './validation';
 export { deriveKnockoutParticipants } from './knockoutSeeding';
 export { buildResolvedKnockoutProgression } from './knockoutProgression';
-export { buildLeaderboardEntries, computePredictionPoints, scoreMatchPrediction } from './scoring';
+export { buildLeaderboardEntries, computePredictionPoints, scoreMatchPrediction, scoreMatchPredictionBreakdown } from './scoring';
 export type { KnockoutMatchSlot, ResolvedKnockoutProgression } from './knockoutProgression';
-export type { PredictionPointsSummary } from './scoring';
+export type { MatchPredictionBreakdown, PredictionPointsSummary } from './scoring';
