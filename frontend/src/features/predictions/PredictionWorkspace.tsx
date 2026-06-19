@@ -392,11 +392,10 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
                     ?
                   </button>
                   <span className="workspace-summary__tooltip" role="tooltip">
-                    <span className="workspace-summary__tooltip-line">2 pts: correct result</span>
-                    <span className="workspace-summary__tooltip-line">+2 pts: exact goal difference</span>
-                    <span className="workspace-summary__tooltip-line">+1 pt: goal difference within 1</span>
-                    <span className="workspace-summary__tooltip-line">+1 pt: exact scoreline</span>
-                    <span className="workspace-summary__tooltip-line">Max 5 pts per match</span>
+                    <span className="workspace-summary__tooltip-line">Result: 2 pts</span>
+                    <span className="workspace-summary__tooltip-line">Goal difference: 2 pts exact, 1 pt if off by 1</span>
+                    <span className="workspace-summary__tooltip-line">Scoreline: 1 pt exact</span>
+                    <span className="workspace-summary__tooltip-line">Max: 5 pts per match</span>
                     <span className="workspace-summary__tooltip-line workspace-summary__tooltip-line--total">
                       Your total: {pointsSummary.outcomePoints} result pts, {pointsSummary.goalDifferencePoints} goal-diff pts, {pointsSummary.exactScorePoints} exact-score pts
                     </span>
