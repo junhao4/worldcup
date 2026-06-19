@@ -7,7 +7,13 @@ import { KnockoutBracketView } from './components/KnockoutBracketView';
 import { ScoreInput } from './components/ScoreInput';
 import { CloudSyncPanel } from './components/CloudSyncPanel';
 import { AdminMatchPanel } from './components/AdminMatchPanel';
-import { buildResolvedKnockoutProgression, computeGroupStandings, computePredictionPoints, scoreMatchPrediction } from '../../engine';
+import {
+  buildResolvedKnockoutProgression,
+  computeGroupStandings,
+  computePredictionPoints,
+  scoreMatchPrediction,
+  scoreMatchPredictionBreakdown,
+} from '../../engine';
 import {
   formatSingaporeDateLabel,
   formatSingaporeKickoff,
@@ -145,6 +151,15 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
       tournamentWithResults.matches.map(match => {
         const prediction = predMap.get(match.id);
         return [match.id, prediction ? scoreMatchPrediction(match, prediction) : null];
+      }),
+    ),
+    [predMap, tournamentWithResults.matches],
+  );
+  const scoreBreakdowns = useMemo(
+    () => new Map(
+      tournamentWithResults.matches.map(match => {
+        const prediction = predMap.get(match.id);
+        return [match.id, prediction ? scoreMatchPredictionBreakdown(match, prediction) : null];
       }),
     ),
     [predMap, tournamentWithResults.matches],
@@ -329,6 +344,7 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
                   matchState={matchState}
                   officialResult={match.result ?? null}
                   earnedPoints={earnedPoints.get(match.id) ?? null}
+                  scoreBreakdown={scoreBreakdowns.get(match.id) ?? null}
                 />
               </article>
             );
@@ -377,10 +393,12 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
                   </button>
                   <span className="workspace-summary__tooltip" role="tooltip">
                     <span className="workspace-summary__tooltip-line">2 pts: correct result</span>
-                    <span className="workspace-summary__tooltip-line">+1 pt: exact score for one team</span>
-                    <span className="workspace-summary__tooltip-line">+1 pt: exact score for the other team</span>
+                    <span className="workspace-summary__tooltip-line">+2 pts: exact goal difference</span>
+                    <span className="workspace-summary__tooltip-line">+1 pt: goal difference within 1</span>
+                    <span className="workspace-summary__tooltip-line">+1 pt: exact scoreline</span>
+                    <span className="workspace-summary__tooltip-line">Max 5 pts per match</span>
                     <span className="workspace-summary__tooltip-line workspace-summary__tooltip-line--total">
-                      Your total: {pointsSummary.outcomePoints} result pts, {pointsSummary.exactScorePoints} exact-score pts
+                      Your total: {pointsSummary.outcomePoints} result pts, {pointsSummary.goalDifferencePoints} goal-diff pts, {pointsSummary.exactScorePoints} exact-score pts
                     </span>
                   </span>
                 </span>
@@ -467,6 +485,7 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
                   matchState={matchStates.get(match.id)}
                   officialResult={match.result ?? null}
                   earnedPoints={earnedPoints.get(match.id) ?? null}
+                  scoreBreakdown={scoreBreakdowns.get(match.id) ?? null}
                 />
               ))}
               <button className="btn btn--secondary" onClick={handleRandomFill} type="button">
@@ -646,6 +665,7 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
                       matchState={matchStates.get(match.id)}
                       officialResult={match.result ?? null}
                       earnedPoints={earnedPoints.get(match.id) ?? null}
+                      scoreBreakdown={scoreBreakdowns.get(match.id) ?? null}
                     />
                   );
                 })}

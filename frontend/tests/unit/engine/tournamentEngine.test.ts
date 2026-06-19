@@ -154,7 +154,7 @@ describe('prediction scoring', () => {
     result: { homeScore: 1, awayScore: 1, advancingTeamId: 'usa' },
   };
 
-  it('awards 4 points for an exact prediction', () => {
+  it('awards 5 points for an exact prediction', () => {
     const prediction: MatchPrediction = {
       matchId: 'g-A-1',
       homeScore: 2,
@@ -162,7 +162,7 @@ describe('prediction scoring', () => {
       advancingTeamId: null,
     };
 
-    expect(scoreMatchPrediction(completedGroupMatch, prediction)).toBe(4);
+    expect(scoreMatchPrediction(completedGroupMatch, prediction)).toBe(5);
   });
 
   it('awards 2 points for correct outcome only', () => {
@@ -176,7 +176,7 @@ describe('prediction scoring', () => {
     expect(scoreMatchPrediction(completedGroupMatch, prediction)).toBe(2);
   });
 
-  it('counts knockout tiebreak advancement plus both exact score bonuses', () => {
+  it('counts knockout tiebreak advancement plus exact goal difference and exact scoreline', () => {
     const prediction: MatchPrediction = {
       matchId: 'r32-1',
       homeScore: 1,
@@ -184,14 +184,25 @@ describe('prediction scoring', () => {
       advancingTeamId: 'usa',
     };
 
-    expect(scoreMatchPrediction(completedKnockoutMatch, prediction)).toBe(4);
+    expect(scoreMatchPrediction(completedKnockoutMatch, prediction)).toBe(5);
   });
 
-  it('awards partial credit for one exact team score with the correct result', () => {
+  it('awards 4 points for correct result and exact goal difference without exact scoreline', () => {
     const prediction: MatchPrediction = {
       matchId: 'g-A-1',
-      homeScore: 2,
-      awayScore: 0,
+      homeScore: 3,
+      awayScore: 2,
+      advancingTeamId: null,
+    };
+
+    expect(scoreMatchPrediction(completedGroupMatch, prediction)).toBe(4);
+  });
+
+  it('awards 3 points when goal difference is within one in the correct direction', () => {
+    const prediction: MatchPrediction = {
+      matchId: 'g-A-1',
+      homeScore: 4,
+      awayScore: 2,
       advancingTeamId: null,
     };
 
@@ -220,10 +231,11 @@ describe('prediction scoring', () => {
 
     expect(summary.totalPoints).toBe(7);
     expect(summary.outcomePoints).toBe(4);
-    expect(summary.exactScorePoints).toBe(3);
+    expect(summary.goalDifferencePoints).toBe(2);
+    expect(summary.exactScorePoints).toBe(1);
     expect(summary.gradedPredictionCount).toBe(2);
     expect(summary.resultMatchCount).toBe(2);
-    expect(summary.maximumPoints).toBe(8);
+    expect(summary.maximumPoints).toBe(10);
   });
 
   it('builds leaderboard entries sorted by score and exact picks', () => {
@@ -282,8 +294,8 @@ describe('prediction scoring', () => {
       rank: 1,
       userId: 'user-a',
       username: 'alice',
-      totalPoints: 8,
-      exactScorePoints: 4,
+      totalPoints: 10,
+      exactScorePoints: 2,
       outcomePoints: 4,
       correctResultCount: 2,
       resultAccuracy: 100,
@@ -291,25 +303,25 @@ describe('prediction scoring', () => {
     });
     expect(leaderboard[1]).toMatchObject({
       rank: 2,
-      userId: 'user-c',
-      username: 'chris',
-      totalPoints: 4,
-      exactScorePoints: 2,
-      outcomePoints: 2,
-      correctResultCount: 1,
-      resultAccuracy: 100,
-      isCurrentUser: false,
-    });
-    expect(leaderboard[2]).toMatchObject({
-      rank: 3,
       userId: 'user-b',
       username: 'bob',
-      totalPoints: 4,
+      totalPoints: 6,
       exactScorePoints: 0,
       outcomePoints: 4,
       correctResultCount: 2,
       resultAccuracy: 100,
       isCurrentUser: true,
+    });
+    expect(leaderboard[2]).toMatchObject({
+      rank: 3,
+      userId: 'user-c',
+      username: 'chris',
+      totalPoints: 5,
+      exactScorePoints: 1,
+      outcomePoints: 2,
+      correctResultCount: 1,
+      resultAccuracy: 100,
+      isCurrentUser: false,
     });
   });
 
@@ -359,8 +371,8 @@ describe('prediction scoring', () => {
     expect(leaderboard[0]).toMatchObject({
       rank: 1,
       userId: 'user-a',
-      totalPoints: 4,
-      exactScorePoints: 2,
+      totalPoints: 5,
+      exactScorePoints: 1,
       correctResultCount: 1,
       gradedPredictionCount: 1,
       resultAccuracy: 100,
@@ -368,8 +380,8 @@ describe('prediction scoring', () => {
     expect(leaderboard[1]).toMatchObject({
       rank: 2,
       userId: 'user-b',
-      totalPoints: 4,
-      exactScorePoints: 2,
+      totalPoints: 5,
+      exactScorePoints: 1,
       correctResultCount: 1,
       gradedPredictionCount: 2,
       resultAccuracy: 50,
