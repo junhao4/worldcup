@@ -56,15 +56,10 @@ export function scoreMatchPredictionBreakdown(
   const resultPoints = hasCorrectResult ? 2 : 0;
 
   let goalDifferencePoints = 0;
-  if (hasCorrectResult) {
-    if (predictedGoalDifference === actualGoalDifference) {
-      goalDifferencePoints = 2;
-    } else if (
-      actualGoalDifference !== 0
-      && Math.abs(predictedGoalDifference - actualGoalDifference) === 1
-    ) {
-      goalDifferencePoints = 1;
-    }
+  if (predictedGoalDifference === actualGoalDifference) {
+    goalDifferencePoints = 2;
+  } else if (Math.abs(predictedGoalDifference - actualGoalDifference) === 1) {
+    goalDifferencePoints = 1;
   }
 
   const exactScorePoints = (
@@ -115,15 +110,10 @@ export function computePredictionPoints(
       correctResultCount += 1;
     }
 
-    if (hasCorrectResult) {
-      if (predictedGoalDifference === actualGoalDifference) {
-        goalDifferencePoints += 2;
-      } else if (
-        actualGoalDifference !== 0
-        && Math.abs(predictedGoalDifference - actualGoalDifference) === 1
-      ) {
-        goalDifferencePoints += 1;
-      }
+    if (predictedGoalDifference === actualGoalDifference) {
+      goalDifferencePoints += 2;
+    } else if (Math.abs(predictedGoalDifference - actualGoalDifference) === 1) {
+      goalDifferencePoints += 1;
     }
 
     if (

@@ -209,6 +209,17 @@ describe('prediction scoring', () => {
     expect(scoreMatchPrediction(completedGroupMatch, prediction)).toBe(3);
   });
 
+  it('awards goal-difference points even when the result is wrong', () => {
+    const prediction: MatchPrediction = {
+      matchId: 'r32-1',
+      homeScore: 1,
+      awayScore: 2,
+      advancingTeamId: null,
+    };
+
+    expect(scoreMatchPrediction(completedKnockoutMatch, prediction)).toBe(1);
+  });
+
   it('summarizes points across graded matches only', () => {
     const pendingMatch: Match = {
       id: 'g-A-2',
@@ -229,9 +240,9 @@ describe('prediction scoring', () => {
       ],
     );
 
-    expect(summary.totalPoints).toBe(7);
+    expect(summary.totalPoints).toBe(8);
     expect(summary.outcomePoints).toBe(4);
-    expect(summary.goalDifferencePoints).toBe(2);
+    expect(summary.goalDifferencePoints).toBe(3);
     expect(summary.exactScorePoints).toBe(1);
     expect(summary.gradedPredictionCount).toBe(2);
     expect(summary.resultMatchCount).toBe(2);
