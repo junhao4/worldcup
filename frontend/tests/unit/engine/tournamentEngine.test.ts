@@ -2,12 +2,61 @@ import { describe, it, expect } from 'vitest';
 import { computeGroupStandings, sortStandings } from '../../../src/engine/standings';
 import { resolveKnockoutWinner, buildBracketProgression } from '../../../src/engine/bracket';
 import { validatePredictionSession } from '../../../src/engine/validation';
+import { buildResolvedKnockoutProgression } from '../../../src/engine/knockoutProgression';
+import { deriveKnockoutParticipants } from '../../../src/engine/knockoutSeeding';
 import { buildLeaderboardEntries, computePredictionPoints, scoreMatchPrediction } from '../../../src/engine/scoring';
 import type { LeaderboardUser, MatchPrediction, PredictionSession } from '../../../src/types/prediction';
-import type { Match, StandingsRow } from '../../../src/types/tournament';
+import type { Match, StandingsRow, Group } from '../../../src/types/tournament';
 import { tournament2026 } from '../../../src/data/tournament2026';
 import { formatSingaporeKickoff } from '../../../src/lib/matchTime';
 import { SCHEMA_VERSION } from '../../../src/types/prediction';
+
+function createGroup(groupId: string) {
+  return {
+    id: groupId,
+    name: `Group ${groupId}`,
+    teamIds: [`${groupId}1`, `${groupId}2`, `${groupId}3`, `${groupId}4`],
+  };
+}
+
+function createGroupMatches(groupId: string): Match[] {
+  const [team1, team2, team3, team4] = createGroup(groupId).teamIds;
+  return [
+    { id: `g-${groupId}-1`, stage: 'group', roundOrder: 1, groupId, homeTeamId: team1, awayTeamId: team2, knockout: false },
+    { id: `g-${groupId}-2`, stage: 'group', roundOrder: 2, groupId, homeTeamId: team3, awayTeamId: team4, knockout: false },
+    { id: `g-${groupId}-3`, stage: 'group', roundOrder: 3, groupId, homeTeamId: team1, awayTeamId: team3, knockout: false },
+    { id: `g-${groupId}-4`, stage: 'group', roundOrder: 4, groupId, homeTeamId: team2, awayTeamId: team4, knockout: false },
+    { id: `g-${groupId}-5`, stage: 'group', roundOrder: 5, groupId, homeTeamId: team1, awayTeamId: team4, knockout: false },
+    { id: `g-${groupId}-6`, stage: 'group', roundOrder: 6, groupId, homeTeamId: team2, awayTeamId: team3, knockout: false },
+  ];
+}
+
+function createPredictionsForGroup(groupId: string, qualifyingThirdPlace: boolean): MatchPrediction[] {
+  const baseScores = qualifyingThirdPlace
+    ? [
+        [2, 0],
+        [1, 0],
+        [3, 0],
+        [2, 0],
+        [1, 0],
+        [1, 0],
+      ]
+    : [
+        [1, 0],
+        [0, 0],
+        [2, 0],
+        [2, 0],
+        [1, 0],
+        [1, 1],
+      ];
+
+  return baseScores.map(([homeScore, awayScore], index) => ({
+    matchId: `g-${groupId}-${index + 1}`,
+    homeScore,
+    awayScore,
+    advancingTeamId: null,
+  }));
+}
 
 describe('computeGroupStandings', () => {
   const groupAMatches = tournament2026.matches.filter(m => m.groupId === 'A');
@@ -109,6 +158,55 @@ describe('buildBracketProgression', () => {
   it('returns an empty progression when no knockout predictions exist', () => {
     const result = buildBracketProgression(tournament2026.matches.filter(m => m.knockout), []);
     expect(result.champion).toBeNull();
+  });
+});
+
+describe('round of 32 seeding', () => {
+  const groups: Group[] = 'ABCDEFGHIJKL'.split('').map(createGroup);
+  const groupMatches = groups.flatMap((group) => createGroupMatches(group.id));
+  const predictions = groups.flatMap((group) =>
+    createPredictionsForGroup(group.id, ['B', 'D', 'E', 'F', 'I', 'J', 'K', 'L'].includes(group.id)),
+  );
+  const knockoutMatches = tournament2026.matches.filter((match) => match.knockout);
+
+  it('uses the official 2026 bracket matchups for qualified third-place combinations', () => {
+    const slots = deriveKnockoutParticipants(groups, groupMatches, predictions);
+
+    expect(slots.get('r32-1')).toEqual({ home: 'E1', away: 'D3' });
+    expect(slots.get('r32-2')).toEqual({ home: 'I1', away: 'F3' });
+    expect(slots.get('r32-3')).toEqual({ home: 'A2', away: 'B2' });
+    expect(slots.get('r32-4')).toEqual({ home: 'F1', away: 'C2' });
+    expect(slots.get('r32-5')).toEqual({ home: 'K2', away: 'L2' });
+    expect(slots.get('r32-6')).toEqual({ home: 'H1', away: 'J2' });
+    expect(slots.get('r32-7')).toEqual({ home: 'D1', away: 'B3' });
+    expect(slots.get('r32-8')).toEqual({ home: 'G1', away: 'I3' });
+    expect(slots.get('r32-9')).toEqual({ home: 'C1', away: 'F2' });
+    expect(slots.get('r32-10')).toEqual({ home: 'E2', away: 'I2' });
+    expect(slots.get('r32-11')).toEqual({ home: 'A1', away: 'E3' });
+    expect(slots.get('r32-12')).toEqual({ home: 'L1', away: 'K3' });
+    expect(slots.get('r32-13')).toEqual({ home: 'J1', away: 'H2' });
+    expect(slots.get('r32-14')).toEqual({ home: 'D2', away: 'G2' });
+    expect(slots.get('r32-15')).toEqual({ home: 'B1', away: 'J3' });
+    expect(slots.get('r32-16')).toEqual({ home: 'K1', away: 'L3' });
+  });
+
+  it('feeds the corrected round of 32 winners into future rounds', () => {
+    const knockoutPredictions: MatchPrediction[] = [
+      { matchId: 'r32-1', homeScore: 1, awayScore: 0, advancingTeamId: null },
+      { matchId: 'r32-2', homeScore: 2, awayScore: 1, advancingTeamId: null },
+      { matchId: 'r32-3', homeScore: 0, awayScore: 1, advancingTeamId: null },
+      { matchId: 'r32-4', homeScore: 3, awayScore: 0, advancingTeamId: null },
+    ];
+
+    const progression = buildResolvedKnockoutProgression(
+      knockoutMatches,
+      groupMatches,
+      [...predictions, ...knockoutPredictions],
+      groups,
+    );
+
+    expect(progression.slots.get('r16-1')).toEqual({ home: 'E1', away: 'I1' });
+    expect(progression.slots.get('r16-2')).toEqual({ home: 'B2', away: 'F1' });
   });
 });
 
