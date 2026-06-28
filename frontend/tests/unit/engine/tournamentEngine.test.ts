@@ -514,6 +514,16 @@ describe('tournament schedule', () => {
     expect(knockoutMatches.map((match) => match.id)).toEqual(kickoffSortedIds);
   });
 
+  it('starts the round of 32 with the A2 vs B2 slot chronologically', () => {
+    const roundOf32Matches = tournament2026.matches.filter((match) => match.stage === 'round-of-32');
+    const firstMatch = [...roundOf32Matches].sort(
+      (a, b) => new Date(a.kickoffAt ?? '').getTime() - new Date(b.kickoffAt ?? '').getTime(),
+    )[0];
+
+    expect(firstMatch?.id).toBe('r32-3');
+    expect(firstMatch?.kickoffAt).toBe('2026-06-29T03:00:00+08:00');
+  });
+
   it('formats kickoff times in Singapore time', () => {
     const openingMatch = tournament2026.matches.find(match => match.id === 'g-A-1');
     const final = tournament2026.matches.find(match => match.id === 'final-1');
