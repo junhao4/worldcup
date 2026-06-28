@@ -42,6 +42,16 @@ export function KnockoutBracketView({
     [providedProgression, knockoutMatches, groupMatches, predictions, groups],
   );
 
+  const sortedKnockoutMatches = useMemo(
+    () => [...knockoutMatches].sort((a, b) => {
+      const kickoffA = a.kickoffAt ? new Date(a.kickoffAt).getTime() : Number.MAX_SAFE_INTEGER;
+      const kickoffB = b.kickoffAt ? new Date(b.kickoffAt).getTime() : Number.MAX_SAFE_INTEGER;
+      if (kickoffA !== kickoffB) return kickoffA - kickoffB;
+      return a.roundOrder - b.roundOrder;
+    }),
+    [knockoutMatches],
+  );
+
   function teamDisplay(id: string | null | undefined) {
     if (!id) return <span className="bracket-tbd">TBD</span>;
     const team = teamMap.get(id);
@@ -74,7 +84,7 @@ export function KnockoutBracketView({
       ) : null}
 
       {stages.map(stage => {
-        const stageMatches = knockoutMatches.filter(m => m.stage === stage);
+        const stageMatches = sortedKnockoutMatches.filter(m => m.stage === stage);
         if (stageMatches.length === 0) return null;
         return (
           <div key={stage} className="bracket-stage">

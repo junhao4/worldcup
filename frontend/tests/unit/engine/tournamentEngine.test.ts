@@ -505,6 +505,15 @@ describe('tournament schedule', () => {
     expect(tournament2026.matches.every(match => match.kickoffTimeZone === 'Asia/Singapore')).toBe(true);
   });
 
+  it('keeps knockout matches in kickoff order', () => {
+    const knockoutMatches = tournament2026.matches.filter((match) => match.knockout);
+    const kickoffSortedIds = [...knockoutMatches]
+      .sort((a, b) => new Date(a.kickoffAt ?? '').getTime() - new Date(b.kickoffAt ?? '').getTime())
+      .map((match) => match.id);
+
+    expect(knockoutMatches.map((match) => match.id)).toEqual(kickoffSortedIds);
+  });
+
   it('formats kickoff times in Singapore time', () => {
     const openingMatch = tournament2026.matches.find(match => match.id === 'g-A-1');
     const final = tournament2026.matches.find(match => match.id === 'final-1');

@@ -172,7 +172,14 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
   );
   const groupPredicted = currentGroupMatches.filter(match => predMap.has(match.id)).length;
   const selectedKnockoutMatches = useMemo(
-    () => knockoutMatches.filter(match => match.stage === selectedKnockoutStage),
+    () => knockoutMatches
+      .filter(match => match.stage === selectedKnockoutStage)
+      .sort((a, b) => {
+        const kickoffA = a.kickoffAt ? new Date(a.kickoffAt).getTime() : Number.MAX_SAFE_INTEGER;
+        const kickoffB = b.kickoffAt ? new Date(b.kickoffAt).getTime() : Number.MAX_SAFE_INTEGER;
+        if (kickoffA !== kickoffB) return kickoffA - kickoffB;
+        return a.roundOrder - b.roundOrder;
+      }),
     [knockoutMatches, selectedKnockoutStage],
   );
   const selectedStageMeta = KNOCKOUT_STAGES.find(stage => stage.id === selectedKnockoutStage);

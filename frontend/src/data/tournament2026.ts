@@ -217,84 +217,34 @@ function buildGroupMatches(): Match[] {
 }
 
 function buildKnockoutMatches(startOrder: number): Match[] {
-  const matches: Match[] = [];
-  let order = startOrder;
+  const knockoutIds = [
+    'r32-1', 'r32-2', 'r32-3', 'r32-4', 'r32-5', 'r32-6', 'r32-7', 'r32-8',
+    'r32-9', 'r32-10', 'r32-11', 'r32-12', 'r32-13', 'r32-14', 'r32-15', 'r32-16',
+    'r16-1', 'r16-2', 'r16-3', 'r16-4', 'r16-5', 'r16-6', 'r16-7', 'r16-8',
+    'qf-1', 'qf-2', 'qf-3', 'qf-4',
+    'sf-1', 'sf-2',
+    'tp-1',
+    'final-1',
+  ] as const;
 
-  // Round of 32: 16 matches
-  for (let i = 1; i <= 16; i++) {
-    matches.push(withSingaporeKickoff({
-      id: `r32-${i}`,
-      stage: 'round-of-32',
-      roundOrder: order++,
-      groupId: null,
-      homeTeamId: `r32-${i}-home`,
-      awayTeamId: `r32-${i}-away`,
-      knockout: true,
-    }));
-  }
+  const stageForId = (matchId: string): Match['stage'] => {
+    if (matchId.startsWith('r32-')) return 'round-of-32';
+    if (matchId.startsWith('r16-')) return 'round-of-16';
+    if (matchId.startsWith('qf-')) return 'quarterfinal';
+    if (matchId.startsWith('sf-')) return 'semifinal';
+    if (matchId.startsWith('tp-')) return 'third-place';
+    return 'final';
+  };
 
-  // Round of 16: 8 matches
-  for (let i = 1; i <= 8; i++) {
-    matches.push(withSingaporeKickoff({
-      id: `r16-${i}`,
-      stage: 'round-of-16',
-      roundOrder: order++,
-      groupId: null,
-      homeTeamId: `r16-${i}-home`,
-      awayTeamId: `r16-${i}-away`,
-      knockout: true,
-    }));
-  }
-
-  // Quarterfinals: 4 matches
-  for (let i = 1; i <= 4; i++) {
-    matches.push(withSingaporeKickoff({
-      id: `qf-${i}`,
-      stage: 'quarterfinal',
-      roundOrder: order++,
-      groupId: null,
-      homeTeamId: `qf-${i}-home`,
-      awayTeamId: `qf-${i}-away`,
-      knockout: true,
-    }));
-  }
-
-  // Semifinals: 2 matches
-  for (let i = 1; i <= 2; i++) {
-    matches.push(withSingaporeKickoff({
-      id: `sf-${i}`,
-      stage: 'semifinal',
-      roundOrder: order++,
-      groupId: null,
-      homeTeamId: `sf-${i}-home`,
-      awayTeamId: `sf-${i}-away`,
-      knockout: true,
-    }));
-  }
-
-  // Third place
-  matches.push(withSingaporeKickoff({
-    id: 'tp-1',
-    stage: 'third-place',
-    roundOrder: order++,
+  return knockoutIds.map((matchId, index) => withSingaporeKickoff({
+    id: matchId,
+    stage: stageForId(matchId),
+    roundOrder: startOrder + index,
     groupId: null,
-    homeTeamId: 'tp-1-home',
-    awayTeamId: 'tp-1-away',
+    homeTeamId: `${matchId}-home`,
+    awayTeamId: `${matchId}-away`,
     knockout: true,
   }));
-
-  // Final
-  matches.push(withSingaporeKickoff({
-    id: 'final-1',
-    stage: 'final',
-    roundOrder: order++,
-    groupId: null,
-    homeTeamId: 'final-1-home',
-    awayTeamId: 'final-1-away',
-    knockout: true,
-  }));
-
-  return matches;
 }
 
 const groupMatches = buildGroupMatches(); // 72 matches
