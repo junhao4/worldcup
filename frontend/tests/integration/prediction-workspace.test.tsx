@@ -144,6 +144,52 @@ describe('ScoreInput', () => {
     expect(screen.getByText('Scoreline: 0/1')).toBeInTheDocument();
     expect(screen.getByText('Total: 3/5')).toBeInTheDocument();
   });
+
+  it('shows the official and selected advancing team for tied knockout matches', () => {
+    const breakdown: MatchPredictionBreakdown = {
+      resultPoints: 2,
+      goalDifferencePoints: 2,
+      exactScorePoints: 0,
+      totalPoints: 4,
+    };
+
+    render(
+      <ScoreInput
+        match={{ ...knockoutMatch, result: { homeScore: 1, awayScore: 1, advancingTeamId: 'mex' } }}
+        prediction={{ matchId: 'r32-1', homeScore: 1, awayScore: 1, advancingTeamId: 'mex' }}
+        onScoreChange={vi.fn()}
+        onAdvancingTeamChange={vi.fn()}
+        homeLabel="United States"
+        awayLabel="Mexico"
+        officialResult={{ homeScore: 1, awayScore: 1, advancingTeamId: 'mex' }}
+        earnedPoints={4}
+        scoreBreakdown={breakdown}
+      />,
+    );
+
+    expect(screen.getByText('Advanced')).toBeInTheDocument();
+    expect(screen.getAllByText('Mexico').length).toBeGreaterThan(0);
+    expect(screen.getByText('You picked')).toBeInTheDocument();
+  });
+
+  it('shows the selected team through for a non-draw knockout prediction', () => {
+    render(
+      <ScoreInput
+        match={{ ...knockoutMatch, result: { homeScore: 1, awayScore: 1, advancingTeamId: 'mex' } }}
+        prediction={{ matchId: 'r32-1', homeScore: 2, awayScore: 1, advancingTeamId: null }}
+        onScoreChange={vi.fn()}
+        homeLabel="United States"
+        awayLabel="Mexico"
+        officialResult={{ homeScore: 1, awayScore: 1, advancingTeamId: 'mex' }}
+        earnedPoints={2}
+        scoreBreakdown={{ resultPoints: 2, goalDifferencePoints: 0, exactScorePoints: 0, totalPoints: 2 }}
+      />,
+    );
+
+    expect(screen.getByText('Advanced')).toBeInTheDocument();
+    expect(screen.getByText('You picked')).toBeInTheDocument();
+    expect(screen.getAllByText('United States').length).toBeGreaterThan(0);
+  });
 });
 
 describe('AdvancementPicker', () => {

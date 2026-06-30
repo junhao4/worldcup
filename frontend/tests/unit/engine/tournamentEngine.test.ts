@@ -285,6 +285,32 @@ describe('prediction scoring', () => {
     expect(scoreMatchPrediction(completedKnockoutMatch, prediction)).toBe(5);
   });
 
+  it('awards knockout result points for picking the right team through even without a draw prediction', () => {
+    const prediction: MatchPrediction = {
+      matchId: 'r32-1',
+      homeScore: 2,
+      awayScore: 1,
+      advancingTeamId: null,
+    };
+
+    expect(scoreMatchPrediction(completedKnockoutMatch, prediction)).toBe(3);
+  });
+
+  it('awards knockout result points for a tied pick with the right team through against a non-draw final score', () => {
+    const nonDrawKnockoutMatch: Match = {
+      ...completedKnockoutMatch,
+      result: { homeScore: 2, awayScore: 1, advancingTeamId: null },
+    };
+    const prediction: MatchPrediction = {
+      matchId: 'r32-1',
+      homeScore: 1,
+      awayScore: 1,
+      advancingTeamId: 'usa',
+    };
+
+    expect(scoreMatchPrediction(nonDrawKnockoutMatch, prediction)).toBe(3);
+  });
+
   it('awards 4 points for correct result and exact goal difference without exact scoreline', () => {
     const prediction: MatchPrediction = {
       matchId: 'g-A-1',

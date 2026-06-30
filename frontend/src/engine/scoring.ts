@@ -21,6 +21,18 @@ export interface MatchPredictionBreakdown {
 
 type MatchOutcome = 'home' | 'away' | 'draw' | null;
 
+function deriveAdvancedTeamId(
+  match: Match,
+  scoreline: { homeScore: number; awayScore: number; advancingTeamId?: string | null },
+): string | null {
+  if (scoreline.homeScore > scoreline.awayScore) return match.homeTeamId;
+  if (scoreline.awayScore > scoreline.homeScore) return match.awayTeamId;
+  if (!match.knockout) return null;
+  if (scoreline.advancingTeamId === match.homeTeamId) return match.homeTeamId;
+  if (scoreline.advancingTeamId === match.awayTeamId) return match.awayTeamId;
+  return null;
+}
+
 function deriveOutcome(
   match: Match,
   scoreline: { homeScore: number; awayScore: number; advancingTeamId?: string | null },
@@ -50,9 +62,13 @@ export function scoreMatchPredictionBreakdown(
 
   const predictedOutcome = deriveOutcome(match, prediction);
   const actualOutcome = deriveOutcome(match, match.result);
+  const predictedAdvancedTeamId = deriveAdvancedTeamId(match, prediction);
+  const actualAdvancedTeamId = deriveAdvancedTeamId(match, match.result);
   const predictedGoalDifference = prediction.homeScore - prediction.awayScore;
   const actualGoalDifference = match.result.homeScore - match.result.awayScore;
-  const hasCorrectResult = predictedOutcome != null && predictedOutcome === actualOutcome;
+  const hasCorrectResult = match.knockout
+    ? predictedAdvancedTeamId != null && predictedAdvancedTeamId === actualAdvancedTeamId
+    : predictedOutcome != null && predictedOutcome === actualOutcome;
   const resultPoints = hasCorrectResult ? 2 : 0;
 
   let goalDifferencePoints = 0;
@@ -101,9 +117,13 @@ export function computePredictionPoints(
 
     const predictedOutcome = deriveOutcome(match, prediction);
     const actualOutcome = deriveOutcome(match, match.result);
+    const predictedAdvancedTeamId = deriveAdvancedTeamId(match, prediction);
+    const actualAdvancedTeamId = deriveAdvancedTeamId(match, match.result);
     const predictedGoalDifference = prediction.homeScore - prediction.awayScore;
     const actualGoalDifference = match.result.homeScore - match.result.awayScore;
-    const hasCorrectResult = predictedOutcome != null && predictedOutcome === actualOutcome;
+    const hasCorrectResult = match.knockout
+      ? predictedAdvancedTeamId != null && predictedAdvancedTeamId === actualAdvancedTeamId
+      : predictedOutcome != null && predictedOutcome === actualOutcome;
 
     if (hasCorrectResult) {
       outcomePoints += 2;

@@ -105,6 +105,23 @@ export function ScoreInput({
     commitScores(homeText, value);
   }
 
+  function labelForTeam(teamId: string | null | undefined): string | null {
+    if (!teamId) return null;
+    if (teamId === match.homeTeamId) return homeLabel;
+    if (teamId === match.awayTeamId) return awayLabel;
+    return null;
+  }
+
+  function advancingLabelFromScoreline(scoreline: { homeScore: number; awayScore: number; advancingTeamId?: string | null } | null | undefined): string | null {
+    if (!scoreline) return null;
+    if (scoreline.homeScore > scoreline.awayScore) return homeLabel;
+    if (scoreline.awayScore > scoreline.homeScore) return awayLabel;
+    return labelForTeam(scoreline.advancingTeamId);
+  }
+
+  const officialAdvancingLabel = advancingLabelFromScoreline(officialResult);
+  const selectedAdvancingLabel = advancingLabelFromScoreline(prediction);
+
   return (
     <div className={`score-card ${disabled ? 'score-card--disabled' : ''}`} data-testid={`score-input-${match.id}`}>
       {disabled && disabledReason ? (
@@ -168,6 +185,18 @@ export function ScoreInput({
             <span className="score-card__result-label">Official result</span>
             <strong>{officialResult.homeScore}:{officialResult.awayScore}</strong>
           </div>
+          {match.knockout && officialAdvancingLabel ? (
+            <div className="score-card__result-row">
+              <span className="score-card__result-label">Advanced</span>
+              <strong>{officialAdvancingLabel}</strong>
+            </div>
+          ) : null}
+          {match.knockout && selectedAdvancingLabel ? (
+            <div className="score-card__result-row">
+              <span className="score-card__result-label">You picked</span>
+              <strong>{selectedAdvancingLabel}</strong>
+            </div>
+          ) : null}
           {earnedPoints != null ? (
             <div className="score-card__result-row">
               <span className="score-card__result-label score-card__result-label--with-help">

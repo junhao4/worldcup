@@ -150,19 +150,21 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
     () => new Map(
       tournamentWithResults.matches.map(match => {
         const prediction = predMap.get(match.id);
-        return [match.id, prediction ? scoreMatchPrediction(match, prediction) : null];
+        const scoringMatch = match.knockout ? displayMatchFor(match) : match;
+        return [match.id, prediction ? scoreMatchPrediction(scoringMatch, prediction) : null];
       }),
     ),
-    [predMap, tournamentWithResults.matches],
+    [knockoutProgression.slots, predMap, tournamentWithResults.matches],
   );
   const scoreBreakdowns = useMemo(
     () => new Map(
       tournamentWithResults.matches.map(match => {
         const prediction = predMap.get(match.id);
-        return [match.id, prediction ? scoreMatchPredictionBreakdown(match, prediction) : null];
+        const scoringMatch = match.knockout ? displayMatchFor(match) : match;
+        return [match.id, prediction ? scoreMatchPredictionBreakdown(scoringMatch, prediction) : null];
       }),
     ),
-    [predMap, tournamentWithResults.matches],
+    [knockoutProgression.slots, predMap, tournamentWithResults.matches],
   );
 
   const currentGroup = tournamentWithResults.groups[currentGroupIndex];
@@ -737,6 +739,7 @@ export function PredictionWorkspace({ tournament, auth }: PredictionWorkspacePro
             officialResults={officialResults}
             lockOverrides={matchLockOverrides}
             timeOverrides={matchTimeOverrides}
+            resolveMatch={displayMatchFor}
             onSaveMatch={saveAdminMatchState}
           />
         ) : (

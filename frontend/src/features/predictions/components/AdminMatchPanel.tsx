@@ -10,6 +10,7 @@ export interface AdminMatchPanelProps {
   readonly officialResults: Map<string, MatchResult>;
   readonly lockOverrides: Map<string, MatchLockOverrideMode>;
   readonly timeOverrides: Map<string, string>;
+  readonly resolveMatch?: (match: Match) => Match;
   readonly onSaveMatch: (
     matchId: string,
     updates: {
@@ -89,6 +90,7 @@ export function AdminMatchPanel({
   officialResults,
   lockOverrides,
   timeOverrides,
+  resolveMatch,
   onSaveMatch,
 }: AdminMatchPanelProps) {
   const [filter, setFilter] = useState<AdminFilter>('today');
@@ -218,8 +220,9 @@ export function AdminMatchPanel({
           const draft = drafts[match.id];
           if (!draft) return null;
 
-          const homeTeam = teamMap.get(match.homeTeamId);
-          const awayTeam = teamMap.get(match.awayTeamId);
+          const resolvedMatch = resolveMatch ? resolveMatch(match) : match;
+          const homeTeam = teamMap.get(resolvedMatch.homeTeamId);
+          const awayTeam = teamMap.get(resolvedMatch.awayTeamId);
           const overrideKickoff = timeOverrides.get(match.id);
           const sourceDraft = buildDraft(match, officialResults, lockOverrides, timeOverrides);
           const dirty = !sameDraft(draft, sourceDraft);
@@ -310,8 +313,8 @@ export function AdminMatchPanel({
                     }}
                   >
                     <option value="">Select winner</option>
-                    <option value={match.homeTeamId}>{homeTeam?.name ?? match.homeTeamId}</option>
-                    <option value={match.awayTeamId}>{awayTeam?.name ?? match.awayTeamId}</option>
+                    <option value={resolvedMatch.homeTeamId}>{homeTeam?.name ?? resolvedMatch.homeTeamId}</option>
+                    <option value={resolvedMatch.awayTeamId}>{awayTeam?.name ?? resolvedMatch.awayTeamId}</option>
                   </select>
                 </label>
               ) : null}
